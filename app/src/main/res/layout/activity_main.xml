@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/welcomeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="Welcome to"
+            android:textFontWeight="500"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/gtpLogo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@id/welcomeTitle"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/gtp_logo"
+            android:contentDescription="@string/app_name" />
+
+
+        <TextView
+            android:id="@+id/difficultyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gtpLogo"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:text="Choose difficulty:"
+            android:textColor="@color/white"
+            android:fontFamily="@font/jost_variablewght"
+            android:textFontWeight="500"
+            android:textSize="40sp"/>
+
+        <android.widget.Button
+            android:id="@+id/diffEasy"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_below="@id/difficultyTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rectangle_light"
+            android:contentDescription="@string/app_name"
+            android:fontFamily="@font/jost_variablewght"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:text="EASY"
+            android:textColor="@color/white"
+            android:textFontWeight="700"
+            android:textSize="30sp" />
+
+
+        <android.widget.Button
+            android:id="@+id/diffMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/diffEasy"
+            android:text="MEDIUM"
+            android:fontFamily="@font/jost_variablewght"
+            android:textFontWeight="700"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:background="@drawable/rectangle_medium"
+            android:contentDescription="@string/app_name" />
+
+
+        <android.widget.Button
+            android:id="@+id/diffHard"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/diffMedium"
+            android:text="HARD"
+            android:fontFamily="@font/jost_variablewght"
+            android:textFontWeight="700"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:background="@drawable/rectangle_dark"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="by DumitruCimpean"
+            android:textColor="#555555"/>
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
