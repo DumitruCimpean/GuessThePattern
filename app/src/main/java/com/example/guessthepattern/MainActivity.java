@@ -2,6 +2,7 @@ package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MyGlobals gob = new MyGlobals(this);
 
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
@@ -28,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView logo = findViewById(R.id.gtpLogo);
         logo.getLayoutParams().width = (int) (displayWidth * screenPercent);
-
 
         Button easyBtn = findViewById(R.id.diffEasy);
         easyBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
@@ -48,9 +49,40 @@ public class MainActivity extends AppCompatActivity {
         TextView difficulty = findViewById(R.id.difficultyTitle);
         difficulty.setTextSize(displayHeight * 0.02F);
 
-        easyBtn.setOnClickListener(view -> {gob.openActivity(Easy.class);});
-        mediumBtn.setOnClickListener(view -> {gob.showToast("Chose Medium");});
-        hardBtn.setOnClickListener(view -> {gob.showToast("Chose Hard");});
+        easyBtn.setOnClickListener(view -> {
+            gob.openActivity(Easy.class);
+            easyBtn.setAlpha(0.5f);
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    easyBtn.setAlpha(1.0F); // Reset alpha to its original value
+                }
+            }, 200);
+        });
+
+        mediumBtn.setOnClickListener(view -> {
+            gob.showToast("Chose Medium");
+            mediumBtn.setAlpha(0.5f);
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mediumBtn.setAlpha(1.0F); // Reset alpha to its original value
+                }
+            }, 200);
+        });
+        hardBtn.setOnClickListener(view -> {
+            gob.showToast("Chose Hard");
+            hardBtn.setAlpha(0.5f);
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hardBtn.setAlpha(1.0F); // Reset alpha to its original value
+                }
+            }, 200);
+        });
 
         final int[] logoResources = {R.drawable.gtp_phase2, R.drawable.gtp_phase3, R.drawable.gtp_phase4, R.drawable.gtp_logo};
         final int delayMS = 1000; // Delay in milliseconds

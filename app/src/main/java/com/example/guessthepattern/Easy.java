@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -23,7 +25,8 @@ public class Easy extends AppCompatActivity {
 
 
 // TODO: score and highscore, separate method for gameStart, optimize code;
-
+    private static final String prefsName = "MyPrefs"; // Name for the preferences file
+    private static final String highscoreKey = "highscoreKey"; // Key for saving the value
 
 
 
@@ -31,6 +34,8 @@ public class Easy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy);
+
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> showExitConfirmationDialog());
@@ -70,75 +75,38 @@ public class Easy extends AppCompatActivity {
         TextView level = findViewById(R.id.level);
         level.setTextSize((int)levelTextSize);
 
+        TextView scoreText = findViewById(R.id.score);
+        scoreText.setTextSize((int)levelTextSize);
+
         final int[] currentLevel = {1};
+        final int[] currentScore = {currentLevel[0] - 1};
+        final int[] overallHighscore = {prefs.getInt("highscoreKey", 0)};
+
+        TextView highscoreText = findViewById(R.id.highscore);
+        highscoreText.setTextSize((int)levelTextSize);
+        highscoreText.setText("Highscore: " + overallHighscore[0]);
+
+        ArrayList<Button> correctSeq = new ArrayList<>();
+
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
-        ArrayList<Button> correctSeq = new ArrayList<>();
 
         start.setOnClickListener(view -> {
 
-            start.setAlpha(0);
+            start.setAlpha(0.5f);
             level.setVisibility(View.VISIBLE);
-            title.setText("Watch the pattern");
-            makeSquaresUnclickable();
-            Handler handler = new Handler();
-            Runnable game = new Runnable() {
+            scoreText.setText("Score: "+ (currentLevel[0] - 1));
+            scoreText.setVisibility(View.VISIBLE);
+
+            startGameRun(levelTurns, correctSeq);
+
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (turns[0] > 0){
-                        int delayStartSeq = 1500; // Delay in ms
-                        int delayBetweenSeq = 2000;
-
-                        Button sq1 = findViewById(R.id.sq1);
-                        Button sq2 = findViewById(R.id.sq2);
-                        Button sq3 = findViewById(R.id.sq3);
-                        Button sq4 = findViewById(R.id.sq4);
-
-                        Button[] squares = {sq1, sq2, sq3, sq4};
-
-                        Handler handler = new Handler();
-                        Random random = new Random();
-                        int randomIndex = random.nextInt(squares.length);
-                        Button randomSq = squares[randomIndex];
-
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                randomSq.setAlpha(1);
-                            }
-                        };
-                        handler.postDelayed(runnable, delayBetweenSeq);
-
-                        Runnable runnable2 = new Runnable() {
-                            @Override
-                            public void run() {
-                                randomSq.setAlpha(0.5F);
-                                correctSeq.add(randomSq);
-                            }
-
-                        };
-                        handler.postDelayed(runnable2, delayStartSeq);
-                        turns[0]--;
-                        if (turns[0] == 0) {
-                            Handler titleHandler = new Handler();
-                            titleHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    title.setText("Repeat the pattern");
-                                    level.setText(0 + "/" + levelTurns[0]);
-                                    sq1.setClickable(true);
-                                    sq2.setClickable(true);
-                                    sq3.setClickable(true);
-                                    sq4.setClickable(true);
-                                }
-                            }, 3000);
-                        }
-                        handler.postDelayed(this, delayStartSeq);
-                    }
+                    start.setAlpha(0);
                 }
-
-            };
-            handler.post(game);
+            }, 100);
         });
 
         int sqPressedDelay = 200;
@@ -149,92 +117,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq1.setAlpha(0.5F);
-                userSeq.add(userIndex[0], sq1);
-                if (userSeq.get(userIndex[0]) == correctSeq.get(userIndex[0])){
-                    userIndex[0]++;
-                    level.setText(userIndex[0] + "/" + levelTurns[0]);
-                }else{
-                    title.setText("Game Over!");
-                    level.setText("Try again");
-                    reset.setVisibility(View.VISIBLE);
-                    makeSquaresUnclickable();
-
-                }
-                if (userIndex[0] == levelTurns[0]){
-                    title.setText("Congratulations!");
-                    makeSquaresUnclickable();
-                    currentLevel[0]++;
-                    level.setText("Level " + currentLevel[0]);
-                    userIndex[0] = 0;
-                    correctSeq.clear();
-                    Handler handler = new Handler();
-                    Runnable afterCongrats = new Runnable() {
-                        @Override
-                        public void run() {
-                            levelTurns[0]++;
-                            turns[0] = levelTurns[0];
-                            title.setText("Watch the pattern");
-                            Runnable game = new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (turns[0] > 0){
-                                        int delayStartSeq = 1500; // Delay in ms
-                                        int delayBetweenSeq = 2000;
-
-                                        Button sq1 = findViewById(R.id.sq1);
-                                        Button sq2 = findViewById(R.id.sq2);
-                                        Button sq3 = findViewById(R.id.sq3);
-                                        Button sq4 = findViewById(R.id.sq4);
-
-                                        Button[] squares = {sq1, sq2, sq3, sq4};
-
-                                        Handler handler = new Handler();
-                                        Random random = new Random();
-                                        int randomIndex = random.nextInt(squares.length);
-                                        Button randomSq = squares[randomIndex];
-
-                                        Runnable runnable = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(1);
-                                            }
-                                        };
-                                        handler.postDelayed(runnable, delayBetweenSeq);
-
-                                        Runnable runnable2 = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(0.5F);
-                                                correctSeq.add(randomSq);
-                                            }
-
-                                        };
-                                        handler.postDelayed(runnable2, delayStartSeq);
-                                        turns[0]--;
-                                        if (turns[0] == 0) {
-                                            Handler titleHandler = new Handler();
-                                            titleHandler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    title.setText("Repeat the pattern");
-                                                    level.setText(0 + "/" + levelTurns[0]);
-                                                    sq1.setClickable(true);
-                                                    sq2.setClickable(true);
-                                                    sq3.setClickable(true);
-                                                    sq4.setClickable(true);
-                                                }
-                                            }, 3000);
-                                        }
-                                        handler.postDelayed(this, delayStartSeq);
-                                    }
-                                }
-
-                            };
-                            handler.post(game);
-                        }
-                    };
-                    handler.postDelayed(afterCongrats, 2000);
-                }
+                checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -249,91 +132,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq2.setAlpha(0.5F);
-                userSeq.add(userIndex[0], sq2);
-                if (userSeq.get(userIndex[0]) == correctSeq.get(userIndex[0])){
-                    userIndex[0]++;
-                    level.setText(userIndex[0] + "/" + levelTurns[0]);
-                }else{
-                    title.setText("Game Over!");
-                    level.setText("Try again");
-                    makeSquaresUnclickable();
-                    reset.setVisibility(View.VISIBLE);
-                }
-                if (userIndex[0] == levelTurns[0]){
-                    title.setText("Congratulations!");
-                    makeSquaresUnclickable();
-                    currentLevel[0]++;
-                    level.setText("Level " + currentLevel[0]);
-                    userIndex[0] = 0;
-                    correctSeq.clear();
-                    Handler handler = new Handler();
-                    Runnable afterCongrats = new Runnable() {
-                        @Override
-                        public void run() {
-                            levelTurns[0]++;
-                            turns[0] = levelTurns[0];
-                            title.setText("Watch the pattern");
-                            Runnable game = new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (turns[0] > 0){
-                                        int delayStartSeq = 1500; // Delay in ms
-                                        int delayBetweenSeq = 2000;
-
-                                        Button sq1 = findViewById(R.id.sq1);
-                                        Button sq2 = findViewById(R.id.sq2);
-                                        Button sq3 = findViewById(R.id.sq3);
-                                        Button sq4 = findViewById(R.id.sq4);
-
-                                        Button[] squares = {sq1, sq2, sq3, sq4};
-
-                                        Handler handler = new Handler();
-                                        Random random = new Random();
-                                        int randomIndex = random.nextInt(squares.length);
-                                        Button randomSq = squares[randomIndex];
-
-                                        Runnable runnable = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(1);
-                                            }
-                                        };
-                                        handler.postDelayed(runnable, delayBetweenSeq);
-
-                                        Runnable runnable2 = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(0.5F);
-                                                correctSeq.add(randomSq);
-                                            }
-
-                                        };
-                                        handler.postDelayed(runnable2, delayStartSeq);
-                                        turns[0]--;
-                                        if (turns[0] == 0) {
-                                            Handler titleHandler = new Handler();
-                                            titleHandler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    title.setText("Repeat the pattern");
-                                                    level.setText(0 + "/" + levelTurns[0]);
-                                                    sq1.setClickable(true);
-                                                    sq2.setClickable(true);
-                                                    sq3.setClickable(true);
-                                                    sq4.setClickable(true);
-                                                }
-                                            }, 3000);
-                                        }
-                                        handler.postDelayed(this, delayStartSeq);
-                                    }
-                                }
-
-                            };
-                            handler.post(game);
-                        }
-                    };
-                    handler.postDelayed(afterCongrats, 2000);
-                }
+                checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -348,91 +147,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq3.setAlpha(0.5F);
-                userSeq.add(userIndex[0], sq3);
-                if (userSeq.get(userIndex[0]) == correctSeq.get(userIndex[0])){
-                    userIndex[0]++;
-                    level.setText(userIndex[0] + "/" + levelTurns[0]);
-                }else{
-                    title.setText("Game Over!");
-                    level.setText("Try again");
-                    makeSquaresUnclickable();
-                    reset.setVisibility(View.VISIBLE);
-                }
-                if (userIndex[0] == levelTurns[0]){
-                    title.setText("Congratulations!");
-                    makeSquaresUnclickable();
-                    currentLevel[0]++;
-                    level.setText("Level " + currentLevel[0]);
-                    userIndex[0] = 0;
-                    correctSeq.clear();
-                    Handler handler = new Handler();
-                    Runnable afterCongrats = new Runnable() {
-                        @Override
-                        public void run() {
-                            levelTurns[0]++;
-                            turns[0] = levelTurns[0];
-                            title.setText("Watch the pattern");
-                            Runnable game = new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (turns[0] > 0){
-                                        int delayStartSeq = 1500; // Delay in ms
-                                        int delayBetweenSeq = 2000;
-
-                                        Button sq1 = findViewById(R.id.sq1);
-                                        Button sq2 = findViewById(R.id.sq2);
-                                        Button sq3 = findViewById(R.id.sq3);
-                                        Button sq4 = findViewById(R.id.sq4);
-
-                                        Button[] squares = {sq1, sq2, sq3, sq4};
-
-                                        Handler handler = new Handler();
-                                        Random random = new Random();
-                                        int randomIndex = random.nextInt(squares.length);
-                                        Button randomSq = squares[randomIndex];
-
-                                        Runnable runnable = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(1);
-                                            }
-                                        };
-                                        handler.postDelayed(runnable, delayBetweenSeq);
-
-                                        Runnable runnable2 = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(0.5F);
-                                                correctSeq.add(randomSq);
-                                            }
-
-                                        };
-                                        handler.postDelayed(runnable2, delayStartSeq);
-                                        turns[0]--;
-                                        if (turns[0] == 0) {
-                                            Handler titleHandler = new Handler();
-                                            titleHandler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    title.setText("Repeat the pattern");
-                                                    level.setText(0 + "/" + levelTurns[0]);
-                                                    sq1.setClickable(true);
-                                                    sq2.setClickable(true);
-                                                    sq3.setClickable(true);
-                                                    sq4.setClickable(true);
-                                                }
-                                            }, 3000);
-                                        }
-                                        handler.postDelayed(this, delayStartSeq);
-                                    }
-                                }
-
-                            };
-                            handler.post(game);
-                        }
-                    };
-                    handler.postDelayed(afterCongrats, 2000);
-                }
+                checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -447,91 +162,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq4.setAlpha(0.5F);
-                userSeq.add(userIndex[0], sq4);
-                if (userSeq.get(userIndex[0]) == correctSeq.get(userIndex[0])){
-                    userIndex[0]++;
-                    level.setText(userIndex[0] + "/" + levelTurns[0]);
-                }else{
-                    title.setText("Game Over!");
-                    level.setText("Try again");
-                    makeSquaresUnclickable();
-                    reset.setVisibility(View.VISIBLE);
-                }
-                if (userIndex[0] == levelTurns[0]){
-                    title.setText("Congratulations!");
-                    makeSquaresUnclickable();
-                    currentLevel[0]++;
-                    level.setText("Level " + currentLevel[0]);
-                    userIndex[0] = 0;
-                    correctSeq.clear();
-                    Handler handler = new Handler();
-                    Runnable afterCongrats = new Runnable() {
-                        @Override
-                        public void run() {
-                            levelTurns[0]++;
-                            turns[0] = levelTurns[0];
-                            title.setText("Watch the pattern");
-                            Runnable game = new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (turns[0] > 0){
-                                        int delayStartSeq = 1500; // Delay in ms
-                                        int delayBetweenSeq = 2000;
-
-                                        Button sq1 = findViewById(R.id.sq1);
-                                        Button sq2 = findViewById(R.id.sq2);
-                                        Button sq3 = findViewById(R.id.sq3);
-                                        Button sq4 = findViewById(R.id.sq4);
-
-                                        Button[] squares = {sq1, sq2, sq3, sq4};
-
-                                        Handler handler = new Handler();
-                                        Random random = new Random();
-                                        int randomIndex = random.nextInt(squares.length);
-                                        Button randomSq = squares[randomIndex];
-
-                                        Runnable runnable = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(1);
-                                            }
-                                        };
-                                        handler.postDelayed(runnable, delayBetweenSeq);
-
-                                        Runnable runnable2 = new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                randomSq.setAlpha(0.5F);
-                                                correctSeq.add(randomSq);
-                                            }
-
-                                        };
-                                        handler.postDelayed(runnable2, delayStartSeq);
-                                        turns[0]--;
-                                        if (turns[0] == 0) {
-                                            Handler titleHandler = new Handler();
-                                            titleHandler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    title.setText("Repeat the pattern");
-                                                    level.setText(0 + "/" + levelTurns[0]);
-                                                    sq1.setClickable(true);
-                                                    sq2.setClickable(true);
-                                                    sq3.setClickable(true);
-                                                    sq4.setClickable(true);
-                                                }
-                                            }, 3000);
-                                        }
-                                        handler.postDelayed(this, delayStartSeq);
-                                    }
-                                }
-
-                            };
-                            handler.post(game);
-                        }
-                    };
-                    handler.postDelayed(afterCongrats, 2000);
-                }
+                checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
 
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
@@ -547,72 +178,12 @@ public class Easy extends AppCompatActivity {
 
         reset.setOnClickListener(view -> {
             reset.setVisibility(View.INVISIBLE);
-            correctSeq.clear();
-            userIndex[0] = 0;
             levelTurns[0] = 4;
             currentLevel[0] = 1;
+            currentScore[0] = 0;
+            scoreText.setText("Score: " + currentScore[0]);
             turns[0] = levelTurns[0];
-            title.setText("Watch the pattern");
-            level.setText("Level " + currentLevel[0]);
-            makeSquaresUnclickable();
-            Handler handler = new Handler();
-            Runnable game = new Runnable() {
-                @Override
-                public void run() {
-                    if (turns[0] > 0){
-                        int delayStartSeq = 1500; // Delay in ms
-                        int delayBetweenSeq = 2000;
-
-                        Button sq1 = findViewById(R.id.sq1);
-                        Button sq2 = findViewById(R.id.sq2);
-                        Button sq3 = findViewById(R.id.sq3);
-                        Button sq4 = findViewById(R.id.sq4);
-
-                        Button[] squares = {sq1, sq2, sq3, sq4};
-
-                        Handler handler = new Handler();
-                        Random random = new Random();
-                        int randomIndex = random.nextInt(squares.length);
-                        Button randomSq = squares[randomIndex];
-
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                randomSq.setAlpha(1);
-                            }
-                        };
-                        handler.postDelayed(runnable, delayBetweenSeq);
-
-                        Runnable runnable2 = new Runnable() {
-                            @Override
-                            public void run() {
-                                randomSq.setAlpha(0.5F);
-                                correctSeq.add(randomSq);
-                            }
-
-                        };
-                        handler.postDelayed(runnable2, delayStartSeq);
-                        turns[0]--;
-                        if (turns[0] == 0) {
-                            Handler titleHandler = new Handler();
-                            titleHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    title.setText("Repeat the pattern");
-                                    level.setText(0 + "/" + levelTurns[0]);
-                                    sq1.setClickable(true);
-                                    sq2.setClickable(true);
-                                    sq3.setClickable(true);
-                                    sq4.setClickable(true);
-                                }
-                            }, 3000);
-                        }
-                        handler.postDelayed(this, delayStartSeq);
-                    }
-                }
-
-            };
-            handler.post(game);
+            startGameRun(levelTurns, correctSeq);
         });
 
     }
@@ -657,4 +228,130 @@ public class Easy extends AppCompatActivity {
         sq3.setClickable(false);
         sq4.setClickable(false);
     }
+
+    public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq){
+
+        final int[] turns = {levelTurns[0]};
+        correctSeq.clear();
+        TextView title = findViewById(R.id.title);
+        TextView level = findViewById(R.id.level);
+        title.setText("Watch the pattern");
+        makeSquaresUnclickable();
+        Handler handler = new Handler();
+        Runnable game = new Runnable() {
+            @Override
+            public void run() {
+                if (turns[0] > 0){
+                    int delayStartSeq = 1200; // Delay in ms
+                    int delayBetweenSeq = 1800;
+
+                    Button sq1 = findViewById(R.id.sq1);
+                    Button sq2 = findViewById(R.id.sq2);
+                    Button sq3 = findViewById(R.id.sq3);
+                    Button sq4 = findViewById(R.id.sq4);
+
+                    Button[] squares = {sq1, sq2, sq3, sq4};
+
+                    Handler handler = new Handler();
+                    Random random = new Random();
+                    int randomIndex = random.nextInt(squares.length);
+                    Button randomSq = squares[randomIndex];
+
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            randomSq.setAlpha(1);
+                        }
+                    };
+                    handler.postDelayed(runnable, delayBetweenSeq);
+
+                    Runnable runnable2 = new Runnable() {
+                        @Override
+                        public void run() {
+                            randomSq.setAlpha(0.5F);
+                            correctSeq.add(randomSq);
+                        }
+
+                    };
+                    handler.postDelayed(runnable2, delayStartSeq);
+                    turns[0]--;
+                    if (turns[0] == 0) {
+                        Handler titleHandler = new Handler();
+                        titleHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                title.setText("Repeat the pattern");
+                                level.setText(0 + "/" + levelTurns[0]);
+                                sq1.setClickable(true);
+                                sq2.setClickable(true);
+                                sq3.setClickable(true);
+                                sq4.setClickable(true);
+                            }
+                        }, 2000);
+                    }
+                    handler.postDelayed(this, delayStartSeq);
+                }
+            }
+
+        };
+        handler.post(game);
+    }
+
+
+    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns){
+
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        final int[] turns = {levelTurns[0]};
+        final int[] overallHighscore = {0};
+        overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+
+        TextView title = findViewById(R.id.title);
+        TextView level = findViewById(R.id.level);
+        TextView scoreText = findViewById(R.id.score);
+        TextView highscoreText = findViewById(R.id.highscore);
+        ImageButton reset = findViewById(R.id.redoButton);
+
+        userSeq.add(userIndex[0], sqAdded);
+
+        if (userSeq.get(userIndex[0]) == correctSeq.get(userIndex[0])){
+            userIndex[0]++;
+            level.setText(userIndex[0] + "/" + levelTurns[0]);
+        }else{
+            title.setText("Game Over!");
+            level.setText("Try again");
+            if (currentScore[0] >= overallHighscore[0]){
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("highscoreKey", currentScore[0]);
+                editor.apply();
+                overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+            }
+            highscoreText.setText("Highscore: " + overallHighscore[0]);
+            makeSquaresUnclickable();
+            userIndex[0] = 0;
+            userSeq.clear();
+            reset.setVisibility(View.VISIBLE);
+        }
+        if (userIndex[0] == levelTurns[0]){
+            title.setText("Congratulations!");
+            makeSquaresUnclickable();
+            currentLevel[0]++;
+            currentScore[0]++;
+            level.setText("Level " + currentLevel[0]);
+            scoreText.setText("Score: " + currentScore[0]);
+            userIndex[0] = 0;
+            userSeq.clear();
+            correctSeq.clear();
+            levelTurns[0]++;
+            turns[0] = levelTurns[0];
+            Handler handler = new Handler();
+            Runnable afterCongrats = new Runnable() {
+                @Override
+                public void run() {
+                    startGameRun(levelTurns, correctSeq);
+                }
+            };
+            handler.postDelayed(afterCongrats, 2000);
+        }
+    }
+
 }

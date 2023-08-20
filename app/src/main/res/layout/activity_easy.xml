@@ -29,8 +29,8 @@
             android:id="@+id/redoButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/level"
+            android:layout_centerHorizontal="true"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
@@ -96,12 +96,44 @@
                 android:id="@+id/sq4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp"
                 android:layout_below="@id/sq2"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_toEndOf="@id/sq3"
-                android:background="@color/yellow"/>
+                android:background="@color/yellow" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/squaresLayout"
+            android:layout_marginTop="20dp"
+            android:padding="5dp"
+            android:layout_centerHorizontal="true"
+            android:text="Score: 3"
+            android:visibility="invisible"
+            android:textColor="@color/white"
+            android:fontFamily="@font/jost_variablewght"
+            android:textFontWeight="700"
+            android:background="@drawable/dialog_button_rectangle"/>
+
+        <TextView
+            android:id="@+id/highscore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/score"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:layout_centerHorizontal="true"
+            android:text="Highscore: 3"
+            android:textColor="@color/white"
+            android:fontFamily="@font/jost_variablewght"
+            android:textFontWeight="700"
+            android:background="@drawable/dialog_button_rectangle"/>
 
         <android.widget.Button
             android:id="@+id/startBtn"
