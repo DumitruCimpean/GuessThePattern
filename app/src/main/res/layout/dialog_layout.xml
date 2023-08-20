@@ -9,8 +9,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="90dp"
+        android:layout_marginTop="40dp"
         android:layout_gravity="center"
-        android:src="@drawable/gtp_logo"/>
+        android:src="@drawable/exit"/>
 
     <TextView
         android:id="@+id/dialog_message"
@@ -27,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center">
 
@@ -34,13 +36,23 @@
             android:id="@+id/positive_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Yes" />
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/dialog_button_rectangle"
+            android:text="Yes"
+            android:textColor="@color/white"
+            android:fontFamily="@font/jost_variablewght"
+            android:textFontWeight="700"/>
 
         <Button
             android:id="@+id/negative_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No" />
+            android:layout_marginStart="15dp"
+            android:background="@drawable/dialog_button_rectangle"
+            android:text="No"
+            android:textColor="@color/white"
+            android:fontFamily="@font/jost_variablewght"
+            android:textFontWeight="700"/>
 
     </LinearLayout>
 

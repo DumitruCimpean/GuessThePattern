@@ -9,6 +9,7 @@ import android.view.Display;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,17 +24,29 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayWidth = metrics.widthPixels;
         int displayHeight = metrics.heightPixels;
-        double screenPercent = 0.50;
+        double screenPercent = 0.60F;
 
         final ImageView logo = findViewById(R.id.gtpLogo);
         logo.getLayoutParams().width = (int) (displayWidth * screenPercent);
 
 
         Button easyBtn = findViewById(R.id.diffEasy);
+        easyBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        easyBtn.setTextSize(displayHeight * 0.016F);
 
         Button mediumBtn = findViewById(R.id.diffMedium);
+        mediumBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        mediumBtn.setTextSize(displayHeight * 0.016F);
 
         Button hardBtn = findViewById(R.id.diffHard);
+        hardBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        hardBtn.setTextSize(displayHeight * 0.016F);
+
+        TextView welcome = findViewById(R.id.welcomeTitle);
+        welcome.setTextSize(displayHeight * 0.03F);
+
+        TextView difficulty = findViewById(R.id.difficultyTitle);
+        difficulty.setTextSize(displayHeight * 0.02F);
 
         easyBtn.setOnClickListener(view -> {gob.openActivity(Easy.class);});
         mediumBtn.setOnClickListener(view -> {gob.showToast("Chose Medium");});
@@ -53,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, delayMS);
-
-
 
     }
 }

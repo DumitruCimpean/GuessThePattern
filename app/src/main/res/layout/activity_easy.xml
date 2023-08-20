@@ -15,12 +15,30 @@
             android:id="@+id/backButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="15dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:scaleType="fitCenter"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/arrow"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/arrow" />
+
+        <ImageButton
+            android:id="@+id/redoButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            android:src="@drawable/tryagain_arrow" />
 
         <TextView
             android:id="@+id/title"
@@ -41,7 +59,7 @@
             android:layout_below="@id/title"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/jost_variablewght"
-            android:text="Level 1\n0/4"
+            android:text="Level 1"
             android:textAlignment="center"
             android:visibility="invisible"
             android:textColor="@color/white" />
