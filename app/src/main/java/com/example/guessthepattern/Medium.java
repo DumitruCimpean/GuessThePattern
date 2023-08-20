@@ -3,14 +3,11 @@ package com.example.guessthepattern;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,19 +15,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+
+public class Medium extends AppCompatActivity {
 
 
-public class Easy extends AppCompatActivity {
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
-    private static final String highscoreKey = "highscoreKey"; // Key for saving the value
-
-
+    private static final String highscoreKeyMedium = "highscoreKeyMedium"; // Key for saving the value
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_easy);
+        setContentView(R.layout.activity_medium);
+
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
 
@@ -42,12 +38,17 @@ public class Easy extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayWidth = metrics.widthPixels;
         int displayHeight = metrics.heightPixels;
-        double screenPercent = 0.30;
+        double screenPercent = 0.25;
 
         Button sq1 = findViewById(R.id.sq1);
         Button sq2 = findViewById(R.id.sq2);
         Button sq3 = findViewById(R.id.sq3);
         Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
 
         sq1.getLayoutParams().width = (int) (displayWidth * screenPercent);
         sq1.getLayoutParams().height = (int) (displayWidth * screenPercent);
@@ -57,6 +58,16 @@ public class Easy extends AppCompatActivity {
         sq3.getLayoutParams().height = (int) (displayWidth * screenPercent);
         sq4.getLayoutParams().width = (int) (displayWidth * screenPercent);
         sq4.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq5.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq5.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq6.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq6.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq7.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq7.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq8.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq8.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq9.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq9.getLayoutParams().width = (int) (displayWidth * screenPercent);
 
         Button start = findViewById(R.id.startBtn);
         start.getLayoutParams().width = (int) (displayWidth * screenPercent);
@@ -77,7 +88,7 @@ public class Easy extends AppCompatActivity {
 
         final int[] currentLevel = {1};
         final int[] currentScore = {currentLevel[0] - 1};
-        final int[] overallHighscore = {prefs.getInt("highscoreKey", 0)};
+        final int[] overallHighscore = {prefs.getInt("highscoreKeyMedium", 0)};
 
         TextView highscoreText = findViewById(R.id.highscore);
         highscoreText.setTextSize((int)levelTextSize);
@@ -171,6 +182,81 @@ public class Easy extends AppCompatActivity {
             }
         });
 
+        sq5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq5.setAlpha(0.5F);
+                checkSequence(sq5,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq5.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq6.setAlpha(0.5F);
+                checkSequence(sq6,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq6.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq7.setAlpha(0.5F);
+                checkSequence(sq7,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq7.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq8.setAlpha(0.5F);
+                checkSequence(sq8,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq8.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq9.setAlpha(0.5F);
+                checkSequence(sq9,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq9.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
         makeSquaresUnclickable();
 
         reset.setOnClickListener(view -> {
@@ -219,11 +305,21 @@ public class Easy extends AppCompatActivity {
         Button sq2 = findViewById(R.id.sq2);
         Button sq3 = findViewById(R.id.sq3);
         Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
 
         sq1.setClickable(false);
         sq2.setClickable(false);
         sq3.setClickable(false);
         sq4.setClickable(false);
+        sq5.setClickable(false);
+        sq6.setClickable(false);
+        sq7.setClickable(false);
+        sq8.setClickable(false);
+        sq9.setClickable(false);
     }
 
     public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq){
@@ -246,8 +342,13 @@ public class Easy extends AppCompatActivity {
                     Button sq2 = findViewById(R.id.sq2);
                     Button sq3 = findViewById(R.id.sq3);
                     Button sq4 = findViewById(R.id.sq4);
+                    Button sq5 = findViewById(R.id.sq5);
+                    Button sq6 = findViewById(R.id.sq6);
+                    Button sq7 = findViewById(R.id.sq7);
+                    Button sq8 = findViewById(R.id.sq8);
+                    Button sq9 = findViewById(R.id.sq9);
 
-                    Button[] squares = {sq1, sq2, sq3, sq4};
+                    Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
 
                     Handler handler = new Handler();
                     Random random = new Random();
@@ -283,6 +384,11 @@ public class Easy extends AppCompatActivity {
                                 sq2.setClickable(true);
                                 sq3.setClickable(true);
                                 sq4.setClickable(true);
+                                sq5.setClickable(true);
+                                sq6.setClickable(true);
+                                sq7.setClickable(true);
+                                sq8.setClickable(true);
+                                sq9.setClickable(true);
                             }
                         }, 2000);
                     }
@@ -300,7 +406,7 @@ public class Easy extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         final int[] turns = {levelTurns[0]};
         final int[] overallHighscore = {0};
-        overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+        overallHighscore[0] = prefs.getInt("highscoreKeyMedium", 0);
 
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
@@ -318,9 +424,9 @@ public class Easy extends AppCompatActivity {
             level.setText("Try again");
             if (currentScore[0] >= overallHighscore[0]){
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("highscoreKey", currentScore[0]);
+                editor.putInt("highscoreKeyMedium", currentScore[0]);
                 editor.apply();
-                overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+                overallHighscore[0] = prefs.getInt("highscoreKeyMedium", 0);
             }
             highscoreText.setText("Highscore: " + overallHighscore[0]);
             makeSquaresUnclickable();
@@ -350,5 +456,6 @@ public class Easy extends AppCompatActivity {
             handler.postDelayed(afterCongrats, 2000);
         }
     }
+
 
 }

@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mediumBtn.setOnClickListener(view -> {
-            gob.showToast("Chose Medium");
+            gob.openActivity(Medium.class);
             mediumBtn.setAlpha(0.5f);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {

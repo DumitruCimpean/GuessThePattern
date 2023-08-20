@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".Easy">
+    tools:context=".Hard">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/backButton"
             android:text="Press Start"
@@ -68,35 +68,101 @@
                 android:id="@+id/sq1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@color/red"/>
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white" />
+
             <Button
                 android:id="@+id/sq2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_toEndOf="@id/sq1"
-                android:background="@color/blue"/>
+                android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
-                android:layout_below="@id/sq1"
-                android:background="@color/green"/>
+                android:layout_toEndOf="@id/sq2"
+                android:background="@color/white"/>
 
             <Button
                 android:id="@+id/sq4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/sq2"
+                android:layout_below="@id/sq1"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_toEndOf="@id/sq3"
-                android:background="@color/yellow" />
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/sq2"
+                android:layout_toEndOf="@id/sq4"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq6"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/sq3"
+                android:layout_toEndOf="@id/sq5"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq7"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/sq4"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq8"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/sq5"
+                android:layout_toEndOf="@id/sq7"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq9"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/sq6"
+                android:layout_toEndOf="@id/sq8"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white" />
+
 
         </RelativeLayout>
 
@@ -105,7 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/squaresLayout"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:padding="5dp"
             android:layout_centerHorizontal="true"
             android:text="Score: 3"
@@ -119,8 +185,8 @@
             android:id="@+id/highscore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_below="@id/score"
-            android:layout_marginTop="10dp"
             android:padding="5dp"
             android:layout_centerHorizontal="true"
             android:text="Highscore: 3"
