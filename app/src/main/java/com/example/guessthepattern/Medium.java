@@ -263,6 +263,7 @@ public class Medium extends AppCompatActivity {
             reset.setVisibility(View.INVISIBLE);
             levelTurns[0] = 4;
             currentLevel[0] = 1;
+            level.setText("Level: " + currentLevel[0]);
             currentScore[0] = 0;
             scoreText.setText("Score: " + currentScore[0]);
             turns[0] = levelTurns[0];
