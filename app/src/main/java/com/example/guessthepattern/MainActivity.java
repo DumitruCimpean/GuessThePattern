@@ -33,18 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
         Button easyBtn = findViewById(R.id.diffEasy);
         easyBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        easyBtn.setTextSize(displayHeight * 0.016F);
+        easyBtn.setTextSize(displayHeight * 0.013F);
 
         Button mediumBtn = findViewById(R.id.diffMedium);
         mediumBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        mediumBtn.setTextSize(displayHeight * 0.016F);
+        mediumBtn.setTextSize(displayHeight * 0.013F);
 
         Button hardBtn = findViewById(R.id.diffHard);
         hardBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        hardBtn.setTextSize(displayHeight * 0.016F);
+        hardBtn.setTextSize(displayHeight * 0.013F);
 
         TextView welcome = findViewById(R.id.welcomeTitle);
-        welcome.setTextSize(displayHeight * 0.03F);
+        welcome.setTextSize(displayHeight * 0.02F);
 
         TextView difficulty = findViewById(R.id.difficultyTitle);
         difficulty.setTextSize(displayHeight * 0.02F);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }, 200);
         });
         hardBtn.setOnClickListener(view -> {
-            gob.showToast("Chose Hard");
+            gob.openActivity(Hard.class);
             hardBtn.setAlpha(0.5f);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
