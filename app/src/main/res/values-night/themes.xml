@@ -2,6 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="Theme.GuessThePattern" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/dark_grey</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/dark_grey</item>
         <item name="android:windowLightStatusBar">false</item>

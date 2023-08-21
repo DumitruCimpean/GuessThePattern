@@ -18,7 +18,8 @@ import java.util.Random;
 
 public class Medium extends AppCompatActivity {
 
-
+    // TODO: UI changes: autoSizing for text and more layout tweaks, in Hard.java as well;
+    // TODO: Difficulty balancing: turns increase slower, show the pattern more (slower flashing);
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
     private static final String highscoreKeyMedium = "highscoreKeyMedium"; // Key for saving the value
 
@@ -38,6 +39,7 @@ public class Medium extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayWidth = metrics.widthPixels;
         int displayHeight = metrics.heightPixels;
+        int displayAvg = (displayHeight + displayWidth) / 2;
         double screenPercent = 0.25;
 
         Button sq1 = findViewById(R.id.sq1);
@@ -72,27 +74,25 @@ public class Medium extends AppCompatActivity {
         Button start = findViewById(R.id.startBtn);
         start.getLayoutParams().width = (int) (displayWidth * screenPercent);
         start.getLayoutParams().height = (int) (displayWidth * 0.20);
-        double startTextSize = displayWidth * 0.025;
-        start.setTextSize((int)startTextSize);
 
-        double titleTextSize = displayWidth * 0.04;
         TextView title = findViewById(R.id.title);
-        title.setTextSize((int)titleTextSize);
+        title.getLayoutParams().height = (int) (displayAvg * 0.1f);
 
-        double levelTextSize = displayWidth * 0.02;
         TextView level = findViewById(R.id.level);
-        level.setTextSize((int)levelTextSize);
-
-        TextView scoreText = findViewById(R.id.score);
-        scoreText.setTextSize((int)levelTextSize);
+        level.getLayoutParams().height = (int) (displayAvg * 0.06f);
 
         final int[] currentLevel = {1};
         final int[] currentScore = {currentLevel[0] - 1};
         final int[] overallHighscore = {prefs.getInt("highscoreKeyMedium", 0)};
 
         TextView highscoreText = findViewById(R.id.highscore);
-        highscoreText.setTextSize((int)levelTextSize);
         highscoreText.setText("Highscore: " + overallHighscore[0]);
+        highscoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
+        highscoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
+
+        TextView scoreText = findViewById(R.id.score);
+        scoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
+        scoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
 
         ArrayList<Button> correctSeq = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class Medium extends AppCompatActivity {
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    start.setAlpha(0);
+                    start.setVisibility(View.INVISIBLE);
                 }
             }, 100);
         });
@@ -284,11 +284,24 @@ public class Medium extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.dialog_layout, null);
         builder.setView(dialogView);
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int displayWidth = metrics.widthPixels;
+        int displayHeight = metrics.heightPixels;
+        int displayAvg = (displayHeight + displayWidth) / 2;
+
         TextView message = dialogView.findViewById(R.id.dialog_message);
+        message.getLayoutParams().height = (int) (displayAvg * 0.08f);
         message.setText("Quit to main menu?");
 
         Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        positiveButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        positiveButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
         Button negativeButton = dialogView.findViewById(R.id.negative_button);
+        negativeButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        negativeButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {

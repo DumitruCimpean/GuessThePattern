@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,14 +31,15 @@ public class Hard extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
 
         ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(view -> showExitConfirmationDialog());
+        back.setOnClickListener(view -> showExitConfirmation());
         ImageButton reset = findViewById(R.id.redoButton);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayWidth = metrics.widthPixels;
         int displayHeight = metrics.heightPixels;
-        double screenPercent = 0.25;
+        int displayAvg = (displayHeight + displayWidth) / 2;
+        double screenPercent = 0.20;
 
         Button sq1 = findViewById(R.id.sq1);
         Button sq2 = findViewById(R.id.sq2);
@@ -50,6 +50,13 @@ public class Hard extends AppCompatActivity {
         Button sq7 = findViewById(R.id.sq7);
         Button sq8 = findViewById(R.id.sq8);
         Button sq9 = findViewById(R.id.sq9);
+        Button sq10 = findViewById(R.id.sq10);
+        Button sq11 = findViewById(R.id.sq11);
+        Button sq12 = findViewById(R.id.sq12);
+        Button sq13 = findViewById(R.id.sq13);
+        Button sq14 = findViewById(R.id.sq14);
+        Button sq15 = findViewById(R.id.sq15);
+        Button sq16 = findViewById(R.id.sq16);
 
         sq1.getLayoutParams().width = (int) (displayWidth * screenPercent);
         sq1.getLayoutParams().height = (int) (displayWidth * screenPercent);
@@ -69,36 +76,53 @@ public class Hard extends AppCompatActivity {
         sq8.getLayoutParams().width = (int) (displayWidth * screenPercent);
         sq9.getLayoutParams().height = (int) (displayWidth * screenPercent);
         sq9.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq10.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq10.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq11.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq11.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq12.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq12.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq13.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq13.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq14.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq14.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq15.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq15.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        sq16.getLayoutParams().height = (int) (displayWidth * screenPercent);
+        sq16.getLayoutParams().width = (int) (displayWidth * screenPercent);
 
         Button start = findViewById(R.id.startBtn);
         start.getLayoutParams().width = (int) (displayWidth * screenPercent);
         start.getLayoutParams().height = (int) (displayWidth * 0.20);
-        double startTextSize = displayWidth * 0.025;
-        start.setTextSize((int)startTextSize);
 
-        double titleTextSize = displayWidth * 0.04;
+        // Title and level setup
+
         TextView title = findViewById(R.id.title);
-        title.setTextSize((int)titleTextSize);
+        title.getLayoutParams().height = (int) (displayAvg * 0.1f);
 
-        double levelTextSize = displayWidth * 0.02;
         TextView level = findViewById(R.id.level);
-        level.setTextSize((int)levelTextSize);
+        level.getLayoutParams().height = (int) (displayAvg * 0.06f);
 
-        TextView scoreText = findViewById(R.id.score);
-        scoreText.setTextSize((int)levelTextSize);
 
         final int[] currentLevel = {1};
         final int[] currentScore = {currentLevel[0] - 1};
         final int[] overallHighscore = {prefs.getInt("highscoreKeyHard", 0)};
 
-        TextView highscoreText = findViewById(R.id.highscore);
-        highscoreText.setTextSize((int)levelTextSize);
-        highscoreText.setText("Highscore: " + overallHighscore[0]);
+        // Score and highscore setup
 
-        ArrayList<Button> correctSeq = new ArrayList<>();
+        TextView highscoreText = findViewById(R.id.highscore);
+        highscoreText.setText("Highscore: " + overallHighscore[0]);
+        highscoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
+        highscoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
+
+        TextView scoreText = findViewById(R.id.score);
+        scoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
+        scoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
+
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
+        ArrayList<Button> correctSeq = new ArrayList<>();
 
         start.setOnClickListener(view -> {
 
@@ -113,7 +137,7 @@ public class Hard extends AppCompatActivity {
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    start.setAlpha(0);
+                    start.setVisibility(View.INVISIBLE);
                 }
             }, 100);
         });
@@ -136,6 +160,7 @@ public class Hard extends AppCompatActivity {
                 }, sqPressedDelay);
             }
         });
+
 
         sq2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,7 +283,114 @@ public class Hard extends AppCompatActivity {
             }
         });
 
-        makeSquaresUnclickable();
+        sq10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq10.setAlpha(0.5F);
+                checkSequence(sq10,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq10.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq11.setAlpha(0.5F);
+                checkSequence(sq11,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq11.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq12.setAlpha(0.5F);
+                checkSequence(sq12,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq12.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq13.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq13.setAlpha(0.5F);
+                checkSequence(sq13,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq13.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq14.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq14.setAlpha(0.5F);
+                checkSequence(sq14,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq14.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq15.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq15.setAlpha(0.5F);
+                checkSequence(sq15,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq15.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+        sq16.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sq16.setAlpha(0.5F);
+                checkSequence(sq16,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                Handler resetHandler = new Handler();
+                resetHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sq16.setAlpha(1.0F); // Reset alpha to its original value
+                    }
+                }, sqPressedDelay);
+            }
+        });
+
+
+
+        makeSqUnclickable();
 
         reset.setOnClickListener(view -> {
             reset.setVisibility(View.INVISIBLE);
@@ -274,56 +406,6 @@ public class Hard extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-        showExitConfirmationDialog();
-    }
-
-    private void showExitConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_layout, null);
-        builder.setView(dialogView);
-
-        TextView message = dialogView.findViewById(R.id.dialog_message);
-        message.setText("Quit to main menu?");
-
-        Button positiveButton = dialogView.findViewById(R.id.positive_button);
-        Button negativeButton = dialogView.findViewById(R.id.negative_button);
-        AlertDialog dialog = builder.create();
-
-        positiveButton.setOnClickListener(v -> {
-            finish();
-        });
-
-        negativeButton.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-        dialog.show();
-    }
-
-    public void makeSquaresUnclickable(){
-        Button sq1 = findViewById(R.id.sq1);
-        Button sq2 = findViewById(R.id.sq2);
-        Button sq3 = findViewById(R.id.sq3);
-        Button sq4 = findViewById(R.id.sq4);
-        Button sq5 = findViewById(R.id.sq5);
-        Button sq6 = findViewById(R.id.sq6);
-        Button sq7 = findViewById(R.id.sq7);
-        Button sq8 = findViewById(R.id.sq8);
-        Button sq9 = findViewById(R.id.sq9);
-
-        sq1.setClickable(false);
-        sq2.setClickable(false);
-        sq3.setClickable(false);
-        sq4.setClickable(false);
-        sq5.setClickable(false);
-        sq6.setClickable(false);
-        sq7.setClickable(false);
-        sq8.setClickable(false);
-        sq9.setClickable(false);
-    }
-
     public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq){
 
         final int[] turns = {levelTurns[0]};
@@ -331,7 +413,7 @@ public class Hard extends AppCompatActivity {
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
         title.setText("Watch the pattern");
-        makeSquaresUnclickable();
+        makeSqUnclickable();
         Handler handler = new Handler();
         Runnable game = new Runnable() {
             @Override
@@ -349,8 +431,15 @@ public class Hard extends AppCompatActivity {
                     Button sq7 = findViewById(R.id.sq7);
                     Button sq8 = findViewById(R.id.sq8);
                     Button sq9 = findViewById(R.id.sq9);
+                    Button sq10 = findViewById(R.id.sq10);
+                    Button sq11 = findViewById(R.id.sq11);
+                    Button sq12 = findViewById(R.id.sq12);
+                    Button sq13 = findViewById(R.id.sq13);
+                    Button sq14 = findViewById(R.id.sq14);
+                    Button sq15 = findViewById(R.id.sq15);
+                    Button sq16 = findViewById(R.id.sq16);
 
-                    Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
+                    Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
 
                     Handler handler = new Handler();
                     Random random = new Random();
@@ -382,15 +471,7 @@ public class Hard extends AppCompatActivity {
                             public void run() {
                                 title.setText("Repeat the pattern");
                                 level.setText(0 + "/" + levelTurns[0]);
-                                sq1.setClickable(true);
-                                sq2.setClickable(true);
-                                sq3.setClickable(true);
-                                sq4.setClickable(true);
-                                sq5.setClickable(true);
-                                sq6.setClickable(true);
-                                sq7.setClickable(true);
-                                sq8.setClickable(true);
-                                sq9.setClickable(true);
+                                makeSqClickable();
                             }
                         }, 2000);
                     }
@@ -401,7 +482,6 @@ public class Hard extends AppCompatActivity {
         };
         handler.post(game);
     }
-
 
     public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns){
 
@@ -431,14 +511,14 @@ public class Hard extends AppCompatActivity {
                 overallHighscore[0] = prefs.getInt("highscoreKeyHard", 0);
             }
             highscoreText.setText("Highscore: " + overallHighscore[0]);
-            makeSquaresUnclickable();
+            makeSqUnclickable();
             userIndex[0] = 0;
             userSeq.clear();
             reset.setVisibility(View.VISIBLE);
         }
         if (userIndex[0] == levelTurns[0]){
             title.setText("Congratulations!");
-            makeSquaresUnclickable();
+            makeSqUnclickable();
             currentLevel[0]++;
             currentScore[0]++;
             level.setText("Level " + currentLevel[0]);
@@ -458,6 +538,109 @@ public class Hard extends AppCompatActivity {
             handler.postDelayed(afterCongrats, 2000);
         }
     }
+
+    public void makeSqUnclickable(){
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
+
+        sq1.setClickable(false);
+        sq2.setClickable(false);
+        sq3.setClickable(false);
+        sq4.setClickable(false);
+        sq5.setClickable(false);
+        sq6.setClickable(false);
+        sq7.setClickable(false);
+        sq8.setClickable(false);
+        sq9.setClickable(false);
+    }
+
+    public void makeSqClickable(){
+
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
+        Button sq10 = findViewById(R.id.sq10);
+        Button sq11 = findViewById(R.id.sq11);
+        Button sq12 = findViewById(R.id.sq12);
+        Button sq13 = findViewById(R.id.sq13);
+        Button sq14 = findViewById(R.id.sq14);
+        Button sq15 = findViewById(R.id.sq15);
+        Button sq16 = findViewById(R.id.sq16);
+
+        sq1.setClickable(true);
+        sq2.setClickable(true);
+        sq3.setClickable(true);
+        sq4.setClickable(true);
+        sq5.setClickable(true);
+        sq6.setClickable(true);
+        sq7.setClickable(true);
+        sq8.setClickable(true);
+        sq9.setClickable(true);
+        sq10.setClickable(true);
+        sq11.setClickable(true);
+        sq12.setClickable(true);
+        sq13.setClickable(true);
+        sq14.setClickable(true);
+        sq15.setClickable(true);
+        sq16.setClickable(true);
+    }
+
+    private void showExitConfirmation() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_layout, null);
+        builder.setView(dialogView);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int displayWidth = metrics.widthPixels;
+        int displayHeight = metrics.heightPixels;
+        int displayAvg = (displayHeight + displayWidth) / 2;
+
+        TextView message = dialogView.findViewById(R.id.dialog_message);
+        message.getLayoutParams().height = (int) (displayAvg * 0.08f);
+        message.setText("Quit to main menu?");
+
+        Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        positiveButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        positiveButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
+        Button negativeButton = dialogView.findViewById(R.id.negative_button);
+        negativeButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        negativeButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
+        AlertDialog dialog = builder.create();
+
+        positiveButton.setOnClickListener(v -> {
+
+            finish();
+        });
+
+        negativeButton.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        showExitConfirmation();
+    }
+
 
 
 }

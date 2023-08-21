@@ -36,27 +36,28 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
             android:layout_below="@id/backButton"
             android:text="Press Start"
             android:textColor="@color/white"
             android:fontFamily="@font/jost_variablewght"
-            android:textSize="50sp"/>
+            android:autoSizeTextType="uniform"/>
 
         <TextView
             android:id="@+id/level"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:layout_centerHorizontal="true"
             android:fontFamily="@font/jost_variablewght"
             android:text="Level 1"
             android:textAlignment="center"
             android:visibility="invisible"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="20sp"/>
 
         <RelativeLayout
             android:id="@+id/squaresLayout"
@@ -78,10 +79,7 @@
                 android:id="@+id/sq2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="5dp"
                 android:layout_toEndOf="@id/sq1"
                 android:background="@color/white" />
 
@@ -91,76 +89,119 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_toEndOf="@id/sq2"
-                android:background="@color/white"/>
+                android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/sq1"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@id/sq3"
                 android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq5"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/sq2"
-                android:layout_toEndOf="@id/sq4"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq1"
                 android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq6"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/sq3"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq2"
                 android:layout_toEndOf="@id/sq5"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq7"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_margin="5dp"
                 android:layout_below="@id/sq4"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@id/sq6"
                 android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq8"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/sq5"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq4"
                 android:layout_toEndOf="@id/sq7"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq9"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq5"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq10"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
                 android:layout_below="@id/sq6"
-                android:layout_toEndOf="@id/sq8"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@id/sq9"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq11"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq7"
+                android:layout_toEndOf="@id/sq10"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq12"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq8"
+                android:layout_toEndOf="@id/sq11"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq13"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq9"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq14"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq10"
+                android:layout_toEndOf="@id/sq13"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq15"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq11"
+                android:layout_toEndOf="@id/sq14"
+                android:background="@color/white" />
+
+            <Button
+                android:id="@+id/sq16"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/sq12"
+                android:layout_toEndOf="@id/sq15"
                 android:background="@color/white" />
 
 
@@ -171,29 +212,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/squaresLayout"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:padding="5dp"
             android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:text="Score: 3"
+            android:autoSizeTextType="uniform"
             android:visibility="invisible"
             android:textColor="@color/white"
             android:fontFamily="@font/jost_variablewght"
-            android:textFontWeight="700"
-            android:background="@drawable/dialog_button_rectangle"/>
+            android:textFontWeight="600"
+            android:background="@drawable/scores_bcg"/>
 
         <TextView
             android:id="@+id/highscore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_below="@id/score"
+            android:layout_marginTop="10dp"
             android:padding="5dp"
             android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:text="Highscore: 3"
+            android:autoSizeTextType="uniform"
             android:textColor="@color/white"
             android:fontFamily="@font/jost_variablewght"
-            android:textFontWeight="700"
-            android:background="@drawable/dialog_button_rectangle"/>
+            android:textFontWeight="600"
+            android:background="@drawable/scores_bcg"/>
 
         <android.widget.Button
             android:id="@+id/startBtn"
@@ -202,11 +247,13 @@
             android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:autoSizeTextType="uniform"
+            android:padding="10dp"
             android:text="START"
             android:textColor="@color/white"
             android:fontFamily="@font/jost_variablewght"
             android:textFontWeight="700"
-            android:background="@drawable/rectangle_light"
+            android:background="@drawable/start_rectangle"
             />
 
 

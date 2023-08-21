@@ -7,9 +7,12 @@
     <color name="light_blue">#00d7ff</color>
     <color name="medium_blue">#0096ff</color>
     <color name="darkest_blue">#5800ff</color>
+    <color name="transparent">#00ffffff</color>
     
     <color name="red">#ff002a</color>
     <color name="yellow">#fcff34</color>
-    <color name="green">#6dff02</color>
+    <color name="green">#228B22</color>
     <color name="blue">#2c00fb</color>
+
+    <color name="dark_purple">#2A0134</color>
 </resources>

@@ -39,6 +39,7 @@ public class Easy extends AppCompatActivity {
         back.setOnClickListener(view -> showExitConfirmationDialog());
         ImageButton reset = findViewById(R.id.redoButton);
 
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayWidth = metrics.widthPixels;
@@ -87,6 +88,10 @@ public class Easy extends AppCompatActivity {
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
+        final int[] levelTurnsPace = {2};
+
+        int delayStartSeq = 2000;       // Time in ms
+        int delayBetweenSeq = 3000;
 
         start.setOnClickListener(view -> {
 
@@ -95,7 +100,7 @@ public class Easy extends AppCompatActivity {
             scoreText.setText("Score: "+ (currentLevel[0] - 1));
             scoreText.setVisibility(View.VISIBLE);
 
-            startGameRun(levelTurns, correctSeq);
+            startGameRun(levelTurns, correctSeq, delayStartSeq, delayBetweenSeq);
 
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
@@ -114,7 +119,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq1.setAlpha(0.5F);
-                checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -129,7 +134,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq2.setAlpha(0.5F);
-                checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -144,7 +149,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq3.setAlpha(0.5F);
-                checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -159,7 +164,7 @@ public class Easy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq4.setAlpha(0.5F);
-                checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
 
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
@@ -181,7 +186,7 @@ public class Easy extends AppCompatActivity {
             currentScore[0] = 0;
             scoreText.setText("Score: " + currentScore[0]);
             turns[0] = levelTurns[0];
-            startGameRun(levelTurns, correctSeq);
+            startGameRun(levelTurns, correctSeq, delayStartSeq, delayBetweenSeq);
         });
 
     }
@@ -198,11 +203,24 @@ public class Easy extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.dialog_layout, null);
         builder.setView(dialogView);
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int displayWidth = metrics.widthPixels;
+        int displayHeight = metrics.heightPixels;
+        int displayAvg = (displayHeight + displayWidth) / 2;
+
         TextView message = dialogView.findViewById(R.id.dialog_message);
+        message.getLayoutParams().height = (int) (displayAvg * 0.08f);
         message.setText("Quit to main menu?");
 
         Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        positiveButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        positiveButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
         Button negativeButton = dialogView.findViewById(R.id.negative_button);
+        negativeButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        negativeButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {
@@ -227,12 +245,13 @@ public class Easy extends AppCompatActivity {
         sq4.setClickable(false);
     }
 
-    public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq){
+    public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq, int delayStartSeq, int delayBetweenSeq){
 
         final int[] turns = {levelTurns[0]};
         correctSeq.clear();
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
+
         title.setText("Watch the pattern");
         makeSquaresUnclickable();
         Handler handler = new Handler();
@@ -240,8 +259,6 @@ public class Easy extends AppCompatActivity {
             @Override
             public void run() {
                 if (turns[0] > 0){
-                    int delayStartSeq = 1200; // Delay in ms
-                    int delayBetweenSeq = 1800;
 
                     Button sq1 = findViewById(R.id.sq1);
                     Button sq2 = findViewById(R.id.sq2);
@@ -285,9 +302,9 @@ public class Easy extends AppCompatActivity {
                                 sq3.setClickable(true);
                                 sq4.setClickable(true);
                             }
-                        }, 2000);
+                        }, delayBetweenSeq);
                     }
-                    handler.postDelayed(this, delayStartSeq);
+                    handler.postDelayed(this, delayBetweenSeq);
                 }
             }
 
@@ -296,8 +313,11 @@ public class Easy extends AppCompatActivity {
     }
 
 
-    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns){
+    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
 
+
+        int delayStartSeq = 2000;
+        int delayBetweenSeq = 3000;
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         final int[] turns = {levelTurns[0]};
         final int[] overallHighscore = {0};
@@ -339,13 +359,21 @@ public class Easy extends AppCompatActivity {
             userIndex[0] = 0;
             userSeq.clear();
             correctSeq.clear();
-            levelTurns[0]++;
+            delayStartSeq -= 1000;
+            delayBetweenSeq -= 1000;
+            levelTurnsPace[0]--;
+            if(levelTurnsPace[0] == 0){
+                levelTurns[0]++;
+                levelTurnsPace[0] = 2;
+            }
             turns[0] = levelTurns[0];
             Handler handler = new Handler();
+            int finalDelayStartSeq = delayStartSeq;
+            int finalDelayBetweenSeq = delayBetweenSeq;
             Runnable afterCongrats = new Runnable() {
                 @Override
                 public void run() {
-                    startGameRun(levelTurns, correctSeq);
+                    startGameRun(levelTurns, correctSeq, finalDelayStartSeq, finalDelayBetweenSeq);
                 }
             };
             handler.postDelayed(afterCongrats, 2000);

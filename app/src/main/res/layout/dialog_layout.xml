@@ -15,13 +15,14 @@
 
     <TextView
         android:id="@+id/dialog_message"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Quit to main menu?"
+        android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
         android:textColor="@color/white"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:textAppearance="?android:textAppearanceMedium" />
 
     <LinearLayout
@@ -37,22 +38,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/dialog_button_rectangle"
+            android:padding="5dp"
             android:text="Yes"
+            android:autoSizeTextType="uniform"
             android:textColor="@color/white"
             android:fontFamily="@font/jost_variablewght"
-            android:textFontWeight="700"/>
+            android:textFontWeight="700"
+            android:background="@drawable/dialog_button_rectangle"/>
 
         <Button
             android:id="@+id/negative_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:background="@drawable/dialog_button_rectangle"
+            android:padding="5dp"
             android:text="No"
+            android:autoSizeTextType="uniform"
             android:textColor="@color/white"
             android:fontFamily="@font/jost_variablewght"
-            android:textFontWeight="700"/>
+            android:textFontWeight="700"
+            android:background="@drawable/dialog_button_rectangle"/>
 
     </LinearLayout>
 
