@@ -62,6 +62,7 @@
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="20sp"/>
 
+
         <RelativeLayout
             android:id="@+id/squaresLayout"
             android:layout_width="wrap_content"
@@ -72,22 +73,16 @@
                 android:id="@+id/sq1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/white" />
+                android:layout_margin="5dp"
+                android:background="@drawable/sq_bcg" />
 
             <Button
                 android:id="@+id/sq2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_margin="5dp"
                 android:layout_toEndOf="@id/sq1"
-                android:background="@color/white" />
+                android:background="@drawable/sq_bcg" />
 
             <Button
                 android:id="@+id/sq3"
@@ -95,19 +90,16 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_below="@id/sq1"
-                android:background="@color/white"/>
+                android:background="@drawable/sq_bcg"/>
 
             <Button
                 android:id="@+id/sq4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_margin="5dp"
                 android:layout_below="@id/sq2"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
                 android:layout_toEndOf="@id/sq3"
-                android:background="@color/white" />
+                android:background="@drawable/sq_bcg" />
 
         </RelativeLayout>
 
@@ -143,6 +135,20 @@
             android:fontFamily="@font/jost_variablewght"
             android:textFontWeight="700"
             android:background="@drawable/scores_bcg"/>
+
+        <TextView
+            android:id="@+id/newHScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/highscore"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="New Highscore!"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            android:textColor="@color/green"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="20sp"/>
 
         <android.widget.Button
             android:id="@+id/startBtn"

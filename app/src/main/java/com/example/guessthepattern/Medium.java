@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -23,6 +24,11 @@ public class Medium extends AppCompatActivity {
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
     private static final String highscoreKeyMedium = "highscoreKeyMedium"; // Key for saving the value
 
+    private MediaPlayer startSound;
+    private MediaPlayer sqSound;
+    private MediaPlayer gameOnSound;
+    private MediaPlayer repeatSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +36,14 @@ public class Medium extends AppCompatActivity {
 
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        sqSound = MediaPlayer.create(this, R.raw.sq_clicked);
+        sqSound.setLooping(false);
+        startSound = MediaPlayer.create(this, R.raw.start_sound);
+        startSound.setLooping(false);
+        gameOnSound = MediaPlayer.create(this, R.raw.gameon_sound);
+        gameOnSound.setLooping(true);
+        gameOnSound.start();
+        repeatSound = MediaPlayer.create(this, R.raw.repeat_sound);
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> showExitConfirmationDialog());
@@ -51,6 +65,16 @@ public class Medium extends AppCompatActivity {
         Button sq7 = findViewById(R.id.sq7);
         Button sq8 = findViewById(R.id.sq8);
         Button sq9 = findViewById(R.id.sq9);
+
+        sq1.setBackgroundResource(R.drawable.sq_bcg);
+        sq2.setBackgroundResource(R.drawable.sq_bcg);
+        sq3.setBackgroundResource(R.drawable.sq_bcg);
+        sq4.setBackgroundResource(R.drawable.sq_bcg);
+        sq5.setBackgroundResource(R.drawable.sq_bcg);
+        sq6.setBackgroundResource(R.drawable.sq_bcg);
+        sq7.setBackgroundResource(R.drawable.sq_bcg);
+        sq8.setBackgroundResource(R.drawable.sq_bcg);
+        sq9.setBackgroundResource(R.drawable.sq_bcg);
 
         sq1.getLayoutParams().width = (int) (displayWidth * screenPercent);
         sq1.getLayoutParams().height = (int) (displayWidth * screenPercent);
@@ -81,6 +105,9 @@ public class Medium extends AppCompatActivity {
         TextView level = findViewById(R.id.level);
         level.getLayoutParams().height = (int) (displayAvg * 0.06f);
 
+        TextView newScore = findViewById(R.id.newHScore);
+        newScore.getLayoutParams().height = (int) (displayAvg * 0.05f);
+
         final int[] currentLevel = {1};
         final int[] currentScore = {currentLevel[0] - 1};
         final int[] overallHighscore = {prefs.getInt("highscoreKeyMedium", 0)};
@@ -98,10 +125,12 @@ public class Medium extends AppCompatActivity {
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
+        final int[] levelTurnsPace = {4};
 
         start.setOnClickListener(view -> {
 
             start.setAlpha(0.5f);
+            startSound.start();
             level.setVisibility(View.VISIBLE);
             scoreText.setText("Score: "+ (currentLevel[0] - 1));
             scoreText.setVisibility(View.VISIBLE);
@@ -125,7 +154,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq1.setAlpha(0.5F);
-                checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -140,7 +171,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq2.setAlpha(0.5F);
-                checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -155,7 +188,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq3.setAlpha(0.5F);
-                checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -170,7 +205,10 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq4.setAlpha(0.5F);
-                checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+
+                checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
 
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
@@ -186,7 +224,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq5.setAlpha(0.5F);
-                checkSequence(sq5,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq5,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -201,7 +241,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq6.setAlpha(0.5F);
-                checkSequence(sq6,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq6,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -216,7 +258,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq7.setAlpha(0.5F);
-                checkSequence(sq7,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq7,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -231,7 +275,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq8.setAlpha(0.5F);
-                checkSequence(sq8,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq8,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -246,7 +292,9 @@ public class Medium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sq9.setAlpha(0.5F);
-                checkSequence(sq9,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns);
+                sqSound.seekTo(0);
+                sqSound.start();
+                checkSequence(sq9,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
                 Handler resetHandler = new Handler();
                 resetHandler.postDelayed(new Runnable() {
                     @Override
@@ -257,84 +305,23 @@ public class Medium extends AppCompatActivity {
             }
         });
 
-        makeSquaresUnclickable();
+        makeSqUnclickable();
 
         reset.setOnClickListener(view -> {
             reset.setVisibility(View.INVISIBLE);
+            gameOnSound.start();
             levelTurns[0] = 4;
             currentLevel[0] = 1;
             level.setText("Level: " + currentLevel[0]);
             currentScore[0] = 0;
             scoreText.setText("Score: " + currentScore[0]);
             turns[0] = levelTurns[0];
+            newScore.setVisibility(View.INVISIBLE);
             startGameRun(levelTurns, correctSeq);
         });
 
     }
 
-
-    @Override
-    public void onBackPressed() {
-        showExitConfirmationDialog();
-    }
-
-    private void showExitConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_layout, null);
-        builder.setView(dialogView);
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        int displayWidth = metrics.widthPixels;
-        int displayHeight = metrics.heightPixels;
-        int displayAvg = (displayHeight + displayWidth) / 2;
-
-        TextView message = dialogView.findViewById(R.id.dialog_message);
-        message.getLayoutParams().height = (int) (displayAvg * 0.08f);
-        message.setText("Quit to main menu?");
-
-        Button positiveButton = dialogView.findViewById(R.id.positive_button);
-        positiveButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
-        positiveButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
-
-        Button negativeButton = dialogView.findViewById(R.id.negative_button);
-        negativeButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
-        negativeButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
-
-        AlertDialog dialog = builder.create();
-
-        positiveButton.setOnClickListener(v -> {
-            finish();
-        });
-
-        negativeButton.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-        dialog.show();
-    }
-
-    public void makeSquaresUnclickable(){
-        Button sq1 = findViewById(R.id.sq1);
-        Button sq2 = findViewById(R.id.sq2);
-        Button sq3 = findViewById(R.id.sq3);
-        Button sq4 = findViewById(R.id.sq4);
-        Button sq5 = findViewById(R.id.sq5);
-        Button sq6 = findViewById(R.id.sq6);
-        Button sq7 = findViewById(R.id.sq7);
-        Button sq8 = findViewById(R.id.sq8);
-        Button sq9 = findViewById(R.id.sq9);
-
-        sq1.setClickable(false);
-        sq2.setClickable(false);
-        sq3.setClickable(false);
-        sq4.setClickable(false);
-        sq5.setClickable(false);
-        sq6.setClickable(false);
-        sq7.setClickable(false);
-        sq8.setClickable(false);
-        sq9.setClickable(false);
-    }
 
     public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq){
 
@@ -343,7 +330,7 @@ public class Medium extends AppCompatActivity {
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
         title.setText("Watch the pattern");
-        makeSquaresUnclickable();
+        makeSqUnclickable();
         Handler handler = new Handler();
         Runnable game = new Runnable() {
             @Override
@@ -394,15 +381,10 @@ public class Medium extends AppCompatActivity {
                             public void run() {
                                 title.setText("Repeat the pattern");
                                 level.setText(0 + "/" + levelTurns[0]);
-                                sq1.setClickable(true);
-                                sq2.setClickable(true);
-                                sq3.setClickable(true);
-                                sq4.setClickable(true);
-                                sq5.setClickable(true);
-                                sq6.setClickable(true);
-                                sq7.setClickable(true);
-                                sq8.setClickable(true);
-                                sq9.setClickable(true);
+                                if(repeatSound != null){
+                                    repeatSound.start();
+                                }
+                                makeSqClickable();
                             }
                         }, 2000);
                     }
@@ -414,8 +396,7 @@ public class Medium extends AppCompatActivity {
         handler.post(game);
     }
 
-
-    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns){
+    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         final int[] turns = {levelTurns[0]};
@@ -426,6 +407,7 @@ public class Medium extends AppCompatActivity {
         TextView level = findViewById(R.id.level);
         TextView scoreText = findViewById(R.id.score);
         TextView highscoreText = findViewById(R.id.highscore);
+        TextView newScore = findViewById(R.id.newHScore);
         ImageButton reset = findViewById(R.id.redoButton);
 
         userSeq.add(userIndex[0], sqAdded);
@@ -436,21 +418,28 @@ public class Medium extends AppCompatActivity {
         }else{
             title.setText("Game Over!");
             level.setText("Try again");
-            if (currentScore[0] >= overallHighscore[0]){
+            gameOnSound.stop();
+            gameOnSound.prepareAsync();
+            MediaPlayer gameOverSound = MediaPlayer.create(this, R.raw.game_over);
+            gameOverSound.start();
+            if (currentScore[0] >= overallHighscore[0] && currentScore[0] != 0){
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("highscoreKeyMedium", currentScore[0]);
                 editor.apply();
                 overallHighscore[0] = prefs.getInt("highscoreKeyMedium", 0);
+                newScore.setVisibility(View.VISIBLE);
             }
             highscoreText.setText("Highscore: " + overallHighscore[0]);
-            makeSquaresUnclickable();
+            makeSqUnclickable();
             userIndex[0] = 0;
             userSeq.clear();
             reset.setVisibility(View.VISIBLE);
         }
         if (userIndex[0] == levelTurns[0]){
-            title.setText("Congratulations!");
-            makeSquaresUnclickable();
+            title.setText("Correct!");
+            MediaPlayer correctSound = MediaPlayer.create(this, R.raw.correct_sound);
+            correctSound.start();
+            makeSqUnclickable();
             currentLevel[0]++;
             currentScore[0]++;
             level.setText("Level " + currentLevel[0]);
@@ -458,7 +447,11 @@ public class Medium extends AppCompatActivity {
             userIndex[0] = 0;
             userSeq.clear();
             correctSeq.clear();
-            levelTurns[0]++;
+            levelTurnsPace[0]--;
+            if(levelTurnsPace[0] == 0){
+                levelTurns[0]++;
+                levelTurnsPace[0] = 2;
+            }
             turns[0] = levelTurns[0];
             Handler handler = new Handler();
             Runnable afterCongrats = new Runnable() {
@@ -471,5 +464,111 @@ public class Medium extends AppCompatActivity {
         }
     }
 
+    public void makeSqUnclickable(){
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
+
+        sq1.setClickable(false);
+        sq2.setClickable(false);
+        sq3.setClickable(false);
+        sq4.setClickable(false);
+        sq5.setClickable(false);
+        sq6.setClickable(false);
+        sq7.setClickable(false);
+        sq8.setClickable(false);
+        sq9.setClickable(false);
+    }
+
+    public void makeSqClickable(){
+
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
+
+        sq1.setClickable(true);
+        sq2.setClickable(true);
+        sq3.setClickable(true);
+        sq4.setClickable(true);
+        sq5.setClickable(true);
+        sq6.setClickable(true);
+        sq7.setClickable(true);
+        sq8.setClickable(true);
+        sq9.setClickable(true);
+    }
+
+    private void showExitConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_layout, null);
+        builder.setView(dialogView);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int displayWidth = metrics.widthPixels;
+        int displayHeight = metrics.heightPixels;
+        int displayAvg = (displayHeight + displayWidth) / 2;
+
+        TextView message = dialogView.findViewById(R.id.dialog_message);
+        message.getLayoutParams().height = (int) (displayAvg * 0.08f);
+        message.setText("Quit to main menu?");
+
+        Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        positiveButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        positiveButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
+        Button negativeButton = dialogView.findViewById(R.id.negative_button);
+        negativeButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
+        negativeButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
+
+        AlertDialog dialog = builder.create();
+
+        positiveButton.setOnClickListener(v -> {
+            finish();
+        });
+
+        negativeButton.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        showExitConfirmationDialog();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (sqSound != null){
+            sqSound.release();
+            sqSound = null;
+        }
+        if (startSound != null){
+            startSound.release();
+            startSound = null;
+        }
+        if (gameOnSound != null){
+            gameOnSound.release();
+            gameOnSound = null;
+        }
+        if(repeatSound != null){
+            repeatSound.release();
+            repeatSound = null;
+        }
+    }
 
 }

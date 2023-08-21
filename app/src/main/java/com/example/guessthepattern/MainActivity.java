@@ -2,7 +2,10 @@ package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -12,8 +15,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.IOException;
 
+public class MainActivity extends AppCompatActivity {
+    private MediaPlayer themeSong;
+    private MediaPlayer levelEnter;
+    private boolean isPlaying = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         MyGlobals gob = new MyGlobals(this);
 
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        themeSong = MediaPlayer.create(this, R.raw.main_theme);
+        levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
@@ -46,36 +56,57 @@ public class MainActivity extends AppCompatActivity {
         difficulty.getLayoutParams().height = (int) (displayWidth * 0.15f);
 
         easyBtn.setOnClickListener(view -> {
-            gob.openActivity(Easy.class);
             easyBtn.setAlpha(0.5f);
+            levelEnter.start();
+            Intent intent = new Intent(this, Easy.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     easyBtn.setAlpha(1.0F); // Reset alpha to its original value
+                    ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
+                            view,  // The View you want to zoom from (e.g., a button or an ImageView)
+                            0, 0,  // Start position (left, top)
+                            view.getWidth(), view.getHeight()  // Final size after zoom
+                    );
+                    startActivity(intent, options.toBundle());
                 }
             }, 200);
         });
 
         mediumBtn.setOnClickListener(view -> {
-            gob.openActivity(Medium.class);
             mediumBtn.setAlpha(0.5f);
+            levelEnter.start();
+            Intent intent = new Intent(this, Medium.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mediumBtn.setAlpha(1.0F); // Reset alpha to its original value
+                    ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
+                            view,  // The View you want to zoom from (e.g., a button or an ImageView)
+                            0, 0,  // Start position (left, top)
+                            view.getWidth(), view.getHeight()  // Final size after zoom
+                    );
+                    startActivity(intent, options.toBundle());
                 }
             }, 200);
         });
         hardBtn.setOnClickListener(view -> {
-            gob.openActivity(Hard.class);
             hardBtn.setAlpha(0.5f);
+            levelEnter.start();
+            Intent intent = new Intent(this, Hard.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     hardBtn.setAlpha(1.0F); // Reset alpha to its original value
+                    ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
+                            view,  // The View you want to zoom from (e.g., a button or an ImageView)
+                            0, 0,  // Start position (left, top)
+                            view.getWidth(), view.getHeight()  // Final size after zoom
+                    );
+                    startActivity(intent, options.toBundle());
                 }
             }, 200);
         });
@@ -90,10 +121,54 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 logo.setImageResource(logoResources[currentIndex]);
                 currentIndex = (currentIndex + 1) % logoResources.length;
+                if (themeSong != null & !isPlaying){
+                    themeSong.start();
+                    themeSong.setLooping(true);
+                    isPlaying = true;
+                }
                 handler.postDelayed(this, delayMS);
             }
         };
         handler.postDelayed(runnable, delayMS);
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (themeSong != null) {
+            themeSong.stop();
+            themeSong.release();
+            themeSong = null;
+        }
+        if (levelEnter != null){
+            levelEnter.stop();
+            levelEnter.release();
+            levelEnter = null;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (themeSong != null && themeSong.isPlaying()) {
+            themeSong.stop();
+            try {
+                themeSong.prepare();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            isPlaying = true;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (themeSong != null && isPlaying) {
+            themeSong.start();
+            isPlaying = false;
+        }
+    }
+
 }

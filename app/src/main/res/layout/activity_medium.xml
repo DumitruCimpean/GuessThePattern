@@ -176,6 +176,20 @@
             android:textFontWeight="700"
             android:background="@drawable/scores_bcg"/>
 
+        <TextView
+            android:id="@+id/newHScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/highscore"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="New Highscore!"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            android:textColor="@color/green"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="20sp"/>
+
         <android.widget.Button
             android:id="@+id/startBtn"
             android:layout_width="wrap_content"
