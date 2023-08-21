@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class Easy extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayWidth = metrics.widthPixels;
         int displayHeight = metrics.heightPixels;
+        int displayAvg = (displayHeight + displayWidth) / 2;
         double screenPercent = 0.30;
 
         Button sq1 = findViewById(R.id.sq1);
@@ -59,29 +61,27 @@ public class Easy extends AppCompatActivity {
         sq4.getLayoutParams().height = (int) (displayWidth * screenPercent);
 
         Button start = findViewById(R.id.startBtn);
-        start.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        start.getLayoutParams().width = (int) (displayWidth * 0.30);
         start.getLayoutParams().height = (int) (displayWidth * 0.20);
-        double startTextSize = displayWidth * 0.025;
-        start.setTextSize((int)startTextSize);
 
-        double titleTextSize = displayWidth * 0.04;
         TextView title = findViewById(R.id.title);
-        title.setTextSize((int)titleTextSize);
+        title.getLayoutParams().height = (int) (displayAvg * 0.1f);
 
-        double levelTextSize = displayWidth * 0.02;
         TextView level = findViewById(R.id.level);
-        level.setTextSize((int)levelTextSize);
-
-        TextView scoreText = findViewById(R.id.score);
-        scoreText.setTextSize((int)levelTextSize);
+        level.getLayoutParams().height = (int) (displayAvg * 0.06f);
 
         final int[] currentLevel = {1};
         final int[] currentScore = {currentLevel[0] - 1};
         final int[] overallHighscore = {prefs.getInt("highscoreKey", 0)};
 
         TextView highscoreText = findViewById(R.id.highscore);
-        highscoreText.setTextSize((int)levelTextSize);
         highscoreText.setText("Highscore: " + overallHighscore[0]);
+        highscoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
+        highscoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
+
+        TextView scoreText = findViewById(R.id.score);
+        scoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
+        scoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
 
         ArrayList<Button> correctSeq = new ArrayList<>();
 
@@ -101,7 +101,7 @@ public class Easy extends AppCompatActivity {
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    start.setAlpha(0);
+                    start.setVisibility(View.INVISIBLE);
                 }
             }, 100);
         });

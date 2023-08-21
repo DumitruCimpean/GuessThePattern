@@ -72,7 +72,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@color/red" />
+                android:background="@color/lightest_blue" />
 
             <Button
                 android:id="@+id/sq2"
@@ -83,7 +83,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_toEndOf="@id/sq1"
-                android:background="@color/blue" />
+                android:background="@color/lightest_blue" />
 
             <Button
                 android:id="@+id/sq3"
@@ -91,7 +91,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_toEndOf="@id/sq2"
-                android:background="@color/green"/>
+                android:background="@color/lightest_blue"/>
 
             <Button
                 android:id="@+id/sq4"
@@ -102,7 +102,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@color/yellow" />
+                android:background="@color/lightest_blue" />
 
             <Button
                 android:id="@+id/sq5"
@@ -114,7 +114,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#00ffc8" />
+                android:background="@color/lightest_blue" />
 
             <Button
                 android:id="@+id/sq6"
@@ -126,7 +126,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@color/white" />
+                android:background="@color/lightest_blue" />
 
             <Button
                 android:id="@+id/sq7"
@@ -137,7 +137,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#805cf7" />
+                android:background="@color/lightest_blue" />
 
             <Button
                 android:id="@+id/sq8"
@@ -149,7 +149,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#ff00c9" />
+                android:background="@color/lightest_blue" />
 
             <Button
                 android:id="@+id/sq9"
@@ -161,7 +161,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#ff7d00" />
+                android:background="@color/lightest_blue" />
 
 
         </RelativeLayout>

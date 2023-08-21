@@ -26,28 +26,24 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayWidth = metrics.widthPixels;
         int displayHeight = metrics.heightPixels;
-        double screenPercent = 0.60F;
 
         final ImageView logo = findViewById(R.id.gtpLogo);
-        logo.getLayoutParams().width = (int) (displayWidth * screenPercent);
+        logo.getLayoutParams().height = (int) (displayHeight * 0.25f);
 
         Button easyBtn = findViewById(R.id.diffEasy);
-        easyBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        easyBtn.setTextSize(displayHeight * 0.013F);
+        easyBtn.getLayoutParams().width = (int) (displayWidth * 0.7);
 
         Button mediumBtn = findViewById(R.id.diffMedium);
-        mediumBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        mediumBtn.setTextSize(displayHeight * 0.013F);
+        mediumBtn.getLayoutParams().width = (int) (displayWidth * 0.7);
 
         Button hardBtn = findViewById(R.id.diffHard);
-        hardBtn.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        hardBtn.setTextSize(displayHeight * 0.013F);
+        hardBtn.getLayoutParams().width = (int) (displayWidth * 0.7);
 
         TextView welcome = findViewById(R.id.welcomeTitle);
-        welcome.setTextSize(displayHeight * 0.02F);
+        welcome.getLayoutParams().height = (int) (displayWidth * 0.20f);
 
         TextView difficulty = findViewById(R.id.difficultyTitle);
-        difficulty.setTextSize(displayHeight * 0.02F);
+        difficulty.getLayoutParams().height = (int) (displayWidth * 0.15f);
 
         easyBtn.setOnClickListener(view -> {
             gob.openActivity(Easy.class);
