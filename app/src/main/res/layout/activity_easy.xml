@@ -72,15 +72,22 @@
                 android:id="@+id/sq1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@color/red"/>
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white" />
+
             <Button
                 android:id="@+id/sq2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_toEndOf="@id/sq1"
-                android:background="@color/blue"/>
+                android:background="@color/white" />
 
             <Button
                 android:id="@+id/sq3"
@@ -88,7 +95,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:layout_below="@id/sq1"
-                android:background="@color/green"/>
+                android:background="@color/white"/>
 
             <Button
                 android:id="@+id/sq4"
@@ -100,7 +107,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_toEndOf="@id/sq3"
-                android:background="@color/yellow" />
+                android:background="@color/white" />
 
         </RelativeLayout>
 
