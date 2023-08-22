@@ -1,4 +1,6 @@
-<img align="center" width="400" height="400" src="https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/9c3d7d7c-df1a-4023-9f5c-de38f0525d91">
+<p align = "center">
+<img width="400" height="400" src="https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/9c3d7d7c-df1a-4023-9f5c-de38f0525d91">
+</p>
 
 _**Guess the Pattern**_ is a game where the player is shown a sequence on a grid of squares, then they have to click the squares in that sequence to **level up.**
 
