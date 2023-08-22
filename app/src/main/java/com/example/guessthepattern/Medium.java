@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,7 @@ public class Medium extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_medium);
 
 
@@ -309,6 +311,7 @@ public class Medium extends AppCompatActivity {
 
         reset.setOnClickListener(view -> {
             reset.setVisibility(View.INVISIBLE);
+            startSound.start();
             gameOnSound.start();
             levelTurns[0] = 4;
             currentLevel[0] = 1;
