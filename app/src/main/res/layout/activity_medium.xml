@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,17 +7,24 @@
     android:background="@color/dark_grey"
     tools:context=".Medium">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="15dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/arrow" />
@@ -25,188 +32,298 @@
         <ImageButton
             android:id="@+id/redoButton"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="15dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:visibility="invisible"
-            android:src="@drawable/tryagain_arrow" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:layout_below="@id/backButton"
-            android:text="Press Start"
-            android:textColor="@color/white"
-            android:fontFamily="@font/jost_variablewght"
-            android:autoSizeTextType="uniform"/>
-
-        <TextView
-            android:id="@+id/level"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:fontFamily="@font/jost_variablewght"
-            android:text="Level 1"
-            android:textAlignment="center"
-            android:visibility="invisible"
-            android:textColor="@color/white"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="20sp"/>
-
-        <RelativeLayout
-            android:id="@+id/squaresLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-            <Button
-                android:id="@+id/sq1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_toEndOf="@id/sq1"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_toEndOf="@id/sq2"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq4"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_below="@id/sq1"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq5"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_below="@id/sq2"
-                android:layout_toEndOf="@id/sq4"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq6"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_below="@id/sq3"
-                android:layout_toEndOf="@id/sq5"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq7"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_below="@id/sq4"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq8"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_below="@id/sq5"
-                android:layout_toEndOf="@id/sq7"
-                android:background="@color/white" />
-
-            <Button
-                android:id="@+id/sq9"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:layout_below="@id/sq6"
-                android:layout_toEndOf="@id/sq8"
-                android:background="@color/white" />
-
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/squaresLayout"
-            android:layout_marginTop="20dp"
-            android:padding="5dp"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"
-            android:text="Score: 3"
-            android:autoSizeTextType="uniform"
-            android:visibility="invisible"
-            android:textColor="@color/white"
-            android:fontFamily="@font/jost_variablewght"
-            android:textFontWeight="700"
-            android:background="@drawable/scores_bcg"/>
-
-        <TextView
-            android:id="@+id/highscore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/score"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"
-            android:text="Highscore: 3"
-            android:autoSizeTextType="uniform"
-            android:textColor="@color/white"
-            android:fontFamily="@font/jost_variablewght"
-            android:textFontWeight="700"
-            android:background="@drawable/scores_bcg"/>
-
-        <TextView
-            android:id="@+id/newHScore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/highscore"
-            android:fontFamily="@font/jost_variablewght"
-            android:text="New Highscore!"
-            android:textAlignment="center"
-            android:visibility="invisible"
-            android:textColor="@color/green"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="20sp"/>
-
-        <android.widget.Button
-            android:id="@+id/startBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:autoSizeTextType="uniform"
-            android:padding="10dp"
-            android:text="START"
-            android:textColor="@color/white"
-            android:fontFamily="@font/jost_variablewght"
-            android:textFontWeight="700"
-            android:background="@drawable/start_rectangle"
-            />
-
+            android:src="@drawable/tryagain_arrow"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:text="Press Start"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/level"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <TextView
+        android:id="@+id/level"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:text="Level 1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.672"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <Button
+        android:id="@+id/nextLevel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/nextlvl_bcg"
+        android:text="NEXT LEVEL"
+        android:textColor="@color/white"
+        android:autoSizeTextType="uniform"
+        android:padding="10dp"
+        android:visibility="invisible"
+        app:layout_constraintHeight_percent="0.14"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/squaresLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <!-- Row 1 -->
+        <Button
+            android:id="@+id/sq1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toTopOf="@id/sq4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/sq2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/sq2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toTopOf="@id/sq5"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/sq3"
+            app:layout_constraintStart_toEndOf="@id/sq1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/sq3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toTopOf="@id/sq6"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sq2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Row 2 -->
+        <Button
+            android:id="@+id/sq4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toTopOf="@id/sq7"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/sq5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sq1" />
+
+        <Button
+            android:id="@+id/sq5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toTopOf="@id/sq8"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/sq6"
+            app:layout_constraintStart_toEndOf="@id/sq4"
+            app:layout_constraintTop_toBottomOf="@id/sq2" />
+
+        <Button
+            android:id="@+id/sq6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toTopOf="@id/sq9"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sq5"
+            app:layout_constraintTop_toBottomOf="@id/sq3" />
+
+        <!-- Row 3 -->
+        <Button
+            android:id="@+id/sq7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/sq8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sq4" />
+
+        <Button
+            android:id="@+id/sq8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/sq9"
+            app:layout_constraintStart_toEndOf="@id/sq7"
+            app:layout_constraintTop_toBottomOf="@id/sq5" />
+
+        <Button
+            android:id="@+id/sq9"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg"
+            android:text=" "
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sq8"
+            app:layout_constraintTop_toBottomOf="@id/sq6" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/scores_bcg"
+        android:fontFamily="@font/jost_variablewght"
+        android:padding="5dp"
+        android:text="Score: 3"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/startBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/squaresLayout"
+        app:layout_constraintVertical_bias="0.24"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <TextView
+        android:id="@+id/highscore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/scores_bcg"
+        android:fontFamily="@font/jost_variablewght"
+        android:padding="5dp"
+        android:text="Highscore: 3"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/squaresLayout"
+        app:layout_constraintVertical_bias="0.349"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <TextView
+        android:id="@+id/newHScore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:text="New Highscore!"
+        android:textAlignment="center"
+        android:textColor="@color/green"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/startBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/highscore"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <android.widget.Button
+        android:id="@+id/startBtn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/start_rectangle"
+        android:fontFamily="@font/jost_variablewght"
+        android:padding="10dp"
+        android:text="START"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.978"
+        app:layout_constraintWidth_percent="0.3" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

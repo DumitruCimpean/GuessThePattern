@@ -5,10 +5,9 @@
     <gradient
         android:startColor="@color/light_blue"
         android:endColor="@color/darkest_blue"
-        android:angle="1"/>
+        android:angle="270"/>
     <stroke
-        android:color="@color/black"
-        android:width="0dp"/>
+        android:color="@color/black" />
 
     <corners android:radius="5dp"/>
 

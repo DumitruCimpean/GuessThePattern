@@ -22,7 +22,6 @@ import java.util.Random;
 
 public class Easy extends AppCompatActivity {
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
-    private static final String highscoreKey = "highscoreKey"; // Key for saving the value
 
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
@@ -51,62 +50,33 @@ public class Easy extends AppCompatActivity {
         back.setOnClickListener(view -> showExitConfirmationDialog());
         ImageButton reset = findViewById(R.id.redoButton);
 
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        int displayWidth = metrics.widthPixels;
-        int displayHeight = metrics.heightPixels;
-        int displayAvg = (displayHeight + displayWidth) / 2;
-        double screenPercent = 0.30;
-
         Button sq1 = findViewById(R.id.sq1);
         Button sq2 = findViewById(R.id.sq2);
         Button sq3 = findViewById(R.id.sq3);
         Button sq4 = findViewById(R.id.sq4);
 
-        sq1.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        sq1.getLayoutParams().height = (int) (displayWidth * screenPercent);
-        sq2.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        sq2.getLayoutParams().height = (int) (displayWidth * screenPercent);
-        sq3.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        sq3.getLayoutParams().height = (int) (displayWidth * screenPercent);
-        sq4.getLayoutParams().width = (int) (displayWidth * screenPercent);
-        sq4.getLayoutParams().height = (int) (displayWidth * screenPercent);
 
         Button start = findViewById(R.id.startBtn);
-        start.getLayoutParams().width = (int) (displayWidth * 0.30);
-        start.getLayoutParams().height = (int) (displayWidth * 0.20);
-
-        TextView title = findViewById(R.id.title);
-        title.getLayoutParams().height = (int) (displayAvg * 0.1f);
-
         TextView level = findViewById(R.id.level);
-        level.getLayoutParams().height = (int) (displayAvg * 0.06f);
-
         TextView newScore = findViewById(R.id.newHScore);
-        newScore.getLayoutParams().height = (int) (displayAvg * 0.05f);
 
         final int[] currentLevel = {1};
-        final int[] currentScore = {currentLevel[0] - 1};
+        final int[] currentScore = {0};
         final int[] overallHighscore = {prefs.getInt("highscoreKey", 0)};
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("scoreKey", currentScore[0]);
+        editor.apply();
 
         TextView highscoreText = findViewById(R.id.highscore);
         highscoreText.setText("Highscore: " + overallHighscore[0]);
-        highscoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
-        highscoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
 
         TextView scoreText = findViewById(R.id.score);
-        scoreText.getLayoutParams().height = (int) (displayHeight * 0.04f);
-        scoreText.getLayoutParams().width = (int) (displayWidth * 0.3f);
 
         ArrayList<Button> correctSeq = new ArrayList<>();
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
         final int[] levelTurnsPace = {4};
-
-        int delayStartSeq = 1000;       // Time in ms
-        int delayBetweenSeq = 1500;
 
         start.setOnClickListener(view -> {
 
@@ -117,88 +87,62 @@ public class Easy extends AppCompatActivity {
             scoreText.setText("Score: "+ (currentLevel[0] - 1));
             scoreText.setVisibility(View.VISIBLE);
 
-            startGameRun(levelTurns, correctSeq, delayStartSeq, delayBetweenSeq);
+            startGameRun(levelTurns, correctSeq);
 
             Handler resetHandler = new Handler();
-            resetHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    start.setVisibility(View.INVISIBLE);
-                }
-            }, 100);
+            resetHandler.postDelayed(() -> start.setVisibility(View.INVISIBLE), 100);
         });
 
         int sqPressedDelay = 200;
         final int[] userIndex = {0};
         ArrayList<Button> userSeq = new ArrayList<>();
 
-        sq1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sq1.setAlpha(0.5F);
-                sqSound.seekTo(0);
-                sqSound.start();
-                checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
-                Handler resetHandler = new Handler();
-                resetHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sq1.setAlpha(1.0F); // Reset alpha to its original value
-                    }
-                }, sqPressedDelay);
-            }
+        sq1.setOnClickListener(view -> {
+            sq1.setAlpha(0.5F);
+            sqSound.seekTo(0);
+            sqSound.start();
+            checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
+
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(() -> {
+                sq1.setAlpha(1.0F); // Reset alpha to its original value
+            }, sqPressedDelay);
         });
 
-        sq2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sq2.setAlpha(0.5F);
-                sqSound.seekTo(0);
-                sqSound.start();
-                checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
-                Handler resetHandler = new Handler();
-                resetHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sq2.setAlpha(1.0F); // Reset alpha to its original value
-                    }
-                }, sqPressedDelay);
-            }
+        sq2.setOnClickListener(view -> {
+            sq2.setAlpha(0.5F);
+            sqSound.seekTo(0);
+            sqSound.start();
+            checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
+
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(() -> {
+                sq2.setAlpha(1.0F); // Reset alpha to its original value
+            }, sqPressedDelay);
         });
 
-        sq3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sq3.setAlpha(0.5F);
-                sqSound.seekTo(0);
-                sqSound.start();
-                checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
-                Handler resetHandler = new Handler();
-                resetHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sq3.setAlpha(1.0F); // Reset alpha to its original value
-                    }
-                }, sqPressedDelay);
-            }
+        sq3.setOnClickListener(view -> {
+            sq3.setAlpha(0.5F);
+            sqSound.seekTo(0);
+            sqSound.start();
+            checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
+
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(() -> {
+                sq3.setAlpha(1.0F); // Reset alpha to its original value
+            }, sqPressedDelay);
         });
 
-        sq4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sq4.setAlpha(0.5F);
-                sqSound.seekTo(0);
-                sqSound.start();
-                checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
+        sq4.setOnClickListener(view -> {
+            sq4.setAlpha(0.5F);
+            sqSound.seekTo(0);
+            sqSound.start();
+            checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
 
-                Handler resetHandler = new Handler();
-                resetHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sq4.setAlpha(1.0F); // Reset alpha to its original value
-                    }
-                }, sqPressedDelay);
-            }
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(() -> {
+                sq4.setAlpha(1.0F); // Reset alpha to its original value
+            }, sqPressedDelay);
         });
 
         makeSqUnclickable();
@@ -214,13 +158,13 @@ public class Easy extends AppCompatActivity {
             scoreText.setText("Score: " + currentScore[0]);
             turns[0] = levelTurns[0];
             newScore.setVisibility(View.INVISIBLE);
-            startGameRun(levelTurns, correctSeq, delayStartSeq, delayBetweenSeq);
+            startGameRun(levelTurns, correctSeq);
         });
 
     }
 
 
-    public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq, int delayStartSeq, int delayBetweenSeq){
+    public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq){
 
         final int[] turns = {levelTurns[0]};
         correctSeq.clear();
@@ -230,16 +174,23 @@ public class Easy extends AppCompatActivity {
         title.setText("Watch the pattern");
         makeSqUnclickable();
 
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+
+        Button[] squares = {sq1, sq2, sq3, sq4};
+        for (Button square : squares) {
+            square.setAlpha(1);
+        }
+
         Handler handler = new Handler();
         Runnable game = new Runnable() {
             @Override
             public void run() {
                 if (turns[0] > 0){
-
-                    Button sq1 = findViewById(R.id.sq1);
-                    Button sq2 = findViewById(R.id.sq2);
-                    Button sq3 = findViewById(R.id.sq3);
-                    Button sq4 = findViewById(R.id.sq4);
+                    int delayStartSeq = 1000; // Delay in ms
+                    int delayBetweenSeq = 1800;
 
                     Button[] squares = {sq1, sq2, sq3, sq4};
 
@@ -248,39 +199,27 @@ public class Easy extends AppCompatActivity {
                     int randomIndex = random.nextInt(squares.length);
                     Button randomSq = squares[randomIndex];
 
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            randomSq.setAlpha(1);
-                        }
-                    };
+                    Runnable runnable = () -> randomSq.setAlpha(1);
                     handler.postDelayed(runnable, delayBetweenSeq);
 
-                    Runnable runnable2 = new Runnable() {
-                        @Override
-                        public void run() {
-                            randomSq.setAlpha(0.5F);
-                            correctSeq.add(randomSq);
-                        }
-
+                    Runnable runnable2 = () -> {
+                        randomSq.setAlpha(0.5F);
+                        correctSeq.add(randomSq);
                     };
                     handler.postDelayed(runnable2, delayStartSeq);
                     turns[0]--;
                     if (turns[0] == 0) {
                         Handler titleHandler = new Handler();
-                        titleHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                title.setText("Repeat the pattern");
-                                level.setText(0 + "/" + levelTurns[0]);
-                                if(repeatSound != null){
-                                    repeatSound.start();
-                                }
-                                makeSqClickable();
+                        titleHandler.postDelayed(() -> {
+                            title.setText("Repeat the pattern");
+                            level.setText(0 + "/" + levelTurns[0]);
+                            if(repeatSound != null){
+                                repeatSound.start();
                             }
+                            makeSqClickable();
                         }, delayBetweenSeq);
                     }
-                    handler.postDelayed(this, delayBetweenSeq);
+                    handler.postDelayed(this, 1500);
                 }
             }
 
@@ -290,9 +229,6 @@ public class Easy extends AppCompatActivity {
 
     public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
 
-
-        int delayStartSeq = 2000;
-        int delayBetweenSeq = 2500;
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         final int[] turns = {levelTurns[0]};
         final int[] overallHighscore = {0};
@@ -300,10 +236,11 @@ public class Easy extends AppCompatActivity {
 
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
-        TextView newScore = findViewById(R.id.newHScore);
         TextView scoreText = findViewById(R.id.score);
         TextView highscoreText = findViewById(R.id.highscore);
+        TextView newScore = findViewById(R.id.newHScore);
         ImageButton reset = findViewById(R.id.redoButton);
+        Button nextLevel = findViewById(R.id.nextLevel);
 
         userSeq.add(userIndex[0], sqAdded);
 
@@ -317,7 +254,7 @@ public class Easy extends AppCompatActivity {
             gameOnSound.prepareAsync();
             MediaPlayer gameOverSound = MediaPlayer.create(this, R.raw.game_over);
             gameOverSound.start();
-            if (currentScore[0] >= overallHighscore[0] && currentScore[0] != 0){
+            if (currentScore[0] > overallHighscore[0]){
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("highscoreKey", currentScore[0]);
                 editor.apply();
@@ -337,29 +274,38 @@ public class Easy extends AppCompatActivity {
             makeSqUnclickable();
             currentLevel[0]++;
             currentScore[0]++;
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("scoreKey", currentScore[0]);
+            editor.apply();
             level.setText("Level " + currentLevel[0]);
             scoreText.setText("Score: " + currentScore[0]);
             userIndex[0] = 0;
             userSeq.clear();
             correctSeq.clear();
-            delayStartSeq -= 1000;
-            delayBetweenSeq -= 1000;
             levelTurnsPace[0]--;
             if(levelTurnsPace[0] == 0){
                 levelTurns[0]++;
                 levelTurnsPace[0] = 2;
             }
+            nextLevel.setOnClickListener(view -> {
+                startGameRun(levelTurns, correctSeq);
+                nextLevel.setVisibility(View.INVISIBLE);
+            });
             turns[0] = levelTurns[0];
             Handler handler = new Handler();
-            int finalDelayStartSeq = delayStartSeq;
-            int finalDelayBetweenSeq = delayBetweenSeq;
-            Runnable afterCongrats = new Runnable() {
-                @Override
-                public void run() {
-                    startGameRun(levelTurns, correctSeq, finalDelayStartSeq, finalDelayBetweenSeq);
+            Runnable afterCongrats = () -> {
+                nextLevel.setVisibility(View.VISIBLE);
+                Button sq1 = findViewById(R.id.sq1);
+                Button sq2 = findViewById(R.id.sq2);
+                Button sq3 = findViewById(R.id.sq3);
+                Button sq4 = findViewById(R.id.sq4);
+
+                Button[] squares = {sq1, sq2, sq3, sq4};
+                for (Button square : squares) {
+                    square.setAlpha(0.5f);
                 }
             };
-            handler.postDelayed(afterCongrats, 2000);
+            handler.postDelayed(afterCongrats, 500);
         }
     }
 
@@ -421,9 +367,7 @@ public class Easy extends AppCompatActivity {
 
         });
 
-        negativeButton.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        negativeButton.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 
@@ -435,6 +379,20 @@ public class Easy extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        final int[] overallHighscore = {0};
+        final int[] currentScore = {0};
+        overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+        currentScore[0] = prefs.getInt("scoreKey", 0);
+
+        if (currentScore[0] > overallHighscore[0]){
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("highscoreKey", currentScore[0]);
+            editor.apply();
+            overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+        }
+
+
         if (sqSound != null){
             sqSound.release();
             sqSound = null;
@@ -450,6 +408,23 @@ public class Easy extends AppCompatActivity {
         if(repeatSound != null){
             repeatSound.release();
             repeatSound = null;
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (gameOnSound != null){
+            gameOnSound.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (gameOnSound != null){
+            gameOnSound.start();
         }
     }
 }
