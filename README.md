@@ -1,5 +1,6 @@
-<img align="left" width="100" height="100" src="https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/9c3d7d7c-df1a-4023-9f5c-de38f0525d91">
-_**Guess The Pattern**_ is a game where the player is shown a sequence on a grid of squares, then they have to click the squares in that sequence to **level up.**
+<img align="center" width="400" height="400" src="https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/9c3d7d7c-df1a-4023-9f5c-de38f0525d91">
+
+_**Guess the Pattern**_ is a game where the player is shown a sequence on a grid of squares, then they have to click the squares in that sequence to **level up.**
 
 As the player progresses through the game, the sequence they have to repeat becomes longer and longer, until they press the wrong button and it's **Game Over**, after that the player has to start again from **Level 1**
 
