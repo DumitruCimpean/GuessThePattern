@@ -1,4 +1,4 @@
-![gtp_logo](https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/9c3d7d7c-df1a-4023-9f5c-de38f0525d91)
+![gtp_logo](https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/9c3d7d7c-df1a-4023-9f5c-de38f0525d91 width="600" height="300")
 _**Guess The Pattern**_ is a game where the player is shown a sequence on a grid of squares, then they have to click the squares in that sequence to **level up.**
 
 As the player progresses through the game, the sequence they have to repeat becomes longer and longer, until they press the wrong button and it's **Game Over**, after that the player has to start again from **Level 1**
