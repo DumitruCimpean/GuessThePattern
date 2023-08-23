@@ -76,7 +76,7 @@ public class Easy extends AppCompatActivity {
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
-        final int[] levelTurnsPace = {prefs.getInt("scoreKey", 0)};
+        final int[] levelTurnsPace = {prefs.getInt("paceKey", 0)};
 
         start.setOnClickListener(view -> {
 
