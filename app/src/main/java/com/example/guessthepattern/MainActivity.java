@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer themeSong;
     private MediaPlayer levelEnter;
     private boolean isPlaying = false;
+
+    // TODO: More personalization, settings menu, ui tweaks for tablets and landscape mode, unlock levels on certain highscores?, global leaderboard
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         MyGlobals gob = new MyGlobals(this);
 
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("paceKey", 2);
+        editor.apply();
 
         themeSong = MediaPlayer.create(this, R.raw.main_theme);
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);

@@ -76,7 +76,7 @@ public class Easy extends AppCompatActivity {
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
-        final int[] levelTurnsPace = {4};
+        final int[] levelTurnsPace = {prefs.getInt("scoreKey", 0)};
 
         start.setOnClickListener(view -> {
 
@@ -152,6 +152,7 @@ public class Easy extends AppCompatActivity {
             startSound.start();
             gameOnSound.start();
             levelTurns[0] = 4;
+            levelTurnsPace[0] = prefs.getInt("paceKey", 0);
             currentLevel[0] = 1;
             level.setText("Level: " + currentLevel[0]);
             currentScore[0] = 0;
@@ -179,10 +180,7 @@ public class Easy extends AppCompatActivity {
         Button sq3 = findViewById(R.id.sq3);
         Button sq4 = findViewById(R.id.sq4);
 
-        Button[] squares = {sq1, sq2, sq3, sq4};
-        for (Button square : squares) {
-            square.setAlpha(1);
-        }
+        changeSqAlpha(1.0f);
 
         Handler handler = new Handler();
         Runnable game = new Runnable() {
@@ -265,7 +263,11 @@ public class Easy extends AppCompatActivity {
             makeSqUnclickable();
             userIndex[0] = 0;
             userSeq.clear();
-            reset.setVisibility(View.VISIBLE);
+            Handler handler = new Handler();
+            Runnable afterGameOver = () -> {
+                changeSqAlpha(0.5f);
+                reset.setVisibility(View.VISIBLE);
+            };handler.postDelayed(afterGameOver, 300);
         }
         if (userIndex[0] == levelTurns[0]){
             title.setText("Correct!");
@@ -295,15 +297,7 @@ public class Easy extends AppCompatActivity {
             Handler handler = new Handler();
             Runnable afterCongrats = () -> {
                 nextLevel.setVisibility(View.VISIBLE);
-                Button sq1 = findViewById(R.id.sq1);
-                Button sq2 = findViewById(R.id.sq2);
-                Button sq3 = findViewById(R.id.sq3);
-                Button sq4 = findViewById(R.id.sq4);
-
-                Button[] squares = {sq1, sq2, sq3, sq4};
-                for (Button square : squares) {
-                    square.setAlpha(0.5f);
-                }
+                changeSqAlpha(0.5f);
             };
             handler.postDelayed(afterCongrats, 500);
         }
@@ -333,6 +327,19 @@ public class Easy extends AppCompatActivity {
         sq2.setClickable(true);
         sq3.setClickable(true);
         sq4.setClickable(true);
+    }
+
+    public void changeSqAlpha(float alphaValue){
+
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+
+        Button[] squares = {sq1, sq2, sq3, sq4};
+        for (Button square : squares) {
+            square.setAlpha(alphaValue);
+        }
     }
 
     private void showExitConfirmationDialog() {

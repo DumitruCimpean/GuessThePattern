@@ -8,38 +8,23 @@
     tools:context=".Medium">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintWidth_percent="0.1" />
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/arrow" />
-
-        <ImageButton
-            android:id="@+id/redoButton"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/tryagain_arrow"
-            android:visibility="visible" />
-
-    </RelativeLayout>
 
     <TextView
         android:id="@+id/title"
@@ -50,13 +35,12 @@
         android:text="Press Start"
         android:textAlignment="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/level"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.083"
         app:layout_constraintWidth_percent="0.8" />
 
     <TextView
@@ -70,48 +54,28 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.672"
-        app:layout_constraintWidth_percent="0.8" />
-
-    <Button
-        android:id="@+id/nextLevel"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/nextlvl_bcg"
-        android:text="NEXT LEVEL"
-        android:textColor="@color/white"
-        android:autoSizeTextType="uniform"
-        android:padding="10dp"
-        android:visibility="invisible"
-        app:layout_constraintHeight_percent="0.14"
-        app:layout_constraintWidth_percent="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.8" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/squaresLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/score"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintTop_toBottomOf="@+id/level"
+        app:layout_constraintVertical_bias="0.647">
 
-        <!-- Row 1 -->
+
         <Button
             android:id="@+id/sq1"
             android:layout_width="0dp"
@@ -240,9 +204,46 @@
             app:layout_constraintStart_toEndOf="@id/sq8"
             app:layout_constraintTop_toBottomOf="@id/sq6" />
 
+        <Button
+            android:id="@+id/nextLevel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/nextlvl_bcg"
+            android:padding="10dp"
+            android:text="NEXT LEVEL"
+            android:textColor="@color/white"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <ImageButton
+            android:id="@+id/redoButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/nextlvl_bcg"
+            android:elevation="4dp"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/tryagain_arrow"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintWidth_percent="0.4" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     <TextView
         android:id="@+id/score"
@@ -260,9 +261,10 @@
         app:layout_constraintBottom_toTopOf="@+id/startBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/squaresLayout"
-        app:layout_constraintVertical_bias="0.24"
+        app:layout_constraintTop_toBottomOf="@+id/level"
+        app:layout_constraintVertical_bias="0.833"
         app:layout_constraintWidth_percent="0.2" />
 
     <TextView
@@ -273,23 +275,24 @@
         android:background="@drawable/scores_bcg"
         android:fontFamily="@font/jost_variablewght"
         android:padding="5dp"
+        android:layout_marginTop="10dp"
         android:text="Highscore: 3"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textFontWeight="700"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/startBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/squaresLayout"
-        app:layout_constraintVertical_bias="0.349"
+        app:layout_constraintTop_toBottomOf="@+id/score"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent="0.3" />
 
     <TextView
         android:id="@+id/newHScore"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
         android:text="New Highscore!"
@@ -299,7 +302,7 @@
         app:layout_constraintBottom_toTopOf="@+id/startBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/highscore"
         app:layout_constraintVertical_bias="0.0"
@@ -309,6 +312,7 @@
         android:id="@+id/startBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/start_rectangle"
         android:fontFamily="@font/jost_variablewght"

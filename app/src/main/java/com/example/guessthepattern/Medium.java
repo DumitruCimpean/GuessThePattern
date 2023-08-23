@@ -20,8 +20,6 @@ import java.util.Random;
 
 public class Medium extends AppCompatActivity {
 
-    // TODO: UI changes: autoSizing for text and more layout tweaks, in Hard.java as well;
-    // TODO: Difficulty balancing: turns increase slower, show the pattern more (slower flashing);
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
 
     private MediaPlayer startSound;
@@ -79,7 +77,7 @@ public class Medium extends AppCompatActivity {
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
-        final int[] levelTurnsPace = {4};
+        final int[] levelTurnsPace = {prefs.getInt("scoreKey", 0)};
 
         start.setOnClickListener(view -> {
 
@@ -208,6 +206,7 @@ public class Medium extends AppCompatActivity {
             gameOnSound.start();
             levelTurns[0] = 4;
             currentLevel[0] = 1;
+            levelTurnsPace[0] = prefs.getInt("paceKey", 0);
             level.setText("Level: " + currentLevel[0]);
             currentScore[0] = 0;
             scoreText.setText("Score: " + currentScore[0]);
@@ -239,10 +238,7 @@ public class Medium extends AppCompatActivity {
         Button sq8 = findViewById(R.id.sq8);
         Button sq9 = findViewById(R.id.sq9);
 
-        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
-        for (Button square : squares) {
-            square.setAlpha(1);
-        }
+        changeSqAlpha(1.0f);
 
         Handler handler = new Handler();
         Runnable game = new Runnable() {
@@ -325,7 +321,11 @@ public class Medium extends AppCompatActivity {
             makeSqUnclickable();
             userIndex[0] = 0;
             userSeq.clear();
-            reset.setVisibility(View.VISIBLE);
+            Handler handler = new Handler();
+            Runnable afterGameOver = () -> {
+                changeSqAlpha(0.5f);
+                reset.setVisibility(View.VISIBLE);
+            };handler.postDelayed(afterGameOver, 300);
         }
         if (userIndex[0] == levelTurns[0]){
             title.setText("Correct!");
@@ -355,20 +355,7 @@ public class Medium extends AppCompatActivity {
             Handler handler = new Handler();
             Runnable afterCongrats = () -> {
                 nextLevel.setVisibility(View.VISIBLE);
-                Button sq1 = findViewById(R.id.sq1);
-                Button sq2 = findViewById(R.id.sq2);
-                Button sq3 = findViewById(R.id.sq3);
-                Button sq4 = findViewById(R.id.sq4);
-                Button sq5 = findViewById(R.id.sq5);
-                Button sq6 = findViewById(R.id.sq6);
-                Button sq7 = findViewById(R.id.sq7);
-                Button sq8 = findViewById(R.id.sq8);
-                Button sq9 = findViewById(R.id.sq9);
-
-                Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
-                for (Button square : squares) {
-                    square.setAlpha(0.5f);
-                }
+                changeSqAlpha(0.5f);
             };
             handler.postDelayed(afterCongrats, 500);
         }
@@ -417,6 +404,24 @@ public class Medium extends AppCompatActivity {
         sq7.setClickable(true);
         sq8.setClickable(true);
         sq9.setClickable(true);
+    }
+
+    public void changeSqAlpha(float alphaValue){
+
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
+
+        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
+        for (Button square : squares) {
+            square.setAlpha(alphaValue);
+        }
     }
 
     private void showExitConfirmationDialog() {

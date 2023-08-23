@@ -22,7 +22,6 @@ public class Hard extends AppCompatActivity {
 
 
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
-    private static final String highscoreKeyHard = "highscoreKeyHard"; // Key for saving the value
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
     private MediaPlayer gameOnSound;
@@ -84,7 +83,7 @@ public class Hard extends AppCompatActivity {
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
-        final int[] levelTurnsPace = {4};
+        final int[] levelTurnsPace = {prefs.getInt("paceKey", 0)};
 
         start.setOnClickListener(view -> {
 
@@ -290,6 +289,7 @@ public class Hard extends AppCompatActivity {
             gameOnSound.start();
             levelTurns[0] = 4;
             currentLevel[0] = 1;
+            levelTurnsPace[0] = prefs.getInt("paceKey", 0);
             level.setText("Level: " + currentLevel[0]);
             currentScore[0] = 0;
             scoreText.setText("Score: " + currentScore[0]);
@@ -328,10 +328,7 @@ public class Hard extends AppCompatActivity {
         Button sq15 = findViewById(R.id.sq15);
         Button sq16 = findViewById(R.id.sq16);
 
-        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
-        for (Button square : squares) {
-            square.setAlpha(1);
-        }
+        changeSqAlpha(1.0f);
 
         Handler handler = new Handler();
         Runnable game = new Runnable() {
@@ -423,7 +420,11 @@ public class Hard extends AppCompatActivity {
             makeSqUnclickable();
             userIndex[0] = 0;
             userSeq.clear();
-            reset.setVisibility(View.VISIBLE);
+            Handler handler = new Handler();
+            Runnable afterGameOver = () -> {
+                changeSqAlpha(0.5f);
+                reset.setVisibility(View.VISIBLE);
+            };handler.postDelayed(afterGameOver, 300);
         }
         if (userIndex[0] == levelTurns[0]){
             title.setText("Correct!");
@@ -450,27 +451,7 @@ public class Hard extends AppCompatActivity {
             Handler handler = new Handler();
             Runnable afterCongrats = () -> {
                 nextLevel.setVisibility(View.VISIBLE);
-                Button sq1 = findViewById(R.id.sq1);
-                Button sq2 = findViewById(R.id.sq2);
-                Button sq3 = findViewById(R.id.sq3);
-                Button sq4 = findViewById(R.id.sq4);
-                Button sq5 = findViewById(R.id.sq5);
-                Button sq6 = findViewById(R.id.sq6);
-                Button sq7 = findViewById(R.id.sq7);
-                Button sq8 = findViewById(R.id.sq8);
-                Button sq9 = findViewById(R.id.sq9);
-                Button sq10 = findViewById(R.id.sq10);
-                Button sq11 = findViewById(R.id.sq11);
-                Button sq12 = findViewById(R.id.sq12);
-                Button sq13 = findViewById(R.id.sq13);
-                Button sq14 = findViewById(R.id.sq14);
-                Button sq15 = findViewById(R.id.sq15);
-                Button sq16 = findViewById(R.id.sq16);
-
-                Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
-                for (Button square : squares) {
-                    square.setAlpha(0.5f);
-                }
+                changeSqAlpha(0.5f);
             };
             handler.postDelayed(afterCongrats, 500);
         }
@@ -547,6 +528,31 @@ public class Hard extends AppCompatActivity {
         sq14.setClickable(true);
         sq15.setClickable(true);
         sq16.setClickable(true);
+    }
+
+    public void changeSqAlpha(float alphaValue){
+
+        Button sq1 = findViewById(R.id.sq1);
+        Button sq2 = findViewById(R.id.sq2);
+        Button sq3 = findViewById(R.id.sq3);
+        Button sq4 = findViewById(R.id.sq4);
+        Button sq5 = findViewById(R.id.sq5);
+        Button sq6 = findViewById(R.id.sq6);
+        Button sq7 = findViewById(R.id.sq7);
+        Button sq8 = findViewById(R.id.sq8);
+        Button sq9 = findViewById(R.id.sq9);
+        Button sq10 = findViewById(R.id.sq10);
+        Button sq11 = findViewById(R.id.sq11);
+        Button sq12 = findViewById(R.id.sq12);
+        Button sq13 = findViewById(R.id.sq13);
+        Button sq14 = findViewById(R.id.sq14);
+        Button sq15 = findViewById(R.id.sq15);
+        Button sq16 = findViewById(R.id.sq16);
+
+        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
+        for (Button square : squares) {
+            square.setAlpha(alphaValue);
+        }
     }
 
     private void showExitConfirmation() {
