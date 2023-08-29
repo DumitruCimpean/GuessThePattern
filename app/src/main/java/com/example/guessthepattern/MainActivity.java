@@ -21,7 +21,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     private MediaPlayer themeSong;
     private MediaPlayer levelEnter;
-    private boolean isPlaying = false;
 
     // TODO: More personalization, settings menu, ui tweaks for tablets and landscape mode, unlock levels on certain highscores?, global leaderboard
 
@@ -35,92 +34,61 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("paceKey", 2);
+        editor.putInt("coinsKey", 200);
         editor.apply();
 
         themeSong = MediaPlayer.create(this, R.raw.main_theme);
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        int displayWidth = metrics.widthPixels;
-        int displayHeight = metrics.heightPixels;
+        if (themeSong != null){
+            themeSong.start();
+            themeSong.setLooping(true);
+        }
 
         final ImageView logo = findViewById(R.id.gtpLogo);
-        logo.getLayoutParams().height = (int) (displayHeight * 0.25f);
 
-        Button easyBtn = findViewById(R.id.diffEasy);
-        easyBtn.getLayoutParams().width = (int) (displayWidth * 0.7);
-
-        Button mediumBtn = findViewById(R.id.diffMedium);
-        mediumBtn.getLayoutParams().width = (int) (displayWidth * 0.7);
-
-        Button hardBtn = findViewById(R.id.diffHard);
-        hardBtn.getLayoutParams().width = (int) (displayWidth * 0.7);
-
-        TextView welcome = findViewById(R.id.welcomeTitle);
-        welcome.getLayoutParams().height = (int) (displayWidth * 0.20f);
-
-        TextView difficulty = findViewById(R.id.difficultyTitle);
-        difficulty.getLayoutParams().height = (int) (displayWidth * 0.15f);
-
-        easyBtn.setOnClickListener(view -> {
-            easyBtn.setAlpha(0.5f);
+        Button chooseBtn = findViewById(R.id.diffChoose);
+        chooseBtn.setOnClickListener(view -> {
+            chooseBtn.setAlpha(0.5f);
             levelEnter.start();
-            Intent intent = new Intent(this, Easy.class);
+            Intent intent = new Intent(this, Levels.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    easyBtn.setAlpha(1.0F); // Reset alpha to its original value
+                    chooseBtn.setAlpha(1.0F);
                     ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                            view,  // The View you want to zoom from (e.g., a button or an ImageView)
-                            0, 0,  // Start position (left, top)
-                            view.getWidth(), view.getHeight()  // Final size after zoom
+                            view,
+                            0, 0,
+                            view.getWidth(), view.getHeight()
                     );
                     startActivity(intent, options.toBundle());
                 }
             }, 200);
         });
 
-        mediumBtn.setOnClickListener(view -> {
-            mediumBtn.setAlpha(0.5f);
+        Button shop = findViewById(R.id.shopBtn);
+        shop.setOnClickListener(view -> {
+            shop.setAlpha(0.5f);
             levelEnter.start();
-            Intent intent = new Intent(this, Medium.class);
+            Intent intent = new Intent(this, Shop.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mediumBtn.setAlpha(1.0F); // Reset alpha to its original value
+                    shop.setAlpha(1.0F);
                     ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                            view,  // The View you want to zoom from (e.g., a button or an ImageView)
-                            0, 0,  // Start position (left, top)
-                            view.getWidth(), view.getHeight()  // Final size after zoom
+                            view,
+                            0, 0,
+                            view.getWidth(), view.getHeight()
                     );
                     startActivity(intent, options.toBundle());
                 }
             }, 200);
         });
-        hardBtn.setOnClickListener(view -> {
-            hardBtn.setAlpha(0.5f);
-            levelEnter.start();
-            Intent intent = new Intent(this, Hard.class);
-            Handler resetHandler = new Handler();
-            resetHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hardBtn.setAlpha(1.0F); // Reset alpha to its original value
-                    ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                            view,  // The View you want to zoom from (e.g., a button or an ImageView)
-                            0, 0,  // Start position (left, top)
-                            view.getWidth(), view.getHeight()  // Final size after zoom
-                    );
-                    startActivity(intent, options.toBundle());
-                }
-            }, 200);
-        });
+
 
         final int[] logoResources = {R.drawable.gtp_phase2, R.drawable.gtp_phase3, R.drawable.gtp_phase4, R.drawable.gtp_logo};
-        final int delayMS = 1000; // Delay in milliseconds
+        final int delayMS = 1000;
 
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
@@ -129,11 +97,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 logo.setImageResource(logoResources[currentIndex]);
                 currentIndex = (currentIndex + 1) % logoResources.length;
-                if (themeSong != null & !isPlaying){
-                    themeSong.start();
-                    themeSong.setLooping(true);
-                    isPlaying = true;
-                }
                 handler.postDelayed(this, delayMS);
             }
         };
@@ -159,23 +122,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (themeSong != null && themeSong.isPlaying()) {
-            themeSong.stop();
-            try {
-                themeSong.prepare();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            isPlaying = true;
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        if (themeSong != null) {
+            themeSong.pause();
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("themeSongTime", themeSong.getCurrentPosition());
+            editor.apply();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (themeSong != null && isPlaying) {
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        if (themeSong != null) {
+            int time = prefs.getInt("themeSongTime", 0);
+            themeSong.seekTo(time);
             themeSong.start();
-            isPlaying = false;
         }
     }
 
