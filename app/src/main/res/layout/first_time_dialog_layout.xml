@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/dark_grey_100">
+
+    <TextView
+        android:id="@+id/dialog_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:gravity="center"
+        android:text="First timer gift!"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ftRewardSum"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="+100"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:autoSizeTextType="uniform"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/ftRewardSum"
+            android:layout_centerVertical="true"
+            android:src="@drawable/coin"/>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/positive_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/dialog_button_rectangle"
+        android:fontFamily="@font/jost_variablewght"
+        android:padding="5dp"
+        android:text="Claim"
+        android:textColor="@color/white"
+        android:textFontWeight="700" />
+
+
+
+</LinearLayout>

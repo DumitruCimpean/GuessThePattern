@@ -3,6 +3,7 @@ package com.example.guessthepattern;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -11,12 +12,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private MediaPlayer themeSong;
@@ -34,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("paceKey", 2);
-        editor.putInt("coinsKey", 200);
         editor.apply();
 
         themeSong = MediaPlayer.create(this, R.raw.main_theme);
@@ -48,14 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
         Button chooseBtn = findViewById(R.id.diffChoose);
         chooseBtn.setOnClickListener(view -> {
-            chooseBtn.setAlpha(0.5f);
+            gob.clickEffectResize(chooseBtn, this);
             levelEnter.start();
             Intent intent = new Intent(this, Levels.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    chooseBtn.setAlpha(1.0F);
                     ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                             view,
                             0, 0,
@@ -63,19 +66,18 @@ public class MainActivity extends AppCompatActivity {
                     );
                     startActivity(intent, options.toBundle());
                 }
-            }, 200);
+            }, 100);
         });
 
         Button shop = findViewById(R.id.shopBtn);
         shop.setOnClickListener(view -> {
-            shop.setAlpha(0.5f);
+            gob.clickEffectResize(shop, this);
             levelEnter.start();
             Intent intent = new Intent(this, Shop.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    shop.setAlpha(1.0F);
                     ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                             view,
                             0, 0,
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     );
                     startActivity(intent, options.toBundle());
                 }
-            }, 200);
+            }, 100);
         });
 
 
@@ -99,9 +101,37 @@ public class MainActivity extends AppCompatActivity {
                 currentIndex = (currentIndex + 1) % logoResources.length;
                 handler.postDelayed(this, delayMS);
             }
+
         };
+        final int[] isFirstTimer = {prefs.getInt("firstTimer", 1)};
+        if(isFirstTimer[0] == 1){
+            showFirstTimePresent();
+        }
         handler.postDelayed(runnable, delayMS);
 
+    }
+
+    private void showFirstTimePresent() {
+
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.first_time_dialog_layout, null);
+        builder.setView(dialogView);
+
+        Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        AlertDialog dialog = builder.create();
+
+        positiveButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            editor.putInt("coinsKey", 100);
+            editor.putInt("firstTimer", 0);
+            editor.apply();
+        });
+
+        dialog.show();
     }
 
     @Override

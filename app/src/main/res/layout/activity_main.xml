@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="@color/dark_grey_100"
     tools:context=".MainActivity">
 
 
@@ -53,7 +53,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="364dp"
         android:autoSizeTextType="uniform"
-        android:background="@drawable/rectangle_light"
+        android:background="@drawable/rectangle_medium"
         android:contentDescription="@string/app_name"
         android:drawablePadding="500dp"
         android:fontFamily="@font/jost_variablewght"
@@ -75,7 +75,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="364dp"
         android:autoSizeTextType="uniform"
-        android:background="@drawable/rectangle_light"
+        android:background="@drawable/rectangle_dark"
         android:contentDescription="@string/app_name"
         android:drawablePadding="500dp"
         android:fontFamily="@font/jost_variablewght"

@@ -3,6 +3,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,40 +48,18 @@ public class MyGlobals extends Activity {
         mContext.startActivity(intent);
     }
 
-    public void setDateMinusDays(TextView textID, Integer days){
-
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_WEEK, - days);
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-        String Date = dateFormat.format(cal.getTime());
-        textID.setText(Date.toLowerCase().replace('j','i').replace('y', 'i').replace('v', 'i'));
-
+    public void clickEffectDarken(final Button button){
+        button.setAlpha(0.5f);
+        Handler resetHandler = new Handler();
+        resetHandler.postDelayed(() -> button.setAlpha(1.0F), 200);
     }
 
-    public static String getDateMinus(int days, int hours, int minutes){
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_WEEK, - days);
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd MMM. yyyy");
-        String Date = dateFormat.format(cal.getTime());
-        String DateFormated = Date.toLowerCase().replace('j','i').replace('y', 'i').replace('v', 'i');
-
-        Calendar calH = Calendar.getInstance();
-        calH.add(Calendar.MINUTE, minutes);
-        calH.add(Calendar.HOUR_OF_DAY, - hours);
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormatH = new SimpleDateFormat("HH:mm");
-        String Hour = dateFormatH.format(calH.getTime());
-        return DateFormated + " " + Hour;
-    }
-
-    public static String getRandomMoney(){
-        Random random = new Random();
-        int digit1 = random.nextInt(9 - 3) + 1;
-        int digit2 = random.nextInt(999 - 100) + 100;
-        int floating = random.nextInt(99 - 10) + 10;
-        String digit1String = Integer.toString(digit1);
-        String digit2String = Integer.toString(digit2);
-        String floatingString = Integer.toString(floating);
-        return digit1String + "," + digit2String +  "." + floatingString;
+    public void clickEffectResize(final Button button, Context context){
+        final Animation scaleDown = AnimationUtils.loadAnimation(context, R.anim.button_down);
+        final Animation scaleUp = AnimationUtils.loadAnimation(context, R.anim.button_up);
+        button.startAnimation(scaleDown);
+        Handler resetHandler = new Handler();
+        resetHandler.postDelayed(() -> button.startAnimation(scaleUp), 200);
     }
 
 

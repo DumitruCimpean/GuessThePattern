@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class Easy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_easy);
+        MyGlobals gob = new MyGlobals(this);
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
 
@@ -59,6 +62,7 @@ public class Easy extends AppCompatActivity {
         Button start = findViewById(R.id.startBtn);
         TextView level = findViewById(R.id.level);
         TextView newScore = findViewById(R.id.newHScore);
+        RelativeLayout itemBar = findViewById(R.id.itemBar);
 
         final int[] currentLevel = {1};
         final int[] currentScore = {0};
@@ -69,8 +73,11 @@ public class Easy extends AppCompatActivity {
 
         TextView highscoreText = findViewById(R.id.highscore);
         highscoreText.setText("Highscore: " + overallHighscore[0]);
-
         TextView scoreText = findViewById(R.id.score);
+
+        final int[] revealersCount = {prefs.getInt("revealsKey", 0)};
+        TextView revelearsCountText = findViewById(R.id.revelearsCount);
+        revelearsCountText.setText("x" + revealersCount[0]);
 
         ArrayList<Button> correctSeq = new ArrayList<>();
 
@@ -86,14 +93,14 @@ public class Easy extends AppCompatActivity {
             level.setVisibility(View.VISIBLE);
             scoreText.setText("Score: "+ (currentLevel[0] - 1));
             scoreText.setVisibility(View.VISIBLE);
+            itemBar.setVisibility(View.VISIBLE);
 
-            startGameRun(levelTurns, correctSeq);
+            startGameRun(levelTurns, correctSeq, currentLevel);
 
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> start.setVisibility(View.INVISIBLE), 100);
         });
 
-        int sqPressedDelay = 200;
         final int[] userIndex = {0};
         ArrayList<Button> userSeq = new ArrayList<>();
 
@@ -101,48 +108,32 @@ public class Easy extends AppCompatActivity {
             sq1.setAlpha(0.5F);
             sqSound.seekTo(0);
             sqSound.start();
+            gob.clickEffectDarken(sq1);
             checkSequence(sq1,userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
-
-            Handler resetHandler = new Handler();
-            resetHandler.postDelayed(() -> {
-                sq1.setAlpha(1.0F); // Reset alpha to its original value
-            }, sqPressedDelay);
         });
 
         sq2.setOnClickListener(view -> {
             sq2.setAlpha(0.5F);
             sqSound.seekTo(0);
             sqSound.start();
+            gob.clickEffectDarken(sq2);
             checkSequence(sq2, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
-
-            Handler resetHandler = new Handler();
-            resetHandler.postDelayed(() -> {
-                sq2.setAlpha(1.0F); // Reset alpha to its original value
-            }, sqPressedDelay);
         });
 
         sq3.setOnClickListener(view -> {
             sq3.setAlpha(0.5F);
             sqSound.seekTo(0);
             sqSound.start();
+            gob.clickEffectDarken(sq3);
             checkSequence(sq3, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
-
-            Handler resetHandler = new Handler();
-            resetHandler.postDelayed(() -> {
-                sq3.setAlpha(1.0F); // Reset alpha to its original value
-            }, sqPressedDelay);
         });
 
         sq4.setOnClickListener(view -> {
             sq4.setAlpha(0.5F);
             sqSound.seekTo(0);
             sqSound.start();
+            gob.clickEffectDarken(sq4);
             checkSequence(sq4, userIndex, userSeq, correctSeq, currentScore, currentLevel, levelTurns, levelTurnsPace);
-
-            Handler resetHandler = new Handler();
-            resetHandler.postDelayed(() -> {
-                sq4.setAlpha(1.0F); // Reset alpha to its original value
-            }, sqPressedDelay);
         });
 
         makeSqUnclickable();
@@ -159,21 +150,84 @@ public class Easy extends AppCompatActivity {
             scoreText.setText("Score: " + currentScore[0]);
             turns[0] = levelTurns[0];
             newScore.setVisibility(View.INVISIBLE);
-            startGameRun(levelTurns, correctSeq);
+            startGameRun(levelTurns, correctSeq, currentLevel);
+        });
+
+        ImageButton revealBtn = findViewById(R.id.revelearBtn);
+        TextView title = findViewById(R.id.title);
+        revealBtn.setOnClickListener(view -> {
+            if (revealersCount[0] > 0){
+                revealersCount[0]--;
+                revelearsCountText.setText("x" + revealersCount[0]);
+                editor.putInt("revealsKey", revealersCount[0]);
+                editor.apply();
+                title.setText("Revealing!");
+                makeSqUnclickable();
+                revealBtn.setClickable(false);
+                Handler handler = new Handler();
+                final int[] userIndexAux = {userIndex[0]};
+
+                Runnable revealRun = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()){
+                            Button square = correctSeq.get(userIndexAux[0]);
+                            int delayStartSeq = 1000; // Delay in ms
+                            int delayBetweenSeq = 1800;
+                            Handler handler = new Handler();
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    square.setBackgroundResource(R.drawable.sq_bcg);
+                                }
+                            };
+                            handler.postDelayed(runnable, delayBetweenSeq);
+
+                            Runnable runnable2 = new Runnable() {
+                                @Override
+                                public void run() {
+                                    square.setBackgroundResource(R.drawable.start_rectangle);
+                                    userIndexAux[0]++;
+                                }
+
+                            };
+                            handler.postDelayed(runnable2, delayStartSeq);
+                            if (userIndexAux[0] == correctSeq.size() - 1) {
+                                Handler titleHandler = new Handler();
+                                titleHandler.postDelayed(() -> {
+                                    title.setText("Repeat the pattern");
+                                    makeSqClickable();
+                                    revealBtn.setClickable(true);
+                                }, delayBetweenSeq);
+                            }
+                            handler.postDelayed(this, 1500);
+                        }
+                    }
+
+                };
+                handler.post(revealRun);
+            }
+
         });
 
     }
 
 
-    public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq){
+    public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq, int[] currentLevel){
 
         final int[] turns = {levelTurns[0]};
         correctSeq.clear();
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
+        ImageView coinPlus = findViewById(R.id.coinPlus);
+        ImageButton revealBtn = findViewById(R.id.revelearBtn);
+        coinPlus.setVisibility(View.INVISIBLE);
 
         title.setText("Watch the pattern");
+        level.setText("Level " + currentLevel[0]);
         makeSqUnclickable();
+        revealBtn.setClickable(false);
 
         Button sq1 = findViewById(R.id.sq1);
         Button sq2 = findViewById(R.id.sq2);
@@ -215,6 +269,7 @@ public class Easy extends AppCompatActivity {
                                 repeatSound.start();
                             }
                             makeSqClickable();
+                            revealBtn.setClickable(true);
                         }, delayBetweenSeq);
                     }
                     handler.postDelayed(this, 1500);
@@ -231,6 +286,8 @@ public class Easy extends AppCompatActivity {
         final int[] turns = {levelTurns[0]};
         final int[] overallHighscore = {0};
         overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+        final int[] revivesOwned = {prefs.getInt("revivesKey", 0)};
+        final int[] totalCoins = {prefs.getInt("coinsKey", 0)};
 
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
@@ -239,6 +296,8 @@ public class Easy extends AppCompatActivity {
         TextView newScore = findViewById(R.id.newHScore);
         ImageButton reset = findViewById(R.id.redoButton);
         Button nextLevel = findViewById(R.id.nextLevel);
+        ImageView coinPlus = findViewById(R.id.coinPlus);
+        ImageButton revealBtn = findViewById(R.id.revelearBtn);
 
         userSeq.add(userIndex[0], sqAdded);
 
@@ -248,38 +307,57 @@ public class Easy extends AppCompatActivity {
         }else{
             title.setText("Game Over!");
             level.setText("Try again");
+            revealBtn.setClickable(false);
             gameOnSound.stop();
             gameOnSound.prepareAsync();
             MediaPlayer gameOverSound = MediaPlayer.create(this, R.raw.game_over);
             gameOverSound.start();
-            if (currentScore[0] > overallHighscore[0]){
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("highscoreKey", currentScore[0]);
-                editor.apply();
-                overallHighscore[0] = prefs.getInt("highscoreKey", 0);
-                newScore.setVisibility(View.VISIBLE);
+            if (revivesOwned[0] > 0){
+                showReviveConfirmation(levelTurns, correctSeq, userIndex, userSeq, currentScore, currentLevel);
+            }else{
+                if (currentScore[0] > overallHighscore[0]){
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("highscoreKey", currentScore[0]);
+                    editor.apply();
+                    overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+                    newScore.setVisibility(View.VISIBLE);
+                }
+                highscoreText.setText("Highscore: " + overallHighscore[0]);
+                makeSqUnclickable();
+                userIndex[0] = 0;
+                userSeq.clear();
+                Handler handler = new Handler();
+                Runnable afterGameOver = () -> {
+                    changeSqAlpha(0.5f);
+                    reset.setVisibility(View.VISIBLE);
+                };handler.postDelayed(afterGameOver, 300);
             }
-            highscoreText.setText("Highscore: " + overallHighscore[0]);
-            makeSqUnclickable();
-            userIndex[0] = 0;
-            userSeq.clear();
-            Handler handler = new Handler();
-            Runnable afterGameOver = () -> {
-                changeSqAlpha(0.5f);
-                reset.setVisibility(View.VISIBLE);
-            };handler.postDelayed(afterGameOver, 300);
         }
         if (userIndex[0] == levelTurns[0]){
             title.setText("Correct!");
             MediaPlayer correctSound = MediaPlayer.create(this, R.raw.correct_sound);
             correctSound.start();
             makeSqUnclickable();
-            currentLevel[0]++;
+            revealBtn.setClickable(false);
             currentScore[0]++;
+            if (currentLevel[0] < 5){
+                totalCoins[0]++;
+                level.setText("+1 ");
+                coinPlus.setVisibility(View.VISIBLE);
+            } else if (currentLevel[0] > 4 && currentLevel[0] < 10 ) {
+                totalCoins[0] += 3;
+                level.setText("+3 ");
+                coinPlus.setVisibility(View.VISIBLE);
+            } else {
+                totalCoins[0] += 5;
+                level.setText("+5 ");
+                coinPlus.setVisibility(View.VISIBLE);
+            }
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("scoreKey", currentScore[0]);
+            editor.putInt("coinsKey", totalCoins[0]);
             editor.apply();
-            level.setText("Level " + currentLevel[0]);
+            currentLevel[0]++;
             scoreText.setText("Score: " + currentScore[0]);
             userIndex[0] = 0;
             userSeq.clear();
@@ -290,7 +368,7 @@ public class Easy extends AppCompatActivity {
                 levelTurnsPace[0] = 2;
             }
             nextLevel.setOnClickListener(view -> {
-                startGameRun(levelTurns, correctSeq);
+                startGameRun(levelTurns, correctSeq, currentLevel);
                 nextLevel.setVisibility(View.INVISIBLE);
             });
             turns[0] = levelTurns[0];
@@ -345,7 +423,7 @@ public class Easy extends AppCompatActivity {
     private void showExitConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_layout, null);
+        View dialogView = inflater.inflate(R.layout.exit_dialog_layout, null);
         builder.setView(dialogView);
 
 
@@ -376,6 +454,63 @@ public class Easy extends AppCompatActivity {
         });
 
         negativeButton.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private void showReviveConfirmation(int[] levelTurns, ArrayList<Button> correctSeq, int[] userIndex, ArrayList<Button> userSeq, int[] currentScore, int[] currentLevel) {
+
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        final int[] revivesOwned = {prefs.getInt("revivesKey", 0)};
+        final int[] overallHighscore = {0};
+        overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+
+        TextView newScore = findViewById(R.id.newHScore);
+        TextView highscoreText = findViewById(R.id.highscore);
+        ImageButton reset = findViewById(R.id.redoButton);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.revive_dialog_layout, null);
+        builder.setView(dialogView);
+
+        TextView revivesCount = dialogView.findViewById(R.id.revivesCount);
+        revivesCount.setText("x" + revivesOwned[0]);
+
+        Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        Button negativeButton = dialogView.findViewById(R.id.negative_button);
+        AlertDialog dialog = builder.create();
+
+        positiveButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            revivesOwned[0]--;
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("revivesKey", revivesOwned[0]);
+            editor.apply();
+            startGameRun(levelTurns, correctSeq, currentLevel);
+            userIndex[0] = 0;
+            userSeq.clear();
+
+        });
+
+        negativeButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            if (currentScore[0] > overallHighscore[0]){
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("highscoreKey", currentScore[0]);
+                editor.apply();
+                overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+                newScore.setVisibility(View.VISIBLE);
+            }
+            highscoreText.setText("Highscore: " + overallHighscore[0]);
+            makeSqUnclickable();
+            userIndex[0] = 0;
+            userSeq.clear();
+            Handler handler = new Handler();
+            Runnable afterGameOver = () -> {
+                changeSqAlpha(0.5f);
+                reset.setVisibility(View.VISIBLE);
+            };handler.postDelayed(afterGameOver, 300);
+        });
         dialog.show();
     }
 

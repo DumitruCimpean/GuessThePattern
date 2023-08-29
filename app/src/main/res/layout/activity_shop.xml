@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="@color/dark_grey_100"
     tools:context=".Shop">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.023"
         app:layout_constraintWidth_percent="0.26">
 
-        <RelativeLayout
+        <ImageView
             android:id="@+id/coinIcon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,26 +32,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.481"
-            app:layout_constraintWidth_percent="0.3">
+            app:layout_constraintWidth_percent="0.3"
+            android:src="@drawable/coin" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="1dp"
-                android:src="@drawable/coin" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:autoSizeTextType="uniform"
-                android:fontFamily="@font/jost_variablewght"
-                android:padding="3dp"
-                android:text="G"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textFontWeight="700" />
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/coinAmount"
@@ -70,6 +53,294 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.123"
+        app:layout_constraintWidth_percent="0.5"
+        android:text="Item Shop"
+        android:fontFamily="@font/jost_variablewght"
+        android:autoSizeTextType="uniform"
+        android:textColor="@color/white"
+        android:textFontWeight="700"/>
+
+    <RelativeLayout
+        android:id="@+id/reviveLayout"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@drawable/rectangle_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.186">
+
+        <ImageView
+            android:id="@+id/reviveIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="10dp"
+            android:src="@drawable/revive"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"/>
+
+        <TextView
+            android:id="@+id/ownedRevives"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reviveIcon"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="Owned: 0"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/reviveTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/buyRevive"
+            android:layout_toEndOf="@id/reviveIcon"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="Revive"
+            android:textColor="@color/white"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/reviveDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reviveTitle"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/buyRevive"
+            android:layout_toEndOf="@id/reviveIcon"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="Can be used to continue from the current level after Game Over"
+            android:textColor="@color/white" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/revivePriceBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/buyRevive"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@id/reviveTitle"
+            android:background="@drawable/scores_bcg">
+
+            <ImageView
+                android:id="@+id/coinIconRevive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:src="@drawable/coin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.103"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.481"
+                app:layout_constraintWidth_percent="0.3" />
+
+
+            <TextView
+                android:id="@+id/priceAmountRevive"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:autoSizeTextType="uniform"
+                android:text="35"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.555"
+                app:layout_constraintStart_toEndOf="@+id/coinIconRevive"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/buyRevive"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/start_rectangle"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="BUY"
+            android:textColor="@color/white"
+            android:textFontWeight="700" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/revealLayout"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rectangle_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviveLayout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/revealIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="10dp"
+            android:src="@drawable/revealer" />
+
+        <TextView
+            android:id="@+id/ownedReveals"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/revealIcon"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="Owned: 0"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/revealTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/buyReveal"
+            android:layout_toEndOf="@id/revealIcon"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="Revealer"
+            android:textColor="@color/white"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/reveaDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/revealTitle"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/buyReveal"
+            android:layout_toEndOf="@id/revealIcon"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="Use when you're stuck on a pattern to reveal the rest of the sequence"
+            android:textColor="@color/white" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/revealPriceBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/buyReveal"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@id/revealTitle"
+            android:background="@drawable/scores_bcg">
+
+            <ImageView
+                android:id="@+id/coinIconReveal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:src="@drawable/coin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.103"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.481"
+                app:layout_constraintWidth_percent="0.3" />
+
+
+            <TextView
+                android:id="@+id/priceAmountReveal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:autoSizeTextType="uniform"
+                android:text="35"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.555"
+                app:layout_constraintStart_toEndOf="@+id/coinIconReveal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/buyReveal"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/start_rectangle"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="BUY"
+            android:textColor="@color/white"
+            android:textFontWeight="700" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/upcomingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rectangle_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/revealLayout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/jost_variablewght"
+            android:text="More coming soon..."
+            android:gravity="center"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
