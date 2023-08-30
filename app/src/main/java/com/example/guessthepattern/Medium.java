@@ -23,7 +23,12 @@ import java.util.Random;
 public class Medium extends AppCompatActivity {
 
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
-
+    private static final String coinsKey = "coinsKey";
+    private static final String revealsKey = "revealsKey";
+    private static final String revivesKey = "revivesKey";
+    private static final String highscoreKey = "highscoreKeyMedium";
+    private static final String scoreKey = "scoreKey";
+    private static final String paceKey = "paceKey";
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
     private MediaPlayer gameOnSound;
@@ -67,16 +72,16 @@ public class Medium extends AppCompatActivity {
 
         final int[] currentLevel = {1};
         final int[] currentScore = {0};
-        final int[] overallHighscore = {prefs.getInt("highscoreKeyMedium", 0)};
+        final int[] overallHighscore = {prefs.getInt(highscoreKey, 0)};
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("scoreKey", currentScore[0]);
+        editor.putInt(scoreKey, currentScore[0]);
         editor.apply();
 
         TextView highscoreText = findViewById(R.id.highscore);
         highscoreText.setText("Highscore: " + overallHighscore[0]);
         TextView scoreText = findViewById(R.id.score);
 
-        final int[] revealersCount = {prefs.getInt("revealsKey", 0)};
+        final int[] revealersCount = {prefs.getInt(revealsKey, 0)};
         TextView revelearsCountText = findViewById(R.id.revelearsCount);
         revelearsCountText.setText("x" + revealersCount[0]);
 
@@ -84,7 +89,7 @@ public class Medium extends AppCompatActivity {
 
         final int[] levelTurns = {4};
         final int[] turns = {levelTurns[0]};
-        final int[] levelTurnsPace = {prefs.getInt("paceKey", 0)};
+        final int[] levelTurnsPace = {prefs.getInt(paceKey, 0)};
 
         start.setOnClickListener(view -> {
 
@@ -184,7 +189,7 @@ public class Medium extends AppCompatActivity {
             gameOnSound.start();
             levelTurns[0] = 4;
             currentLevel[0] = 1;
-            levelTurnsPace[0] = prefs.getInt("paceKey", 0);
+            levelTurnsPace[0] = prefs.getInt(paceKey, 0);
             level.setText("Level: " + currentLevel[0]);
             currentScore[0] = 0;
             scoreText.setText("Score: " + currentScore[0]);
@@ -198,6 +203,8 @@ public class Medium extends AppCompatActivity {
         revealBtn.setOnClickListener(view -> {
             if (revealersCount[0] > 0){
                 revealersCount[0]--;
+                editor.putInt(revealsKey, revealersCount[0]);
+                editor.apply();
                 revelearsCountText.setText("x" + revealersCount[0]);
                 title.setText("Revealing!");
                 makeSqUnclickable();
@@ -214,21 +221,13 @@ public class Medium extends AppCompatActivity {
                             int delayStartSeq = 1000; // Delay in ms
                             int delayBetweenSeq = 1800;
                             Handler handler = new Handler();
-                            Runnable runnable = new Runnable() {
-                                @Override
-                                public void run() {
-                                    square.setBackgroundResource(R.drawable.sq_bcg);
-                                }
-                            };
+
+                            Runnable runnable = () -> square.setBackgroundResource(R.drawable.sq_bcg);
                             handler.postDelayed(runnable, delayBetweenSeq);
 
-                            Runnable runnable2 = new Runnable() {
-                                @Override
-                                public void run() {
-                                    square.setBackgroundResource(R.drawable.start_rectangle);
-                                    userIndexAux[0]++;
-                                }
-
+                            Runnable runnable2 = () -> {
+                                square.setBackgroundResource(R.drawable.start_rectangle);
+                                userIndexAux[0]++;
                             };
                             handler.postDelayed(runnable2, delayStartSeq);
                             if (userIndexAux[0] == correctSeq.size() - 1) {
@@ -328,9 +327,9 @@ public class Medium extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         final int[] turns = {levelTurns[0]};
         final int[] overallHighscore = {0};
-        overallHighscore[0] = prefs.getInt("highscoreKeyMedium", 0);
-        final int[] revivesOwned = {prefs.getInt("revivesKey", 0)};
-        final int[] totalCoins = {prefs.getInt("coinsKey", 0)};
+        overallHighscore[0] = prefs.getInt(highscoreKey, 0);
+        final int[] revivesOwned = {prefs.getInt(revivesKey, 0)};
+        final int[] totalCoins = {prefs.getInt(coinsKey, 0)};
 
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
@@ -360,9 +359,9 @@ public class Medium extends AppCompatActivity {
             }else{
                 if (currentScore[0] > overallHighscore[0]){
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("highscoreKey", currentScore[0]);
+                    editor.putInt(highscoreKey, currentScore[0]);
                     editor.apply();
-                    overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+                    overallHighscore[0] = prefs.getInt(highscoreKey, 0);
                     newScore.setVisibility(View.VISIBLE);
                 }
                 highscoreText.setText("Highscore: " + overallHighscore[0]);
@@ -525,10 +524,10 @@ public class Medium extends AppCompatActivity {
 
     private void showReviveConfirmation(int[] levelTurns, ArrayList<Button> correctSeq, int[] userIndex, ArrayList<Button> userSeq, int[] currentScore, int[] currentLevel) {
 
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        final int[] revivesOwned = {prefs.getInt("revivesKey", 0)};
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        final int[] revivesOwned = {prefs.getInt(revivesKey, 0)};
         final int[] overallHighscore = {0};
-        overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+        overallHighscore[0] = prefs.getInt(highscoreKey, 0);
 
         TextView newScore = findViewById(R.id.newHScore);
         TextView highscoreText = findViewById(R.id.highscore);
@@ -550,7 +549,7 @@ public class Medium extends AppCompatActivity {
             dialog.dismiss();
             revivesOwned[0]--;
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("revivesKey", revivesOwned[0]);
+            editor.putInt(revivesKey, revivesOwned[0]);
             editor.apply();
             startGameRun(levelTurns, correctSeq, currentLevel);
             userIndex[0] = 0;
@@ -562,9 +561,9 @@ public class Medium extends AppCompatActivity {
             dialog.dismiss();
             if (currentScore[0] > overallHighscore[0]){
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("highscoreKey", currentScore[0]);
+                editor.putInt(highscoreKey, currentScore[0]);
                 editor.apply();
-                overallHighscore[0] = prefs.getInt("highscoreKey", 0);
+                overallHighscore[0] = prefs.getInt(highscoreKey, 0);
                 newScore.setVisibility(View.VISIBLE);
             }
             highscoreText.setText("Highscore: " + overallHighscore[0]);
@@ -591,14 +590,14 @@ public class Medium extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         final int[] overallHighscore = {0};
         final int[] currentScore = {0};
-        overallHighscore[0] = prefs.getInt("highscoreKeyMedium", 0);
-        currentScore[0] = prefs.getInt("scoreKey", 0);
+        overallHighscore[0] = prefs.getInt(highscoreKey, 0);
+        currentScore[0] = prefs.getInt(scoreKey, 0);
 
         if (currentScore[0] > overallHighscore[0]){
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("highscoreKeyMedium", currentScore[0]);
+            editor.putInt(highscoreKey, currentScore[0]);
             editor.apply();
-            overallHighscore[0] = prefs.getInt("highscoreKeyMedium", 0);
+            overallHighscore[0] = prefs.getInt(highscoreKey, 0);
         }
 
         if (sqSound != null){

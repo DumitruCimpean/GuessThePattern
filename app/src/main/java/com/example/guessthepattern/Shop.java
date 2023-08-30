@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-
+                                                                                                        // TODO: sounds and music
 public class Shop extends AppCompatActivity {
 
     @Override
