@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
                                                                                                         // TODO: sounds and music
 public class Shop extends AppCompatActivity {
@@ -25,6 +26,8 @@ public class Shop extends AppCompatActivity {
         Button buyReveal = findViewById(R.id.buyReveal);
         Button buyRevive = findViewById(R.id.buyRevive);
 
+        ImageButton back = findViewById(R.id.backButton);
+        back.setOnClickListener(v -> finish());
 
         TextView revivePriceText = findViewById(R.id.priceAmountRevive);
         revivePriceText.setText(String.valueOf(revivesPrice[0]));

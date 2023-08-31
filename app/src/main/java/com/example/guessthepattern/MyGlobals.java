@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,7 @@ public class MyGlobals extends Activity {
         resetHandler.postDelayed(() -> button.setAlpha(1.0F), 200);
     }
 
-    public void clickEffectResize(final Button button, Context context){
+    public void clickEffectResize(final View button , Context context){
         final Animation scaleDown = AnimationUtils.loadAnimation(context, R.anim.button_down);
         final Animation scaleUp = AnimationUtils.loadAnimation(context, R.anim.button_up);
         button.startAnimation(scaleDown);

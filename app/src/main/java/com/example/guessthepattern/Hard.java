@@ -1,6 +1,7 @@
 package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
@@ -263,8 +264,10 @@ public class Hard extends AppCompatActivity {
         });
 
         ImageButton revealBtn = findViewById(R.id.revelearBtn);
+        ConstraintLayout revealBox = findViewById(R.id.revealerBox);
         TextView title = findViewById(R.id.title);
         revealBtn.setOnClickListener(view -> {
+            gob.clickEffectResize(revealBox, this);
             if (revealersCount[0] > 0){
                 revealersCount[0]--;
                 editor.putInt(revealsKey, revealersCount[0]);

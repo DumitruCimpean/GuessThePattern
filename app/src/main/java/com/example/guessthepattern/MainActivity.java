@@ -56,16 +56,13 @@ public class MainActivity extends AppCompatActivity {
             levelEnter.start();
             Intent intent = new Intent(this, Levels.class);
             Handler resetHandler = new Handler();
-            resetHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                            view,
-                            0, 0,
-                            view.getWidth(), view.getHeight()
-                    );
-                    startActivity(intent, options.toBundle());
-                }
+            resetHandler.postDelayed(() -> {
+                ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
+                        view,
+                        0, 0,
+                        view.getWidth(), view.getHeight()
+                );
+                startActivity(intent, options.toBundle());
             }, 100);
         });
 
@@ -75,16 +72,13 @@ public class MainActivity extends AppCompatActivity {
             levelEnter.start();
             Intent intent = new Intent(this, Shop.class);
             Handler resetHandler = new Handler();
-            resetHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                            view,
-                            0, 0,
-                            view.getWidth(), view.getHeight()
-                    );
-                    startActivity(intent, options.toBundle());
-                }
+            resetHandler.postDelayed(() -> {
+                ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
+                        view,
+                        0, 0,
+                        view.getWidth(), view.getHeight()
+                );
+                startActivity(intent, options.toBundle());
             }, 100);
         });
 
