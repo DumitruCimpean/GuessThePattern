@@ -15,17 +15,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import java.io.IOException;
+
 public class Levels extends AppCompatActivity {
 
-    // TODO: make dialog quit to main menu not levels screen
-    private MediaPlayer themeSong;
+    private static boolean shouldPlay;
+    MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     private MediaPlayer levelEnter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels);
         MyGlobals gob = new MyGlobals(this);
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        shouldPlay = false;
 
         Button easyBtn = findViewById(R.id.diffEasy);
 
@@ -33,15 +35,12 @@ public class Levels extends AppCompatActivity {
 
         Button hardBtn = findViewById(R.id.diffHard);
 
-        themeSong = MediaPlayer.create(this, R.raw.main_theme);
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
-        int currentThemeSongTime = prefs.getInt("themeSongTime", 0);
-        themeSong.seekTo(currentThemeSongTime);
-        themeSong.start();
         int buttonPressDelay = 100; // Delay in MS
 
         easyBtn.setOnClickListener(view -> {
             gob.clickEffectResize(easyBtn, this);
+            levelEnter.seekTo(0);
             levelEnter.start();
             Intent intent = new Intent(this, Easy.class);
             Handler resetHandler = new Handler();
@@ -60,6 +59,7 @@ public class Levels extends AppCompatActivity {
 
         mediumBtn.setOnClickListener(view -> {
             gob.clickEffectResize(mediumBtn, this);
+            levelEnter.seekTo(0);
             levelEnter.start();
             Intent intent = new Intent(this, Medium.class);
             Handler resetHandler = new Handler();
@@ -74,6 +74,7 @@ public class Levels extends AppCompatActivity {
         });
         hardBtn.setOnClickListener(view -> {
             gob.clickEffectResize(hardBtn,this);
+            levelEnter.seekTo(0);
             levelEnter.start();
             Intent intent = new Intent(this, Hard.class);
             Handler resetHandler = new Handler();
@@ -121,7 +122,10 @@ public class Levels extends AppCompatActivity {
         });
 
         ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(v -> finish());
+        back.setOnClickListener(v -> {
+            shouldPlay = false;
+            finish();
+        });
 
     }
 
@@ -156,11 +160,7 @@ public class Levels extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (themeSong != null) {
-            themeSong.stop();
-            themeSong.release();
-            themeSong = null;
-        }
+
         if (levelEnter != null){
             levelEnter.stop();
             levelEnter.release();
@@ -171,23 +171,13 @@ public class Levels extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        if (themeSong != null) {
-            themeSong.pause();
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("themeSongTime", themeSong.getCurrentPosition());
-            editor.apply();
-            themeSong.setLooping(true);
+        if (!shouldPlay){
+            if (themeSong != null){
+                themeSong.pause();
+            }
         }
         finish();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (themeSong != null) {
-            themeSong.start();
-        }
     }
 
 }

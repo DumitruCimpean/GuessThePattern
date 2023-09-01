@@ -3,13 +3,15 @@ package com.example.guessthepattern;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-                                                                                                        // TODO: sounds and music
+// TODO: sounds and music
 public class Shop extends AppCompatActivity {
-
+    private static boolean shouldPlay;
+    MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +25,17 @@ public class Shop extends AppCompatActivity {
         TextView totalCoins = findViewById(R.id.coinAmount);
         totalCoins.setText(String.valueOf(coins[0]));
 
+
+
         Button buyReveal = findViewById(R.id.buyReveal);
         Button buyRevive = findViewById(R.id.buyRevive);
 
         ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(v -> finish());
+        back.setOnClickListener(v -> {
+            shouldPlay = true;
+            finish();
+        });
+
 
         TextView revivePriceText = findViewById(R.id.priceAmountRevive);
         revivePriceText.setText(String.valueOf(revivesPrice[0]));
@@ -102,6 +110,30 @@ public class Shop extends AppCompatActivity {
         }else{
             buyReveal.setAlpha(1);
             buyReveal.setClickable(true);
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        shouldPlay = true;
+        finish();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!shouldPlay){
+            if (themeSong != null){
+                themeSong.pause();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        shouldPlay = false;
+        if (themeSong != null){
+            themeSong.start();
         }
     }
 }

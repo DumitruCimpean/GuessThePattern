@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -55,6 +56,7 @@ public class Easy extends AppCompatActivity {
         gameOnSound.setLooping(true);
         gameOnSound.start();
         repeatSound = MediaPlayer.create(this, R.raw.repeat_sound);
+
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> showExitConfirmationDialog());
@@ -443,9 +445,9 @@ public class Easy extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {
+            dialog.dismiss();
             finish();
             overridePendingTransition(0, 0);
-
         });
 
         negativeButton.setOnClickListener(v -> dialog.dismiss());
@@ -565,4 +567,5 @@ public class Easy extends AppCompatActivity {
             gameOnSound.start();
         }
     }
+
 }

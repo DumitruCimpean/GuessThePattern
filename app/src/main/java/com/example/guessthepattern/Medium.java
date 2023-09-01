@@ -511,7 +511,9 @@ public class Medium extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {
+            dialog.dismiss();
             finish();
+            overridePendingTransition(0, 0);
         });
 
         negativeButton.setOnClickListener(v -> {
