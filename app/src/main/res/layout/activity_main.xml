@@ -55,7 +55,6 @@
         android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle_medium"
         android:contentDescription="@string/app_name"
-        android:drawablePadding="500dp"
         android:fontFamily="@font/jost_variablewght"
         android:text="GAMEMODES"
         android:textColor="@color/white"
@@ -77,7 +76,6 @@
         android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle_dark"
         android:contentDescription="@string/app_name"
-        android:drawablePadding="500dp"
         android:fontFamily="@font/jost_variablewght"
         android:text="SHOP"
         android:textColor="@color/white"
@@ -90,6 +88,23 @@
         app:layout_constraintTop_toBottomOf="@+id/diffChoose"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent="0.7" />
+
+    <ImageButton
+        android:id="@+id/settingsBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@color/transparent"
+        android:contentDescription="@string/app_name"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/gear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/watermark"

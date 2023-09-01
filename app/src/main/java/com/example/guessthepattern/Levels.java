@@ -102,7 +102,7 @@ public class Levels extends AppCompatActivity {
                 classicGrids.startAnimation(slideDown);
                 timedBtn.startAnimation(slideDown);
                 setButtonsUnclickable();
-                handler.postDelayed(this::setButtonsClickable, 500);
+                handler.postDelayed(this::setButtonsClickable, 300);
                 isGridsExpanded[0] = true;
             } else{
                 classicGrids.startAnimation(slideUp);
@@ -111,7 +111,7 @@ public class Levels extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     classicGrids.setVisibility(View.GONE);
                     setButtonsClickable();
-                }, 500);
+                }, 300);
                 isGridsExpanded[0] = false;
             }
         });
@@ -119,10 +119,13 @@ public class Levels extends AppCompatActivity {
         timedBtn.setOnClickListener(v -> {
             gob.clickEffectResize(timedBtn, this);
             gob.showWIP();
+            setButtonsUnclickable();
+            handler.postDelayed(this::setButtonsClickable, 300);
         });
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(v -> {
+            gob.clickEffectResize(back, this);
             shouldPlay = false;
             finish();
         });

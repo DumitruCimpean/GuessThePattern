@@ -140,12 +140,12 @@
             android:textFontWeight="700"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintHeight_percent="0.22"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/difficultyTitle"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.55" />
 
         <android.widget.Button
             android:id="@+id/diffMedium"
@@ -161,12 +161,12 @@
             android:textFontWeight="700"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintHeight_percent="0.22"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diffEasy"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.55" />
 
         <android.widget.Button
             android:id="@+id/diffHard"
@@ -182,12 +182,12 @@
             android:textFontWeight="700"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintHeight_percent="0.22"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diffMedium"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.55" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

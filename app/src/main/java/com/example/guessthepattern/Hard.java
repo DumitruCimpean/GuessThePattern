@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,10 +32,14 @@ public class Hard extends AppCompatActivity {
     private static final String highscoreKey = "highscoreKeyHard";
     private static final String scoreKey = "scoreKey";
     private static final String paceKey = "paceKey";
+    private static final String bcgKey = "bcgKey";
+    private static final String sqNum = "sqNum";
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
     private MediaPlayer gameOnSound;
     private MediaPlayer repeatSound;
+    private MediaPlayer revealSound;
+    private MediaPlayer reviveSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +50,19 @@ public class Hard extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         sqSound = MediaPlayer.create(this, R.raw.sq_clicked);
-        sqSound.setLooping(false);
         startSound = MediaPlayer.create(this, R.raw.start_sound);
-        startSound.setLooping(false);
         gameOnSound = MediaPlayer.create(this, R.raw.gameon_sound);
+        repeatSound = MediaPlayer.create(this, R.raw.repeat_sound);
+        revealSound = MediaPlayer.create(this, R.raw.revealing_sound);
+        reviveSound = MediaPlayer.create(this, R.raw.revived_sound);
         gameOnSound.setLooping(true);
         gameOnSound.start();
-        repeatSound = MediaPlayer.create(this, R.raw.repeat_sound);
 
         ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(view -> showExitConfirmation());
-        ImageButton reset = findViewById(R.id.redoButton);
-
+        back.setOnClickListener(view -> {
+            gob.clickEffectResize(back, this);
+            showExitConfirmation();
+        });
 
         Button sq1 = findViewById(R.id.sq1);
         Button sq2 = findViewById(R.id.sq2);
@@ -74,6 +80,21 @@ public class Hard extends AppCompatActivity {
         Button sq14 = findViewById(R.id.sq14);
         Button sq15 = findViewById(R.id.sq15);
         Button sq16 = findViewById(R.id.sq16);
+
+        int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        Drawable background = getResources().getDrawable(bcgID);
+        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
+        for (Button square : squares) {
+            square.setBackground(background);
+        }
+        boolean sqNumbered = prefs.getBoolean(sqNum, false);
+        if (sqNumbered){
+            int sqIndex = 1;
+            for (Button square : squares) {
+                square.setText(String.valueOf(sqIndex));
+                sqIndex++;
+            }
+        }
 
         Button start = findViewById(R.id.startBtn);
         TextView level = findViewById(R.id.level);
@@ -249,7 +270,7 @@ public class Hard extends AppCompatActivity {
         });
 
         makeSqUnclickable();
-
+        ImageButton reset = findViewById(R.id.redoButton);
         reset.setOnClickListener(view -> {
             reset.setVisibility(View.INVISIBLE);
             startSound.start();
@@ -268,9 +289,13 @@ public class Hard extends AppCompatActivity {
         ImageButton revealBtn = findViewById(R.id.revelearBtn);
         ConstraintLayout revealBox = findViewById(R.id.revealerBox);
         TextView title = findViewById(R.id.title);
+        if (revealersCount[0] == 0){
+            revealBtn.setAlpha(0.5f);
+        }
         revealBtn.setOnClickListener(view -> {
-            gob.clickEffectResize(revealBox, this);
             if (revealersCount[0] > 0){
+                gob.clickEffectResize(revealBox, this);
+                revealSound.start();
                 revealersCount[0]--;
                 editor.putInt(revealsKey, revealersCount[0]);
                 editor.apply();
@@ -293,7 +318,7 @@ public class Hard extends AppCompatActivity {
                             Runnable runnable = new Runnable() {
                                 @Override
                                 public void run() {
-                                    square.setBackgroundResource(R.drawable.sq_bcg);
+                                    square.setBackgroundResource(R.drawable.sq_bcg_blue);
                                 }
                             };
                             handler.postDelayed(runnable, delayBetweenSeq);
@@ -321,6 +346,9 @@ public class Hard extends AppCompatActivity {
 
                 };
                 handler.post(revealRun);
+            }
+            if (revealersCount[0] == 0){
+                revealBtn.setAlpha(0.5f);
             }
 
         });
@@ -673,6 +701,8 @@ public class Hard extends AppCompatActivity {
 
         positiveButton.setOnClickListener(v -> {
             dialog.dismiss();
+            reviveSound.start();
+            gameOnSound.start();
             revivesOwned[0]--;
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt(revivesKey, revivesOwned[0]);
@@ -741,6 +771,14 @@ public class Hard extends AppCompatActivity {
         if(repeatSound != null){
             repeatSound.release();
             repeatSound = null;
+        }
+        if (revealSound != null){
+            revealSound.release();
+            revealSound = null;
+        }
+        if (reviveSound != null){
+            reviveSound.release();
+            reviveSound = null;
         }
     }
 

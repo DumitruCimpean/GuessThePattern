@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class Shop extends AppCompatActivity {
     private static boolean shouldPlay;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
+    MediaPlayer coinSfx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,13 +26,13 @@ public class Shop extends AppCompatActivity {
         TextView totalCoins = findViewById(R.id.coinAmount);
         totalCoins.setText(String.valueOf(coins[0]));
 
-
-
         Button buyReveal = findViewById(R.id.buyReveal);
         Button buyRevive = findViewById(R.id.buyRevive);
+        coinSfx = MediaPlayer.create(this, R.raw.spent_coins);
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(v -> {
+            gob.clickEffectResize(back, this);
             shouldPlay = true;
             finish();
         });
@@ -45,6 +46,8 @@ public class Shop extends AppCompatActivity {
         buyRevive.setOnClickListener(view -> {
             if (coins[0] >= revivesPrice[0]) {
                 gob.clickEffectResize(buyRevive, this);
+                coinSfx.seekTo(0);
+                coinSfx.start();
                 revives[0]++;
                 coins[0] -= revivesPrice[0];
                 if(coins[0] < revivesPrice[0]){
@@ -74,6 +77,8 @@ public class Shop extends AppCompatActivity {
         buyReveal.setOnClickListener(view -> {
             if (coins[0] >= revealsPrice[0]) {
                 gob.clickEffectResize(buyReveal, this);
+                coinSfx.seekTo(0);
+                coinSfx.start();
                 reveals[0]++;
                 coins[0] -= revealsPrice[0];
                 if(coins[0] < revealsPrice[0]){
@@ -125,6 +130,10 @@ public class Shop extends AppCompatActivity {
             if (themeSong != null){
                 themeSong.pause();
             }
+        }
+        if (coinSfx != null){
+            coinSfx.release();
+            coinSfx = null;
         }
     }
 

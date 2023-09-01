@@ -103,6 +103,24 @@ public class MainActivity extends AppCompatActivity {
             }, 100);
         });
 
+        ImageButton settingsBtn = findViewById(R.id.settingsBtn);
+        settingsBtn.setOnClickListener(view -> {
+            gob.clickEffectResize(settingsBtn, this);
+            levelEnter.seekTo(0);
+            levelEnter.start();
+            Intent intent = new Intent(this, Settings.class);
+            Handler resetHandler = new Handler();
+            resetHandler.postDelayed(() -> {
+                ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
+                        view,
+                        0, 0,
+                        view.getWidth(), view.getHeight()
+                );
+                shouldPlay = true;
+                startActivity(intent, options.toBundle());
+            }, 100);
+        });
+
 
         final int[] logoResources = {R.drawable.gtp_phase2, R.drawable.gtp_phase3, R.drawable.gtp_phase4, R.drawable.gtp_logo};
         final int delayMS = 1000;
