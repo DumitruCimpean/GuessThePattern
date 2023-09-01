@@ -26,6 +26,7 @@ public class Easy extends AppCompatActivity {
 
     private static final String prefsName = "MyPrefs"; // Name for the preferences file
     private static final String coinsKey = "coinsKey";
+    private static final String coinsPoolKey = "coinsPoolKey";
     private static final String revealsKey = "revealsKey";
     private static final String revivesKey = "revivesKey";
     private static final String highscoreKey = "highscoreKeyEasy";
@@ -75,6 +76,7 @@ public class Easy extends AppCompatActivity {
         final int[] overallHighscore = {prefs.getInt(highscoreKey, 0)};
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(scoreKey, currentScore[0]);
+        editor.putInt(coinsPoolKey, 1);
         editor.apply();
 
         TextView highscoreText = findViewById(R.id.highscore);
@@ -283,11 +285,13 @@ public class Easy extends AppCompatActivity {
     public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
         final int[] turns = {levelTurns[0]};
         final int[] overallHighscore = {0};
         overallHighscore[0] = prefs.getInt(highscoreKey, 0);
         final int[] revivesOwned = {prefs.getInt(revivesKey, 0)};
         final int[] totalCoins = {prefs.getInt(coinsKey, 0)};
+        final int[] coinPool = {prefs.getInt(coinsPoolKey, 0)};
 
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
@@ -316,7 +320,6 @@ public class Easy extends AppCompatActivity {
                 showReviveConfirmation(levelTurns, correctSeq, userIndex, userSeq, currentScore, currentLevel);
             }else{
                 if (currentScore[0] > overallHighscore[0]){
-                    SharedPreferences.Editor editor = prefs.edit();
                     editor.putInt(highscoreKey, currentScore[0]);
                     editor.apply();
                     overallHighscore[0] = prefs.getInt(highscoreKey, 0);
@@ -340,20 +343,9 @@ public class Easy extends AppCompatActivity {
             makeSqUnclickable();
             revealBtn.setClickable(false);
             currentScore[0]++;
-            if (currentLevel[0] < 5){
-                totalCoins[0]++;
-                level.setText("+1 ");
-                coinPlus.setVisibility(View.VISIBLE);
-            } else if (currentLevel[0] > 4 && currentLevel[0] < 10 ) {
-                totalCoins[0] += 3;
-                level.setText("+3 ");
-                coinPlus.setVisibility(View.VISIBLE);
-            } else {
-                totalCoins[0] += 5;
-                level.setText("+5 ");
-                coinPlus.setVisibility(View.VISIBLE);
-            }
-            SharedPreferences.Editor editor = prefs.edit();
+            totalCoins[0]+= coinPool[0];
+            level.setText("+" + coinPool[0] + " ");
+            coinPlus.setVisibility(View.VISIBLE);
             editor.putInt(scoreKey, currentScore[0]);
             editor.putInt(coinsKey, totalCoins[0]);
             editor.apply();
@@ -365,7 +357,10 @@ public class Easy extends AppCompatActivity {
             levelTurnsPace[0]--;
             if(levelTurnsPace[0] == 0){
                 levelTurns[0]++;
-                levelTurnsPace[0] = 2;
+                levelTurnsPace[0] = prefs.getInt(paceKey, 0);
+                coinPool[0]++;
+                editor.putInt(coinsPoolKey, coinPool[0]);
+                editor.apply();
             }
             nextLevel.setOnClickListener(view -> {
                 startGameRun(levelTurns, correctSeq, currentLevel);
