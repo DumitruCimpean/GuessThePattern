@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-// TODO: sounds and music
 public class Shop extends AppCompatActivity {
     private static boolean shouldPlay;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();

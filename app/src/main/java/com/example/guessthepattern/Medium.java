@@ -240,6 +240,7 @@ public class Medium extends AppCompatActivity {
                 title.setText("Revealing!");
                 makeSqUnclickable();
                 revealBtn.setClickable(false);
+                revealBtn.setAlpha(0.5f);
                 Handler handler = new Handler();
                 final int[] userIndexAux = {userIndex[0]};
 
@@ -253,7 +254,7 @@ public class Medium extends AppCompatActivity {
                             int delayBetweenSeq = 1800;
                             Handler handler = new Handler();
 
-                            Runnable runnable = () -> square.setBackgroundResource(R.drawable.sq_bcg_blue);
+                            Runnable runnable = () -> square.setBackgroundResource(bcgID);
                             handler.postDelayed(runnable, delayBetweenSeq);
 
                             Runnable runnable2 = () -> {
@@ -267,6 +268,9 @@ public class Medium extends AppCompatActivity {
                                     title.setText("Repeat the pattern");
                                     makeSqClickable();
                                     revealBtn.setClickable(true);
+                                    if (revealersCount[0] > 0){
+                                        revealBtn.setAlpha(1.0f);
+                                    }
                                 }, delayBetweenSeq);
                             }
                             handler.postDelayed(this, 1500);
@@ -276,9 +280,6 @@ public class Medium extends AppCompatActivity {
                 };
                 handler.post(revealRun);
             }
-            if (revealersCount[0] == 0){
-                revealBtn.setAlpha(0.5f);
-            }
 
         });
 
@@ -287,6 +288,8 @@ public class Medium extends AppCompatActivity {
 
     public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq, int[] currentLevel){
 
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        final int[] revealersCount = {prefs.getInt(revealsKey, 0)};
         final int[] turns = {levelTurns[0]};
         correctSeq.clear();
         TextView title = findViewById(R.id.title);
@@ -299,6 +302,7 @@ public class Medium extends AppCompatActivity {
         level.setText("Level " + currentLevel[0]);
         makeSqUnclickable();
         revealBtn.setClickable(false);
+        revealBtn.setAlpha(0.5f);
 
         Button sq1 = findViewById(R.id.sq1);
         Button sq2 = findViewById(R.id.sq2);
@@ -346,6 +350,9 @@ public class Medium extends AppCompatActivity {
                             }
                             makeSqClickable();
                             revealBtn.setClickable(true);
+                            if (revealersCount[0] > 0){
+                                revealBtn.setAlpha(1.0f);
+                            }
                         }, delayBetweenSeq);
                     }
                     handler.postDelayed(this, 1500);

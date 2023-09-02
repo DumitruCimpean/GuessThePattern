@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static boolean shouldPlay;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
 
-    // TODO: More personalization, settings menu, ui tweaks for tablets and landscape mode, unlock levels on certain highscores?, global leaderboard
+    // TODO: More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

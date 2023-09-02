@@ -1,13 +1,18 @@
 package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class Settings extends AppCompatActivity {
     private static boolean shouldPlay;
@@ -71,6 +76,15 @@ public class Settings extends AppCompatActivity {
             numberedBtn.setImageDrawable(null);
         }
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int displayHeight = metrics.heightPixels;
+        int numLayoutHeight = displayHeight / 10;
+
+        numberedBtn.getLayoutParams().width = numLayoutHeight / 2;
+        numberedBtn.getLayoutParams().height = numLayoutHeight / 2;
+
+        // TODO: seekbar size and functionality
 
         sqBlue.setOnClickListener(v -> {
             gob.clickEffectResize(sqBlue, this);
