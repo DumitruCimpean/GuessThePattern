@@ -12,6 +12,7 @@ import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class Settings extends AppCompatActivity {
@@ -19,12 +20,16 @@ public class Settings extends AppCompatActivity {
     private static final String bcgKey = "bcgKey";
     private static final String prefsName = "MyPrefs";
     private static final String sqNum = "sqNum";
+    private static final String musicVolKey = "musicVolKey";
+    private static final String sfxVolKey = "sfxVolKey";
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
+    private MediaPlayer levelEnter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
 
         MyGlobals gob = new MyGlobals(this);
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
@@ -84,7 +89,6 @@ public class Settings extends AppCompatActivity {
         numberedBtn.getLayoutParams().width = numLayoutHeight / 2;
         numberedBtn.getLayoutParams().height = numLayoutHeight / 2;
 
-        // TODO: seekbar size and functionality
 
         sqBlue.setOnClickListener(v -> {
             gob.clickEffectResize(sqBlue, this);
@@ -127,6 +131,59 @@ public class Settings extends AppCompatActivity {
                 numberedBtn.setImageDrawable(checkmark);
             }
             editor.apply();
+        });
+
+        TextView musicText = findViewById(R.id.musicVolumeText);
+        SeekBar musicSeek = findViewById(R.id.musicSeekBar);
+        final int[] musicVolumeChosen = {prefs.getInt(musicVolKey, 100)};
+        musicSeek.setProgress(musicVolumeChosen[0]);
+        musicSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                themeSong.setVolume(i * 0.01f , i * 0.01f);
+                musicVolumeChosen[0] = i;
+                editor.putInt(musicVolKey, musicVolumeChosen[0]);
+                editor.apply();
+                musicText.setText(String.valueOf(i));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                musicText.setText("Music");
+            }
+        });
+
+        TextView sfxText = findViewById(R.id.sfxVolumeText);
+        SeekBar sfxSeek = findViewById(R.id.sfxSeekBar);
+        levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
+        final int[] sfxVolumeChosen = {prefs.getInt(sfxVolKey, 100)};
+        sfxSeek.setProgress(sfxVolumeChosen[0]);
+
+        sfxSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                levelEnter.setVolume(i * 0.01f, i * 0.01f);
+                sfxVolumeChosen[0] = i;
+                editor.putInt(sfxVolKey, sfxVolumeChosen[0]);
+                editor.apply();
+                sfxText.setText(String.valueOf(i));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                levelEnter.seekTo(0);
+                levelEnter.start();
+                sfxText.setText("SFX");
+            }
         });
 
 

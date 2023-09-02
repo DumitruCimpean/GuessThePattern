@@ -19,15 +19,18 @@ import java.io.IOException;
 
 public class Levels extends AppCompatActivity {
 
+    private static final String prefsName = "MyPrefs"; // Name for the preferences file
     private static boolean shouldPlay;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     private MediaPlayer levelEnter;
+    private static final String sfxVolKey = "sfxVolKey";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels);
         MyGlobals gob = new MyGlobals(this);
         shouldPlay = false;
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
 
         Button easyBtn = findViewById(R.id.diffEasy);
 
@@ -35,7 +38,10 @@ public class Levels extends AppCompatActivity {
 
         Button hardBtn = findViewById(R.id.diffHard);
 
+        final float[] sfxVol = {prefs.getInt(sfxVolKey, 100) * 0.01f};
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
+        levelEnter.setVolume(sfxVol[0], sfxVol[0]);
+
         int buttonPressDelay = 100; // Delay in MS
 
         easyBtn.setOnClickListener(view -> {

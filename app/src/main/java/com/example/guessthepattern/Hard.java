@@ -34,12 +34,16 @@ public class Hard extends AppCompatActivity {
     private static final String paceKey = "paceKey";
     private static final String bcgKey = "bcgKey";
     private static final String sqNum = "sqNum";
+    private static final String musicVolKey = "musicVolKey";
+    private static final String sfxVolKey = "sfxVolKey";
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
     private MediaPlayer gameOnSound;
     private MediaPlayer repeatSound;
     private MediaPlayer revealSound;
     private MediaPlayer reviveSound;
+    private MediaPlayer gameOverSound;
+    private MediaPlayer correctSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +59,22 @@ public class Hard extends AppCompatActivity {
         repeatSound = MediaPlayer.create(this, R.raw.repeat_sound);
         revealSound = MediaPlayer.create(this, R.raw.revealing_sound);
         reviveSound = MediaPlayer.create(this, R.raw.revived_sound);
+        correctSound = MediaPlayer.create(this, R.raw.correct_sound);
+        gameOverSound = MediaPlayer.create(this, R.raw.game_over);
         gameOnSound.setLooping(true);
         gameOnSound.start();
+
+        float musicVol = prefs.getInt(musicVolKey, 100) * 0.01f;
+        gameOnSound.setVolume(musicVol, musicVol);
+
+        float sfxVol = prefs.getInt(sfxVolKey, 100) * 0.01f;
+        sqSound.setVolume(sfxVol, sfxVol);
+        startSound.setVolume(sfxVol, sfxVol);
+        repeatSound.setVolume(sfxVol, sfxVol);
+        revealSound.setVolume(sfxVol, sfxVol);
+        reviveSound.setVolume(sfxVol, sfxVol);
+        correctSound.setVolume(sfxVol, sfxVol);
+        gameOverSound.setVolume(sfxVol, sfxVol);
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> {
@@ -469,7 +487,6 @@ public class Hard extends AppCompatActivity {
             revealBtn.setClickable(false);
             gameOnSound.stop();
             gameOnSound.prepareAsync();
-            MediaPlayer gameOverSound = MediaPlayer.create(this, R.raw.game_over);
             gameOverSound.start();
             if (revivesOwned[0] > 0){
                 showReviveConfirmation(levelTurns, correctSeq, userIndex, userSeq, currentScore, currentLevel);
@@ -493,7 +510,6 @@ public class Hard extends AppCompatActivity {
         }
         if (userIndex[0] == levelTurns[0]){
             title.setText("Correct!");
-            MediaPlayer correctSound = MediaPlayer.create(this, R.raw.correct_sound);
             correctSound.start();
             makeSqUnclickable();
             revealBtn.setClickable(false);

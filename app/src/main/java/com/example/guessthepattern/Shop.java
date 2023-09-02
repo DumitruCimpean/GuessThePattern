@@ -10,14 +10,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 public class Shop extends AppCompatActivity {
     private static boolean shouldPlay;
+    private static final String prefsName = "MyPrefs"; // Name for the preferences file
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
+    private static final String sfxVolKey = "sfxVolKey";
     MediaPlayer coinSfx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
         MyGlobals gob = new MyGlobals(this);
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         final int[] coins = {prefs.getInt("coinsKey", 0)};
         final int[] revivesPrice = {30};
@@ -28,6 +30,8 @@ public class Shop extends AppCompatActivity {
         Button buyReveal = findViewById(R.id.buyReveal);
         Button buyRevive = findViewById(R.id.buyRevive);
         coinSfx = MediaPlayer.create(this, R.raw.spent_coins);
+        final float[] sfxVol = {prefs.getInt(sfxVolKey, 100) * 0.01f};
+        coinSfx.setVolume(sfxVol[0], sfxVol[0]);
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(v -> {

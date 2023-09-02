@@ -26,8 +26,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String prefsName = "MyPrefs"; // Name for the preferences file
     private MediaPlayer levelEnter;
     private static boolean shouldPlay;
+    private static final String musicVolKey = "musicVolKey";
+    private static final String sfxVolKey = "sfxVolKey";
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
 
     // TODO: More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
@@ -40,10 +43,12 @@ public class MainActivity extends AppCompatActivity {
         MyGlobals gob = new MyGlobals(this);
         shouldPlay = false;
 
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("paceKey", 2);
         editor.apply();
+
+        int musicVol = prefs.getInt(musicVolKey, 100);
 
 
         try {
@@ -55,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 themeSong.setDataSource(getApplicationContext(), Uri.parse("android.resource://" + getPackageName() + "/" + resId));
                 themeSong.prepare();
                 themeSong.start();
+                themeSong.setVolume(musicVol * 0.01f, musicVol * 0.01f);
                 themeSong.setLooping(true);
+
             } else {
                 Log.d("Error", "theme song audio file is null");
             }
@@ -64,8 +71,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        final ImageView logo = findViewById(R.id.gtpLogo);
+        final int[] sfxVol = {prefs.getInt(sfxVolKey, 100)};
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
+        levelEnter.setVolume(sfxVol[0] * 0.01f,  sfxVol[0] * 0.01f);
+
+        final ImageView logo = findViewById(R.id.gtpLogo);
 
         Button chooseBtn = findViewById(R.id.diffChoose);
         chooseBtn.setOnClickListener(view -> {
@@ -190,8 +200,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shouldPlay = false;
+        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         if (!themeSong.isPlaying()){
             themeSong.start();
+        }
+        if (levelEnter != null){
+            final float[] sfxVol = {prefs.getInt(sfxVolKey, 100) * 0.01f};
+            levelEnter.setVolume(sfxVol[0],  sfxVol[0]);
         }
     }
 
