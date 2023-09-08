@@ -1,5 +1,20 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgKey;
+import static com.example.guessthepattern.MainActivity.coinsKey;
+import static com.example.guessthepattern.MainActivity.coinsPoolKey;
+import static com.example.guessthepattern.MainActivity.delay1;
+import static com.example.guessthepattern.MainActivity.delay2;
+import static com.example.guessthepattern.MainActivity.delay3;
+import static com.example.guessthepattern.MainActivity.musicVolKey;
+import static com.example.guessthepattern.MainActivity.paceKey;
+import static com.example.guessthepattern.MainActivity.prefsName;
+import static com.example.guessthepattern.MainActivity.revealsKey;
+import static com.example.guessthepattern.MainActivity.revivesKey;
+import static com.example.guessthepattern.MainActivity.scoreKey;
+import static com.example.guessthepattern.MainActivity.sfxVolKey;
+import static com.example.guessthepattern.MainActivity.sqNum;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -25,18 +40,6 @@ import java.util.Random;
 
 public class Easy extends AppCompatActivity {
 
-    private static final String prefsName = "MyPrefs"; // Name for the preferences file
-    private static final String coinsKey = "coinsKey";
-    private static final String coinsPoolKey = "coinsPoolKey";
-    private static final String revealsKey = "revealsKey";
-    private static final String revivesKey = "revivesKey";
-    private static final String highscoreKey = "highscoreKeyEasy";
-    private static final String scoreKey = "scoreKey";
-    private static final String paceKey = "paceKey";
-    private static final String bcgKey = "bcgKey";
-    private static final String sqNum = "sqNum";
-    private static final String musicVolKey = "musicVolKey";
-    private static final String sfxVolKey = "sfxVolKey";
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
     private MediaPlayer gameOnSound;
@@ -45,6 +48,8 @@ public class Easy extends AppCompatActivity {
     private MediaPlayer reviveSound;
     private MediaPlayer gameOverSound;
     private MediaPlayer correctSound;
+
+    private static final String highscoreKey = "highscoreKeyEasy";
 
 
     @Override
@@ -199,6 +204,11 @@ public class Easy extends AppCompatActivity {
             turns[0] = levelTurns[0];
             newScore.setVisibility(View.INVISIBLE);
             startGameRun(levelTurns, correctSeq, currentLevel);
+            editor.putInt(delay1, 1000);
+            editor.putInt(delay2, 1800);
+            editor.putInt(delay3, 1500);
+            editor.putInt(coinsPoolKey, 1);
+            editor.apply();
         });
 
         ImageButton revealBtn = findViewById(R.id.revelearBtn);
@@ -228,18 +238,19 @@ public class Easy extends AppCompatActivity {
 
                         if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()){
                             Button square = correctSeq.get(userIndexAux[0]);
-                            int delayStartSeq = 1000; // Delay in ms
-                            int delayBetweenSeq = 1800;
+                            int delay1ms = prefs.getInt(delay1, 0);
+                            int delay2ms = prefs.getInt(delay2, 0);
+                            int delayBetween = prefs.getInt(delay3, 0);
                             Handler handler = new Handler();
 
                             Runnable runnable = () -> square.setBackgroundResource(bcgID);
-                            handler.postDelayed(runnable, delayBetweenSeq);
+                            handler.postDelayed(runnable, delay2ms);
 
                             Runnable runnable2 = () -> {
                                 square.setBackgroundResource(R.drawable.start_rectangle);
                                 userIndexAux[0]++;
                             };
-                            handler.postDelayed(runnable2, delayStartSeq);
+                            handler.postDelayed(runnable2, delay1ms);
                             if (userIndexAux[0] == correctSeq.size() - 1) {
                                 Handler titleHandler = new Handler();
                                 titleHandler.postDelayed(() -> {
@@ -249,9 +260,9 @@ public class Easy extends AppCompatActivity {
                                     if (revealersCount[0] > 0){
                                         revealBtn.setAlpha(1.0f);
                                     }
-                                }, delayBetweenSeq);
+                                }, delay2ms);
                             }
-                            handler.postDelayed(this, 1500);
+                            handler.postDelayed(this, delayBetween);
                         }
                     }
 
@@ -294,8 +305,9 @@ public class Easy extends AppCompatActivity {
             @Override
             public void run() {
                 if (turns[0] > 0){
-                    int delayStartSeq = 1000; // Delay in ms
-                    int delayBetweenSeq = 1800;
+                    int delay1ms = prefs.getInt(delay1, 0);
+                    int delay2ms = prefs.getInt(delay2, 0);
+                    int delayBetween = prefs.getInt(delay3, 0);
 
                     Button[] squares = {sq1, sq2, sq3, sq4};
 
@@ -305,13 +317,13 @@ public class Easy extends AppCompatActivity {
                     Button randomSq = squares[randomIndex];
 
                     Runnable runnable = () -> randomSq.setAlpha(1);
-                    handler.postDelayed(runnable, delayBetweenSeq);
+                    handler.postDelayed(runnable, delay2ms);
 
                     Runnable runnable2 = () -> {
                         randomSq.setAlpha(0.5F);
                         correctSeq.add(randomSq);
                     };
-                    handler.postDelayed(runnable2, delayStartSeq);
+                    handler.postDelayed(runnable2, delay1ms);
                     turns[0]--;
                     if (turns[0] == 0) {
                         Handler titleHandler = new Handler();
@@ -326,9 +338,9 @@ public class Easy extends AppCompatActivity {
                             if (revealersCount[0] > 0){
                                 revealBtn.setAlpha(1.0f);
                             }
-                        }, delayBetweenSeq);
+                        }, delay2ms);
                     }
-                    handler.postDelayed(this, 1500);
+                    handler.postDelayed(this, delayBetween);
                 }
             }
 
@@ -346,6 +358,9 @@ public class Easy extends AppCompatActivity {
         final int[] revivesOwned = {prefs.getInt(revivesKey, 0)};
         final int[] totalCoins = {prefs.getInt(coinsKey, 0)};
         final int[] coinPool = {prefs.getInt(coinsPoolKey, 0)};
+        final int[] delay1change = {prefs.getInt(delay1, 0)};
+        final int[] delay2change = {prefs.getInt(delay2, 0)};
+        final int[] delayBetween = {prefs.getInt(delay3, 0)};
 
         TextView title = findViewById(R.id.title);
         TextView level = findViewById(R.id.level);
@@ -398,8 +413,14 @@ public class Easy extends AppCompatActivity {
             totalCoins[0]+= coinPool[0];
             level.setText("+" + coinPool[0] + " ");
             coinPlus.setVisibility(View.VISIBLE);
+            delay1change[0] /= 1.01;    //
+            delay2change[0] /= 1.03;    // ratios for reduction on showing the sequence
+            delayBetween[0] /= 1.03;    //
             editor.putInt(scoreKey, currentScore[0]);
             editor.putInt(coinsKey, totalCoins[0]);
+            editor.putInt(delay1, delay1change[0]);
+            editor.putInt(delay2, delay2change[0]);
+            editor.putInt(delay3, delayBetween[0]);
             editor.apply();
             currentLevel[0]++;
             scoreText.setText("Score: " + currentScore[0]);

@@ -1,5 +1,11 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.coinsKey;
+import static com.example.guessthepattern.MainActivity.prefsName;
+import static com.example.guessthepattern.MainActivity.revealsKey;
+import static com.example.guessthepattern.MainActivity.revivesKey;
+import static com.example.guessthepattern.MainActivity.sfxVolKey;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -10,9 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 public class Shop extends AppCompatActivity {
     private static boolean shouldPlay;
-    private static final String prefsName = "MyPrefs"; // Name for the preferences file
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
-    private static final String sfxVolKey = "sfxVolKey";
     MediaPlayer coinSfx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +25,7 @@ public class Shop extends AppCompatActivity {
         MyGlobals gob = new MyGlobals(this);
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        final int[] coins = {prefs.getInt("coinsKey", 0)};
+        final int[] coins = {prefs.getInt(coinsKey, 0)};
         final int[] revivesPrice = {30};
         final int[] revealsPrice = {20};
         TextView totalCoins = findViewById(R.id.coinAmount);
@@ -44,7 +48,7 @@ public class Shop extends AppCompatActivity {
         TextView revivePriceText = findViewById(R.id.priceAmountRevive);
         revivePriceText.setText(String.valueOf(revivesPrice[0]));
         TextView revivesCount = findViewById(R.id.ownedRevives);
-        final int[] revives = {prefs.getInt("revivesKey", 0)};
+        final int[] revives = {prefs.getInt(revivesKey, 0)};
         revivesCount.setText("Owned: " + revives[0]);
         buyRevive.setOnClickListener(view -> {
             if (coins[0] >= revivesPrice[0]) {
@@ -62,8 +66,8 @@ public class Shop extends AppCompatActivity {
                     buyReveal.setClickable(false);
                 }
                 totalCoins.setText(String.valueOf(coins[0]));
-                editor.putInt("revivesKey", revives[0]);
-                editor.putInt("coinsKey", coins[0]);
+                editor.putInt(revivesKey, revives[0]);
+                editor.putInt(coinsKey, coins[0]);
                 editor.apply();
                 revivesCount.setText("Owned: " + revives[0]);
             }else{
@@ -75,7 +79,7 @@ public class Shop extends AppCompatActivity {
         TextView revealPriceText = findViewById(R.id.priceAmountReveal);
         revealPriceText.setText(String.valueOf(revealsPrice[0]));
         TextView revealsCount = findViewById(R.id.ownedReveals);
-        final int[] reveals = {prefs.getInt("revealsKey", 0)};
+        final int[] reveals = {prefs.getInt(revealsKey, 0)};
         revealsCount.setText("Owned: " + reveals[0]);
         buyReveal.setOnClickListener(view -> {
             if (coins[0] >= revealsPrice[0]) {
@@ -93,8 +97,8 @@ public class Shop extends AppCompatActivity {
                     buyRevive.setClickable(false);
                 }
                 totalCoins.setText(String.valueOf(coins[0]));
-                editor.putInt("revealsKey", reveals[0]);
-                editor.putInt("coinsKey", coins[0]);
+                editor.putInt(revealsKey, reveals[0]);
+                editor.putInt(coinsKey, coins[0]);
                 editor.apply();
                 revealsCount.setText("Owned: " + reveals[0]);
             }else{

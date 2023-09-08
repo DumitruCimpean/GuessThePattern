@@ -1,5 +1,8 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.prefsName;
+import static com.example.guessthepattern.MainActivity.sfxVolKey;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -19,11 +22,9 @@ import java.io.IOException;
 
 public class Levels extends AppCompatActivity {
 
-    private static final String prefsName = "MyPrefs"; // Name for the preferences file
     private static boolean shouldPlay;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     private MediaPlayer levelEnter;
-    private static final String sfxVolKey = "sfxVolKey";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

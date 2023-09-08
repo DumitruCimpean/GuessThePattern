@@ -26,14 +26,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String prefsName = "MyPrefs"; // Name for the preferences file
+    public static final String prefsName = "MyPrefs"; // Name for the preferences file
     private MediaPlayer levelEnter;
-    private static boolean shouldPlay;
-    private static final String musicVolKey = "musicVolKey";
-    private static final String sfxVolKey = "sfxVolKey";
+    public static boolean shouldPlay;
+    public static final  String coinsKey = "coinsKey";
+    public static final String coinsPoolKey = "coinsPoolKey";
+    public static final String revealsKey = "revealsKey";
+    public static final String revivesKey = "revivesKey";
+    public static final String scoreKey = "scoreKey";
+    public static final String paceKey = "paceKey";
+    public static final String bcgKey = "bcgKey";
+    public static final String sqNum = "sqNum";
+    public static final String musicVolKey = "musicVolKey";
+    public static final String sfxVolKey = "sfxVolKey";
+    public static final String delay1 = "delay1";
+    public static final String delay2 = "delay2";
+    public static final String delay3 = "delay3";
+    private MediaPlayer coinSfx;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
 
-    // TODO: More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
+    // TODO More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +57,19 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("paceKey", 2);
+        editor.putInt(paceKey, 2);
+        editor.putInt(delay1, 1000);
+        editor.putInt(delay2, 1800);
+        editor.putInt(delay3, 1500);
         editor.apply();
 
         int musicVol = prefs.getInt(musicVolKey, 100);
 
 
         try {
-            // Get the resource identifier for the raw resource
             int resId = getResources().getIdentifier("main_theme", "raw", getPackageName());
 
             if (resId != 0) {
-                // Set the data source using the resource identifier
                 themeSong.setDataSource(getApplicationContext(), Uri.parse("android.resource://" + getPackageName() + "/" + resId));
                 themeSong.prepare();
                 themeSong.start();
@@ -71,9 +84,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         final int[] sfxVol = {prefs.getInt(sfxVolKey, 100)};
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
         levelEnter.setVolume(sfxVol[0] * 0.01f,  sfxVol[0] * 0.01f);
+        coinSfx = MediaPlayer.create(this, R.raw.spent_coins);
+        coinSfx.setVolume(sfxVol[0], sfxVol[0]);
 
         final ImageView logo = findViewById(R.id.gtpLogo);
 
@@ -149,15 +165,15 @@ public class MainActivity extends AppCompatActivity {
         final int[] isFirstTimer = {prefs.getInt("firstTimer", 1)};
         if(isFirstTimer[0] == 1){
             showFirstTimePresent();
+            editor.putInt(coinsKey, 100);
+            editor.putInt("firstTimer", 0);
+            editor.apply();
         }
         handler.postDelayed(runnable, delayMS);
 
     }
 
     private void showFirstTimePresent() {
-
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
@@ -169,9 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
         positiveButton.setOnClickListener(v -> {
             dialog.dismiss();
-            editor.putInt("coinsKey", 100);
-            editor.putInt("firstTimer", 0);
-            editor.apply();
+            coinSfx.start();
         });
 
         dialog.show();
@@ -185,6 +199,11 @@ public class MainActivity extends AppCompatActivity {
             levelEnter.stop();
             levelEnter.release();
             levelEnter = null;
+        }
+        if (coinSfx != null){
+            coinSfx.stop();
+            coinSfx.release();
+            coinSfx = null;
         }
     }
 
