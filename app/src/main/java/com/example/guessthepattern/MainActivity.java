@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String sqNum = "sqNum";
     public static final String musicVolKey = "musicVolKey";
     public static final String sfxVolKey = "sfxVolKey";
+
+    // the difference between delay1 and delay2 is the amount of time (ms) the square is highlighted
+    // delay3 is the delay between the finishing of a square highlight and the start of another
+
     public static final String delay1 = "delay1";
     public static final String delay2 = "delay2";
     public static final String delay3 = "delay3";
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
 
     // TODO More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
+    // TODO include some documentation and update the README on github
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

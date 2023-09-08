@@ -413,9 +413,9 @@ public class Easy extends AppCompatActivity {
             totalCoins[0]+= coinPool[0];
             level.setText("+" + coinPool[0] + " ");
             coinPlus.setVisibility(View.VISIBLE);
-            delay1change[0] /= 1.01;    //
-            delay2change[0] /= 1.03;    // ratios for reduction on showing the sequence
-            delayBetween[0] /= 1.03;    //
+            delay1change[0] /= 1.01;    // ratios for increasing the speed at which the sequence is shown (decreases the delay)
+            delay2change[0] /= 1.03;    //  --> these two should be close or same
+            delayBetween[0] /= 1.03;    //  ----^
             editor.putInt(scoreKey, currentScore[0]);
             editor.putInt(coinsKey, totalCoins[0]);
             editor.putInt(delay1, delay1change[0]);
