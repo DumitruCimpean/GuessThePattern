@@ -8,6 +8,7 @@ import static com.example.guessthepattern.MainActivity.sfxVolKey;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class Shop extends AppCompatActivity {
     private static boolean shouldPlay;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     MediaPlayer coinSfx;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

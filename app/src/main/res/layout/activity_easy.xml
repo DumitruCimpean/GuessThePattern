@@ -18,12 +18,13 @@
         android:src="@drawable/arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHeight_percent="0.054"
         app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.02"
-        app:layout_constraintWidth_percent="0.1" />
+        app:layout_constraintWidth_percent="0.12"
+        android:contentDescription="@string/backBtnDesc"/>
 
     <TextView
         android:id="@+id/title"
@@ -31,7 +32,7 @@
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
-        android:text="Press Start"
+        android:text="@string/press_start"
         android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +51,7 @@
         android:autoSizeMinTextSize="25sp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
-        android:text="Level 1"
+        android:text="@string/level_1"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:visibility="invisible"
@@ -75,7 +76,8 @@
         app:layout_constraintStart_toEndOf="@+id/level"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="0.014"
-        app:layout_constraintWidth_percent="0.07" />
+        app:layout_constraintWidth_percent="0.07"
+        android:contentDescription="@string/coinIconDesc"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/squaresLayout"
@@ -97,13 +99,13 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:text=" "
             android:textColor="@color/dark_grey_100"
             app:layout_constraintBottom_toTopOf="@id/sq3"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Button
             android:id="@+id/sq2"
@@ -112,13 +114,13 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:text=" "
             android:textColor="@color/dark_grey_100"
             app:layout_constraintBottom_toTopOf="@id/sq4"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/sq1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Button
             android:id="@+id/sq3"
@@ -127,13 +129,13 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:text=" "
             android:textColor="@color/dark_grey_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sq1" />
+            app:layout_constraintTop_toBottomOf="@id/sq1"
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Button
             android:id="@+id/sq4"
@@ -142,13 +144,13 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:text=" "
             android:textColor="@color/dark_grey_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/sq3"
-            app:layout_constraintTop_toBottomOf="@id/sq2" />
+            app:layout_constraintTop_toBottomOf="@id/sq2"
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Button
             android:id="@+id/nextLevel"
@@ -157,7 +159,7 @@
             android:autoSizeTextType="uniform"
             android:background="@drawable/nextlvl_bcg"
             android:padding="10dp"
-            android:text="NEXT LEVEL"
+            android:text="@string/next_level"
             android:textColor="@color/white"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -187,7 +189,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintWidth_percent="0.4" />
+            app:layout_constraintWidth_percent="0.4"
+            android:contentDescription="@string/resetBtnDesc"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -199,7 +202,6 @@
         android:background="@drawable/scores_bcg"
         android:fontFamily="@font/jost_variablewght"
         android:padding="5dp"
-        android:text="Score: 3"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textFontWeight="700"
@@ -222,7 +224,6 @@
         android:background="@drawable/scores_bcg"
         android:fontFamily="@font/jost_variablewght"
         android:padding="5dp"
-        android:text="Highscore: 3"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textFontWeight="700"
@@ -241,7 +242,7 @@
         android:layout_marginTop="5dp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
-        android:text="New Highscore!"
+        android:text="@string/new_highscore"
         android:textAlignment="center"
         android:textColor="@color/green"
         android:visibility="invisible"
@@ -263,7 +264,7 @@
         android:background="@drawable/start_rectangle"
         android:fontFamily="@font/jost_variablewght"
         android:padding="10dp"
-        android:text="START"
+        android:text="@string/start"
         android:textColor="@color/white"
         android:textFontWeight="700"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -313,14 +314,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent="0.9" />
+                app:layout_constraintWidth_percent="0.9"
+                android:contentDescription="@string/revealerBtnDesc"/>
 
             <TextView
                 android:id="@+id/revelearsCount"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:fontFamily="@font/jost_variablewght"
-                android:text="x0"
                 app:layout_constraintHeight_percent="0.3"
                 android:autoSizeTextType="uniform"
                 android:textAlignment="center"

@@ -2,6 +2,7 @@ package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -11,19 +12,14 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static final String prefsName = "MyPrefs"; // Name for the preferences file
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String sfxVolKey = "sfxVolKey";
 
     // the difference between delay1 and delay2 is the amount of time (ms) the square is highlighted
-    // delay3 is the delay between the finishing of a square highlight and the start of another
+    // delay3 is the delay between the finishing of a square highlight and the start of another one
 
     public static final String delay1 = "delay1";
     public static final String delay2 = "delay2";
@@ -52,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
     // TODO include some documentation and update the README on github
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

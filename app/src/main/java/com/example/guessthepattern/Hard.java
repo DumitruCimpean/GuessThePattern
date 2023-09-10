@@ -2,10 +2,13 @@ package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -49,6 +52,7 @@ public class Hard extends AppCompatActivity {
 
     private static final String highscoreKey = "highscoreKeyHard";
 
+    @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +108,8 @@ public class Hard extends AppCompatActivity {
         Button sq16 = findViewById(R.id.sq16);
 
         int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
-        Drawable background = getResources().getDrawable(bcgID);
+        Resources res = getResources();
+        Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
         for (Button square : squares) {
             square.setBackground(background);
@@ -124,7 +129,7 @@ public class Hard extends AppCompatActivity {
         RelativeLayout itemBar = findViewById(R.id.itemBar);
 
         final int[] currentLevel = {1};
-        final int[] currentScore = {currentLevel[0] - 1};
+        final int[] currentScore = {0};
         final int[] overallHighscore = {prefs.getInt(highscoreKey, 0)};
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(scoreKey, currentScore[0]);
@@ -376,6 +381,7 @@ public class Hard extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq, int[] currentLevel){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
@@ -432,13 +438,9 @@ public class Hard extends AppCompatActivity {
                     Runnable runnable = () -> randomSq.setAlpha(1);
                     handler.postDelayed(runnable, delay2ms);
 
-                    Runnable runnable2 = new Runnable() {
-                        @Override
-                        public void run() {
-                            randomSq.setAlpha(0.5F);
-                            correctSeq.add(randomSq);
-                        }
-
+                    Runnable runnable2 = () -> {
+                        randomSq.setAlpha(0.5F);
+                        correctSeq.add(randomSq);
                     };
                     handler.postDelayed(runnable2, delay1ms);
                     turns[0]--;
@@ -466,7 +468,8 @@ public class Hard extends AppCompatActivity {
         handler.post(game);
     }
 
-    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
+    @SuppressLint("SetTextI18n")
+    public void checkSequence(Button sqAdded , int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -665,6 +668,7 @@ public class Hard extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void showExitConfirmation() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
@@ -698,12 +702,11 @@ public class Hard extends AppCompatActivity {
             overridePendingTransition(0, 0);
         });
 
-        negativeButton.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        negativeButton.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showReviveConfirmation(int[] levelTurns, ArrayList<Button> correctSeq, int[] userIndex, ArrayList<Button> userSeq, int[] currentScore, int[] currentLevel) {
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);

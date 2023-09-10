@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Guess The Pattern</string>
+    <string name="press_start">Press Start</string>
+    <string name="level_1">Level 1</string>
+    <string name="next_level">NEXT LEVEL</string>
+    <string name="new_highscore">New Highscore!</string>
+    <string name="start">START</string>
+    <string name="backBtnDesc">Closes the activity</string>
+    <string name="coinIconDesc">Coin icon</string>
+    <string name="resetBtnDesc">Resets the stage</string>
+    <string name="revealerBtnDesc">Uses 1 revealer item</string>
+    <string name="sqDesc">The squares buttons which show the pattern</string>
 </resources>

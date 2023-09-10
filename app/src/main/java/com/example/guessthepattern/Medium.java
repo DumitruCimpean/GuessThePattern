@@ -2,10 +2,13 @@ package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -50,6 +53,7 @@ public class Medium extends AppCompatActivity {
 
     private static final String highscoreKey = "highscoreKeyMedium";
 
+    @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +102,8 @@ public class Medium extends AppCompatActivity {
         Button sq9 = findViewById(R.id.sq9);
 
         int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
-        Drawable background = getResources().getDrawable(bcgID);
+        Resources res = getResources();
+        Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
         for (Button square : squares) {
             square.setBackground(background);
@@ -315,6 +320,7 @@ public class Medium extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq, int[] currentLevel){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
@@ -393,7 +399,8 @@ public class Medium extends AppCompatActivity {
         handler.post(game);
     }
 
-    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
+    @SuppressLint("SetTextI18n")
+    public void checkSequence(Button sqAdded , int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -557,6 +564,7 @@ public class Medium extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void showExitConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
@@ -589,12 +597,11 @@ public class Medium extends AppCompatActivity {
             overridePendingTransition(0, 0);
         });
 
-        negativeButton.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        negativeButton.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showReviveConfirmation(int[] levelTurns, ArrayList<Button> correctSeq, int[] userIndex, ArrayList<Button> userSeq, int[] currentScore, int[] currentLevel) {
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);

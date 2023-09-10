@@ -1,17 +1,16 @@
 package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -22,6 +21,7 @@ public class Settings extends AppCompatActivity {
     private static final String sqNum = "sqNum";
     private static final String musicVolKey = "musicVolKey";
     private static final String sfxVolKey = "sfxVolKey";
+    private Resources resources;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     private MediaPlayer levelEnter;
 
@@ -29,6 +29,7 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        resources = getResources();
 
 
         MyGlobals gob = new MyGlobals(this);
@@ -52,8 +53,8 @@ public class Settings extends AppCompatActivity {
         int sqYellowID = R.drawable.sq_bcg_yellow;
         int sqPurpleID = R.drawable.sq_bcg_purple;
 
-        Drawable checkmark = getResources().getDrawable(R.drawable.checkmark);
-        Drawable checkmarkDark = getResources().getDrawable(R.drawable.checkmark_darkgrey);
+        Drawable checkmark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark, getTheme());
+        Drawable checkmarkDark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark_darkgrey, getTheme());
 
         int selectedBcg = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
         if (selectedBcg == sqBlueID){
@@ -152,6 +153,7 @@ public class Settings extends AppCompatActivity {
 
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 musicText.setText("Music");
@@ -178,6 +180,7 @@ public class Settings extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 levelEnter.seekTo(0);
@@ -194,8 +197,8 @@ public class Settings extends AppCompatActivity {
         ImageButton sqRed = findViewById(R.id.sq2);
         ImageButton sqYellow = findViewById(R.id.sq3);
         ImageButton sqPurple = findViewById(R.id.sq4);
-        Drawable checkmark = getResources().getDrawable(R.drawable.checkmark);
-        Drawable checkmarkDark = getResources().getDrawable(R.drawable.checkmark_darkgrey);
+        Drawable checkmark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark, getTheme());
+        Drawable checkmarkDark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark_darkgrey, getTheme());
 
         ImageButton[] squares = {sqBlue, sqRed, sqYellow, sqPurple};
         for (ImageButton square : squares){

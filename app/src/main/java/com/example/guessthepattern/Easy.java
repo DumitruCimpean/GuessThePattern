@@ -17,11 +17,14 @@ import static com.example.guessthepattern.MainActivity.sqNum;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -52,6 +55,7 @@ public class Easy extends AppCompatActivity {
     private static final String highscoreKey = "highscoreKeyEasy";
 
 
+    @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +102,8 @@ public class Easy extends AppCompatActivity {
         Button sq4 = findViewById(R.id.sq4);
 
         int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
-        Drawable background = getResources().getDrawable(bcgID);
+        Resources res = getResources();
+        Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         Button[] squares = {sq1, sq2, sq3, sq4};
         for (Button square : squares) {
             square.setBackground(background);
@@ -126,7 +131,8 @@ public class Easy extends AppCompatActivity {
         editor.apply();
 
         TextView highscoreText = findViewById(R.id.highscore);
-        highscoreText.setText("Highscore: " + overallHighscore[0]);
+        String combinedHighscore = "Highscore: " + overallHighscore[0];
+        highscoreText.setText(combinedHighscore);
         TextView scoreText = findViewById(R.id.score);
 
         final int[] revealersCount = {prefs.getInt(revealsKey, 0)};
@@ -275,6 +281,7 @@ public class Easy extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void startGameRun(int[] levelTurns, ArrayList<Button> correctSeq, int[] currentLevel){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
@@ -348,7 +355,8 @@ public class Easy extends AppCompatActivity {
         handler.post(game);
     }
 
-    public void checkSequence(Button sqAdded ,int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
+    @SuppressLint("SetTextI18n")
+    public void checkSequence(Button sqAdded , int[] userIndex, ArrayList<Button> userSeq, ArrayList<Button> correctSeq, int[] currentScore, int[] currentLevel, int[] levelTurns, int[] levelTurnsPace){
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -489,6 +497,7 @@ public class Easy extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void showExitConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
@@ -526,6 +535,7 @@ public class Easy extends AppCompatActivity {
         dialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showReviveConfirmation(int[] levelTurns, ArrayList<Button> correctSeq, int[] userIndex, ArrayList<Button> userSeq, int[] currentScore, int[] currentLevel) {
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
