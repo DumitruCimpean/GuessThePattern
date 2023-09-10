@@ -7,6 +7,19 @@
     android:background="@color/dark_grey_100"
     tools:context=".Easy">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/red_nature_bcg"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
 
     <ImageButton
         android:id="@+id/backButton"
@@ -14,6 +27,7 @@
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/backBtnDesc"
         android:scaleType="fitCenter"
         android:src="@drawable/arrow"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,8 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.02"
-        app:layout_constraintWidth_percent="0.12"
-        android:contentDescription="@string/backBtnDesc"/>
+        app:layout_constraintWidth_percent="0.12" />
 
     <TextView
         android:id="@+id/title"
@@ -67,6 +80,7 @@
         android:id="@+id/coinPlus"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/coinIconDesc"
         android:src="@drawable/coin"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
@@ -76,8 +90,7 @@
         app:layout_constraintStart_toEndOf="@+id/level"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="0.014"
-        app:layout_constraintWidth_percent="0.07"
-        android:contentDescription="@string/coinIconDesc"/>
+        app:layout_constraintWidth_percent="0.07" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/squaresLayout"
@@ -105,7 +118,7 @@
             app:layout_constraintEnd_toStartOf="@id/sq2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/sq2"
@@ -120,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/sq1"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/sq3"
@@ -135,7 +148,7 @@
             app:layout_constraintEnd_toStartOf="@id/sq4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sq1"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/sq4"
@@ -150,7 +163,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/sq3"
             app:layout_constraintTop_toBottomOf="@id/sq2"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/nextLevel"
@@ -176,6 +189,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/nextlvl_bcg"
+            android:contentDescription="@string/resetBtnDesc"
             android:elevation="4dp"
             android:padding="10dp"
             android:scaleType="fitCenter"
@@ -189,8 +203,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintWidth_percent="0.4"
-            android:contentDescription="@string/resetBtnDesc"/>
+            app:layout_constraintWidth_percent="0.4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -280,6 +293,7 @@
         android:id="@+id/itemBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/rectangle_grey"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -287,15 +301,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:background="@drawable/rectangle_grey">
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/revealerBox"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/scores_bcg">
 
 
@@ -304,6 +317,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/revealerBtnDesc"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/revealer"
@@ -314,20 +328,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent="0.9"
-                android:contentDescription="@string/revealerBtnDesc"/>
+                app:layout_constraintWidth_percent="0.9" />
 
             <TextView
                 android:id="@+id/revelearsCount"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
-                android:fontFamily="@font/jost_variablewght"
-                app:layout_constraintHeight_percent="0.3"
                 android:autoSizeTextType="uniform"
+                android:fontFamily="@font/jost_variablewght"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.3"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

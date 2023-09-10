@@ -9,7 +9,9 @@
     <color name="medium_blue">#0096ff</color>
     <color name="darkest_blue">#5800ff</color>
     <color name="transparent">#00ffffff</color>
-    
+
+    <color name="semi_dark_grey_100">#50202124</color>
+
     <color name="red">#ff3333</color>
     <color name="yellow">#fcff34</color>
     <color name="green">#228B22</color>

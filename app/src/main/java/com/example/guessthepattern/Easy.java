@@ -136,8 +136,8 @@ public class Easy extends AppCompatActivity {
         TextView scoreText = findViewById(R.id.score);
 
         final int[] revealersCount = {prefs.getInt(revealsKey, 0)};
-        TextView revelearsCountText = findViewById(R.id.revelearsCount);
-        revelearsCountText.setText("x" + revealersCount[0]);
+        TextView revealersCountText = findViewById(R.id.revelearsCount);
+        revealersCountText.setText("x" + revealersCount[0]);
 
         ArrayList<Button> correctSeq = new ArrayList<>();
 
@@ -230,7 +230,7 @@ public class Easy extends AppCompatActivity {
                 revealersCount[0]--;
                 editor.putInt(revealsKey, revealersCount[0]);
                 editor.apply();
-                revelearsCountText.setText("x" + revealersCount[0]);
+                revealersCountText.setText("x" + revealersCount[0]);
                 title.setText("Revealing!");
                 makeSqUnclickable();
                 revealBtn.setClickable(false);
