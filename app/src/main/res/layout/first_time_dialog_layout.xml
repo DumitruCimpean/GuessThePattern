@@ -48,12 +48,12 @@
 
     <Button
         android:id="@+id/positive_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:autoSizeTextType="uniform"
-        android:background="@drawable/dialog_button_rectangle"
+        android:background="@drawable/start_rectangle"
         android:fontFamily="@font/jost_variablewght"
         android:padding="5dp"
         android:text="Claim"

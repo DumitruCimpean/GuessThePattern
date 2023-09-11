@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.renderscript.Sampler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -41,6 +42,12 @@ public class MyGlobals extends Activity {
 
     public void openActivity(Class className) {
         Intent intent = new Intent(mContext, className);
+        mContext.startActivity(intent);
+    }
+
+    public void openActivityWithExtraInt(Class className, String stringKey, int value) {
+        Intent intent = new Intent(mContext, className);
+        intent.putExtra(stringKey, value);
         mContext.startActivity(intent);
     }
 

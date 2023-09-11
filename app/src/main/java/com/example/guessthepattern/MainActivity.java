@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             gob.clickEffectResize(chooseBtn, this);
             levelEnter.seekTo(0);
             levelEnter.start();
-            Intent intent = new Intent(this, Levels.class);
+            Intent intent = new Intent(this, Gamemodes.class);
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             }, 100);
         });
 
-        ImageButton settingsBtn = findViewById(R.id.settingsBtn);
+        Button settingsBtn = findViewById(R.id.settingsBtn);
         settingsBtn.setOnClickListener(view -> {
             gob.clickEffectResize(settingsBtn, this);
             levelEnter.seekTo(0);

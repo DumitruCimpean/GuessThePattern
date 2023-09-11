@@ -13,13 +13,19 @@
         android:theme="@style/Theme.GuessThePattern"
         tools:targetApi="31">
         <activity
+            android:name=".Grids"
+            android:exported="false" />
+        <activity
+            android:name=".EasyTimed"
+            android:exported="false" />
+        <activity
             android:name=".Settings"
             android:exported="false" />
         <activity
             android:name=".Shop"
             android:exported="false" />
         <activity
-            android:name=".Levels"
+            android:name=".Gamemodes"
             android:exported="false" />
         <activity
             android:name=".Hard"
