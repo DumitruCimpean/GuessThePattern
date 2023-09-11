@@ -615,7 +615,7 @@ public class EasyTimed extends AppCompatActivity {
                 timerText.setText(text);
             }
             public  void onFinish(){
-                timerText.setText("Game Over");
+                gameOverCall();
             }
         }.start();
     }
