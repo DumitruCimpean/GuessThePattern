@@ -18,11 +18,11 @@ There's also a score system, each level advanced representing another point on t
 | ![Score](https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/ad721e19-924a-4a55-a5b7-59d27d40efc5) | ![NewHScore](https://github.com/DumitruCimpean/GuessThePattern/assets/142332910/bb0c3186-0294-4aef-83c1-5a7d68527cd6) |
 
 <h1> Gamemodes </h1>
-There are currently 2 gamemodes available: Classic and Timed [WIP]:
+There are currently 2 gamemodes available: Classic and Timed:
 
  - In CLASSIC, you play the base game, described earlier.
 
-- [WIP] In TIMED, the classic game experience is enhanced by the introduction of a _timer_, which ticks down the moment you hit **START**. After that, the player has to pass as many levels as they can in the designated time. The timer only ticks down when the player has to repeat the sequence. 
+- In TIMED, the classic game experience is enhanced by the introduction of a _timer_, which ticks down the moment you input the first pattern. After that, the player has to pass as many levels as they can in the designated time. The timer only ticks down when the player has to repeat the sequence. 
 
 <h1> Personalization </h1>
 The Settings menu allows you to personalize things such as the color of the squares in the stage, have numbers on them or not, but also adjust the volume of the music and the sound effects in the game.
