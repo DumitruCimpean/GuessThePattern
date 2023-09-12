@@ -103,7 +103,7 @@ public class Hard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_hard);
-        MyGlobals gob = new MyGlobals(this);
+        gob = new MyGlobals(this);
 
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
@@ -355,7 +355,7 @@ public class Hard extends AppCompatActivity {
 
         makeSqUnclickable();
         reset.setOnClickListener(view -> resetStart());
-        
+
         if (revealersCount == 0){
             revealBtn.setAlpha(0.5f);
         }

@@ -96,7 +96,7 @@ public class Medium extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_medium);
-        MyGlobals gob = new MyGlobals(this);
+        gob = new MyGlobals(this);
 
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
