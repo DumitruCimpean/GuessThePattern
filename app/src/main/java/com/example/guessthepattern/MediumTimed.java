@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -40,8 +41,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-public class Hard extends AppCompatActivity {
+public class MediumTimed extends AppCompatActivity {
 
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
@@ -51,6 +53,8 @@ public class Hard extends AppCompatActivity {
     private MediaPlayer reviveSound;
     private MediaPlayer gameOverSound;
     private MediaPlayer correctSound;
+
+
     private TextView title;
     private TextView level;
     private TextView scoreText;
@@ -60,6 +64,10 @@ public class Hard extends AppCompatActivity {
     private Button nextLevel;
     private ImageView coinPlus;
     private ImageButton revealBtn;
+    private TextView timerText;
+    private CountDownTimer countDown;
+    private long milliLeft;
+    private long timerTotalTimeMs;
     private Button sq1;
     private Button sq2;
     private Button sq3;
@@ -69,13 +77,6 @@ public class Hard extends AppCompatActivity {
     private Button sq7;
     private Button sq8;
     private Button sq9;
-    private Button sq10;
-    private Button sq11;
-    private Button sq12;
-    private Button sq13;
-    private Button sq14;
-    private Button sq15;
-    private Button sq16;
     private int userIndex;
     private ArrayList<Button> userSeq;
     private ArrayList<Button> correctSeq;
@@ -91,7 +92,7 @@ public class Hard extends AppCompatActivity {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
 
-    private static final String highscoreKey = "highscoreKeyHard";
+    private static final String highscoreKey = "highscoreKeyMediumTimed";
 
 
 
@@ -100,7 +101,7 @@ public class Hard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_hard);
+        setContentView(R.layout.activity_medium_timed);
         MyGlobals gob = new MyGlobals(this);
 
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
@@ -115,6 +116,7 @@ public class Hard extends AppCompatActivity {
         nextLevel = findViewById(R.id.nextLevel);
         coinPlus = findViewById(R.id.coinPlus);
         revealBtn = findViewById(R.id.revelearBtn);
+        timerText = findViewById(R.id.timerText);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -125,13 +127,6 @@ public class Hard extends AppCompatActivity {
         sq7 = findViewById(R.id.sq7);
         sq8 = findViewById(R.id.sq8);
         sq9 = findViewById(R.id.sq9);
-        sq10 = findViewById(R.id.sq10);
-        sq11 = findViewById(R.id.sq11);
-        sq12 = findViewById(R.id.sq12);
-        sq13 = findViewById(R.id.sq13);
-        sq14 = findViewById(R.id.sq14);
-        sq15 = findViewById(R.id.sq15);
-        sq16 = findViewById(R.id.sq16);
 
         sqSound = MediaPlayer.create(this, R.raw.sq_clicked);
         startSound = MediaPlayer.create(this, R.raw.start_sound);
@@ -143,6 +138,9 @@ public class Hard extends AppCompatActivity {
         gameOverSound = MediaPlayer.create(this, R.raw.game_over);
         gameOnSound.setLooping(true);
         gameOnSound.start();
+
+        timerTotalTimeMs = 10000;
+        milliLeft = timerTotalTimeMs;
 
         float musicVol = prefs.getInt(musicVolKey, 100) * 0.01f;
         gameOnSound.setVolume(musicVol, musicVol);
@@ -166,7 +164,7 @@ public class Hard extends AppCompatActivity {
         int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
-        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
+        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
         for (Button square : squares) {
             square.setBackground(background);
         }
@@ -294,62 +292,6 @@ public class Hard extends AppCompatActivity {
             checkSequence(sq9);
         });
 
-        sq10.setOnClickListener(view -> {
-            sq10.setAlpha(0.5F);
-            sqSound.seekTo(0);
-            sqSound.start();
-            gob.clickEffectDarken(sq10);
-            checkSequence(sq10);
-        });
-
-        sq11.setOnClickListener(view -> {
-            sq11.setAlpha(0.5F);
-            sqSound.seekTo(0);
-            sqSound.start();
-            gob.clickEffectDarken(sq11);
-            checkSequence(sq11);
-        });
-
-        sq12.setOnClickListener(view -> {
-            sq12.setAlpha(0.5F);
-            sqSound.seekTo(0);
-            sqSound.start();
-            gob.clickEffectDarken(sq12);
-            checkSequence(sq12);
-        });
-
-        sq13.setOnClickListener(view -> {
-            sq13.setAlpha(0.5F);
-            sqSound.seekTo(0);
-            sqSound.start();
-            gob.clickEffectDarken(sq13);
-            checkSequence(sq13);
-        });
-
-        sq14.setOnClickListener(view -> {
-            sq14.setAlpha(0.5F);
-            sqSound.seekTo(0);
-            sqSound.start();
-            gob.clickEffectDarken(sq14);
-            checkSequence(sq14);
-        });
-
-        sq15.setOnClickListener(view -> {
-            sq15.setAlpha(0.5F);
-            sqSound.seekTo(0);
-            sqSound.start();
-            gob.clickEffectDarken(sq15);
-            checkSequence(sq15);
-        });
-
-        sq16.setOnClickListener(view -> {
-            sq16.setAlpha(0.5F);
-            sqSound.seekTo(0);
-            sqSound.start();
-            gob.clickEffectDarken(sq16);
-            checkSequence(sq16);
-        });
-
         makeSqUnclickable();
         reset.setOnClickListener(view -> {
             reset.setVisibility(View.INVISIBLE);
@@ -363,6 +305,8 @@ public class Hard extends AppCompatActivity {
             scoreText.setText("Score: " + currentScore);
             turns = levelTurns;
             newScore.setVisibility(View.INVISIBLE);
+            milliLeft = timerTotalTimeMs;
+            timerText.setText(R.string.timerTextString);
             editor.putInt(delay1, 1000);
             editor.putInt(delay2, 1800);
             editor.putInt(delay3, 1500);
@@ -384,6 +328,7 @@ public class Hard extends AppCompatActivity {
                 editor.apply();
                 revealersCountText.setText("x" + revealersCount);
                 title.setText("Revealing!");
+                timerPause();
                 makeSqUnclickable();
                 revealBtn.setClickable(false);
                 revealBtn.setAlpha(0.5f);
@@ -413,6 +358,7 @@ public class Hard extends AppCompatActivity {
                                 Handler titleHandler = new Handler();
                                 titleHandler.postDelayed(() -> {
                                     title.setText("Repeat the pattern");
+                                    timerResume();
                                     makeSqClickable();
                                     revealBtn.setClickable(true);
                                     if (revealersCount > 0){
@@ -442,6 +388,8 @@ public class Hard extends AppCompatActivity {
 
         title.setText("Watch the pattern");
         level.setText("Level " + currentLevel);
+        timerStart(milliLeft);
+        timerPause();
         makeSqUnclickable();
         revealBtn.setClickable(false);
         revealBtn.setAlpha(0.5f);
@@ -457,7 +405,7 @@ public class Hard extends AppCompatActivity {
                     int delay2ms = prefs.getInt(delay2, 0);
                     int delayBetween = prefs.getInt(delay3, 0);
 
-                    Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
+                    Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
 
                     Handler handler = new Handler();
                     Random random = new Random();
@@ -478,6 +426,7 @@ public class Hard extends AppCompatActivity {
                         titleHandler.postDelayed(() -> {
                             title.setText("Repeat the pattern");
                             level.setText(0 + "/" + levelTurns);
+                            timerResume();
                             if(repeatSound != null){
                                 repeatSound.start();
                             }
@@ -516,6 +465,7 @@ public class Hard extends AppCompatActivity {
 
         title.setText("Game Over!");
         level.setText("Try again");
+        timerPause();
         revealBtn.setClickable(false);
         if (gameOnSound != null){
             gameOnSound.stop();
@@ -557,7 +507,8 @@ public class Hard extends AppCompatActivity {
         final int[] delayBetween = {prefs.getInt(delay3, 0)};
 
         title.setText("Correct!");
-        if (correctSound != null) {
+        timerPause();
+        if (correctSound != null){
             correctSound.start();
         }
         makeSqUnclickable();
@@ -611,13 +562,6 @@ public class Hard extends AppCompatActivity {
         sq7.setClickable(false);
         sq8.setClickable(false);
         sq9.setClickable(false);
-        sq10.setClickable(false);
-        sq11.setClickable(false);
-        sq12.setClickable(false);
-        sq13.setClickable(false);
-        sq14.setClickable(false);
-        sq15.setClickable(false);
-        sq16.setClickable(false);
     }
 
     public void makeSqClickable(){
@@ -630,17 +574,10 @@ public class Hard extends AppCompatActivity {
         sq7.setClickable(true);
         sq8.setClickable(true);
         sq9.setClickable(true);
-        sq10.setClickable(true);
-        sq11.setClickable(true);
-        sq12.setClickable(true);
-        sq13.setClickable(true);
-        sq14.setClickable(true);
-        sq15.setClickable(true);
-        sq16.setClickable(true);
     }
 
     public void changeSqAlpha(float alphaValue){
-        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9, sq10, sq11, sq12, sq13, sq14, sq15, sq16};
+        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
         for (Button square : squares) {
             square.setAlpha(alphaValue);
         }
@@ -709,6 +646,8 @@ public class Hard extends AppCompatActivity {
             editor.apply();
             userIndex = 0;
             userSeq.clear();
+            milliLeft = timerTotalTimeMs;
+            timerText.setText(R.string.timerTextString);
             startGameRun();
 
         });
@@ -734,6 +673,30 @@ public class Hard extends AppCompatActivity {
         dialog.show();
     }
 
+    private void timerStart(long timeLengthMs){
+        countDown = new CountDownTimer(timeLengthMs, 1){
+            public void onTick(long millisUntilFinished){
+                milliLeft = millisUntilFinished;
+                @SuppressLint("DefaultLocale")
+                String text = String.format("%02d.%02d",
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished),
+                        (TimeUnit.MILLISECONDS.toMillis(millisUntilFinished) / 10) % 100);
+                timerText.setText(text);
+            }
+            public  void onFinish(){
+                timerText.setText("Out of time!");
+                gameOverCall();
+            }
+        }.start();
+    }
+
+    private void timerPause() {
+        countDown.cancel();
+    }
+
+    private void timerResume() {
+        timerStart(milliLeft);
+    }
     @Override
     public void onBackPressed() {
         showExitConfirmationDialog();

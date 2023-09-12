@@ -63,7 +63,12 @@ public class Grids extends AppCompatActivity {
             gob.clickEffectResize(mediumBtn, this);
             levelEnter.seekTo(0);
             levelEnter.start();
-            Intent intent = new Intent(this, Medium.class);
+            Intent intent;
+            if (modeSelected == 1){
+                intent = new Intent(this, Medium.class);
+            }else{
+                intent = new Intent(this, MediumTimed.class);
+            }
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -78,7 +83,12 @@ public class Grids extends AppCompatActivity {
             gob.clickEffectResize(hardBtn,this);
             levelEnter.seekTo(0);
             levelEnter.start();
-            Intent intent = new Intent(this, Hard.class);
+            Intent intent;
+            if (modeSelected == 1){
+                intent = new Intent(this, Hard.class);
+            }else{
+                intent = new Intent(this, HardTimed.class);
+            }
             Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(

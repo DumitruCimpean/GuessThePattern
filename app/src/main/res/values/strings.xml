@@ -10,4 +10,5 @@
     <string name="resetBtnDesc">Resets the stage</string>
     <string name="revealerBtnDesc">Uses 1 revealer item</string>
     <string name="sqDesc">The squares buttons which show the pattern</string>
+    <string name="timerTextString">10.00</string>
 </resources>

@@ -53,8 +53,6 @@ public class EasyTimed extends AppCompatActivity {
     private MediaPlayer reviveSound;
     private MediaPlayer gameOverSound;
     private MediaPlayer correctSound;
-    CountDownTimer countDown;
-    long milliLeft;
 
     private TextView title;
     private TextView level;
@@ -65,6 +63,10 @@ public class EasyTimed extends AppCompatActivity {
     private Button nextLevel;
     private ImageView coinPlus;
     private ImageButton revealBtn;
+    private TextView timerText;
+    private CountDownTimer countDown;
+    private long milliLeft;
+    private long timerTotalTimeMs;
     Button sq1;
     Button sq2;
     Button sq3;
@@ -108,6 +110,7 @@ public class EasyTimed extends AppCompatActivity {
         nextLevel = findViewById(R.id.nextLevel);
         coinPlus = findViewById(R.id.coinPlus);
         revealBtn = findViewById(R.id.revelearBtn);
+        timerText = findViewById(R.id.timerText);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -137,12 +140,8 @@ public class EasyTimed extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        long timerTotalTimeMs = 30000;
-
-        timerStart(timerTotalTimeMs);
-        timerPause();
+        timerTotalTimeMs = 10000;
         milliLeft = timerTotalTimeMs;
-
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> {
@@ -254,13 +253,14 @@ public class EasyTimed extends AppCompatActivity {
             scoreText.setText("Score: " + currentScore);
             turns = levelTurns;
             newScore.setVisibility(View.INVISIBLE);
-            startGameRun();
             milliLeft = timerTotalTimeMs;
+            timerText.setText(R.string.timerTextString);
             editor.putInt(delay1, 1000);
             editor.putInt(delay2, 1800);
             editor.putInt(delay3, 1500);
             editor.putInt(coinsPoolKey, 1);
             editor.apply();
+            startGameRun();
         });
 
         ConstraintLayout revealBox = findViewById(R.id.revealerBox);
@@ -409,15 +409,20 @@ public class EasyTimed extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void gameOverCall(){
 
         title.setText("Game Over!");
         level.setText("Try again");
         timerPause();
         revealBtn.setClickable(false);
-        gameOnSound.stop();
-        gameOnSound.prepareAsync();
-        gameOverSound.start();
+        if (gameOnSound != null){
+            gameOnSound.stop();
+            gameOnSound.prepareAsync();
+        }
+        if (gameOverSound != null){
+            gameOverSound.start();
+        }
         if (revivesOwned > 0){
             showReviveConfirmation();
         }else {
@@ -441,6 +446,7 @@ public class EasyTimed extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void correctCall(){
 
         final int[] totalCoins = {prefs.getInt(coinsKey, 0)};
@@ -451,7 +457,9 @@ public class EasyTimed extends AppCompatActivity {
 
         title.setText("Correct!");
         timerPause();
-        correctSound.start();
+        if (correctSound != null){
+            correctSound.start();
+        }
         makeSqUnclickable();
         revealBtn.setClickable(false);
         currentScore++;
@@ -577,6 +585,8 @@ public class EasyTimed extends AppCompatActivity {
             editor.apply();
             userIndex = 0;
             userSeq.clear();
+            milliLeft = timerTotalTimeMs;
+            timerText.setText(R.string.timerTextString);
             startGameRun();
 
         });
@@ -601,26 +611,26 @@ public class EasyTimed extends AppCompatActivity {
         });
         dialog.show();
     }
+    // TODO: timer text color change when time is about to run out; tweak total time
 
     private void timerStart(long timeLengthMs){
-        TextView timerText = findViewById(R.id.timerText);
         countDown = new CountDownTimer(timeLengthMs, 1){
             public void onTick(long millisUntilFinished){
                 milliLeft = millisUntilFinished;
-                long ms = millisUntilFinished;
                 @SuppressLint("DefaultLocale")
                 String text = String.format("%02d.%02d",
-                        TimeUnit.MILLISECONDS.toSeconds(ms),
-                        (TimeUnit.MILLISECONDS.toMillis(ms) / 10) % 100);
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished),
+                        (TimeUnit.MILLISECONDS.toMillis(millisUntilFinished) / 10) % 100);
                 timerText.setText(text);
             }
             public  void onFinish(){
+                timerText.setText("Out of time!");
                 gameOverCall();
             }
         }.start();
     }
 
-    public void timerPause() {
+    private void timerPause() {
         countDown.cancel();
     }
 

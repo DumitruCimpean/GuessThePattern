@@ -84,7 +84,7 @@ public class Medium extends AppCompatActivity {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
 
-    private static final String highscoreKey = "highscoreKeyEasy";
+    private static final String highscoreKey = "highscoreKeyMedium";
 
 
 
@@ -293,12 +293,12 @@ public class Medium extends AppCompatActivity {
             scoreText.setText("Score: " + currentScore);
             turns = levelTurns;
             newScore.setVisibility(View.INVISIBLE);
-            startGameRun();
             editor.putInt(delay1, 1000);
             editor.putInt(delay2, 1800);
             editor.putInt(delay3, 1500);
             editor.putInt(coinsPoolKey, 1);
             editor.apply();
+            startGameRun();
         });
 
         ConstraintLayout revealBox = findViewById(R.id.revealerBox);
@@ -447,9 +447,13 @@ public class Medium extends AppCompatActivity {
         title.setText("Game Over!");
         level.setText("Try again");
         revealBtn.setClickable(false);
-        gameOnSound.stop();
-        gameOnSound.prepareAsync();
-        gameOverSound.start();
+        if (gameOnSound != null){
+            gameOnSound.stop();
+            gameOnSound.prepareAsync();
+        }
+        if (gameOverSound != null){
+            gameOverSound.start();
+        }
         if (revivesOwned > 0){
             showReviveConfirmation();
         }else {
@@ -483,7 +487,9 @@ public class Medium extends AppCompatActivity {
         final int[] delayBetween = {prefs.getInt(delay3, 0)};
 
         title.setText("Correct!");
-        correctSound.start();
+        if (correctSound != null) {
+            correctSound.start();
+        }
         makeSqUnclickable();
         revealBtn.setClickable(false);
         currentScore++;

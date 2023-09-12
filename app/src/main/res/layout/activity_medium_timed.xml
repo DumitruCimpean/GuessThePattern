@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey_100"
-    tools:context=".Hard">
+    tools:context=".MediumTimed">
 
 
     <ImageButton
@@ -26,6 +26,7 @@
         app:layout_constraintWidth_percent="0.12"
         android:contentDescription="@string/backBtnDesc"/>
 
+
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
@@ -40,9 +41,8 @@
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.086"
+        app:layout_constraintVertical_bias="0.083"
         app:layout_constraintWidth_percent="0.8" />
-
 
     <TextView
         android:id="@+id/level"
@@ -78,6 +78,26 @@
         app:layout_constraintVertical_bias="0.014"
         app:layout_constraintWidth_percent="0.07"
         android:contentDescription="@string/coinIconDesc"/>
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:text="10.00"
+        android:textAlignment="center"
+        android:textFontWeight="700"
+        android:textColor="@color/light_blue"
+        app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/level"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_percent="0.3" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/squaresLayout"
@@ -87,10 +107,9 @@
         app:layout_constraintBottom_toTopOf="@+id/score"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/level"
-        app:layout_constraintVertical_bias="0.708">
+        app:layout_constraintVertical_bias="0.647">
 
 
         <Button
@@ -100,9 +119,9 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq5"
+            app:layout_constraintBottom_toTopOf="@id/sq4"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq2"
+            app:layout_constraintEnd_toStartOf="@id/sq2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck"/>
@@ -114,10 +133,10 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq6"
+            app:layout_constraintBottom_toTopOf="@id/sq5"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq3"
-            app:layout_constraintStart_toEndOf="@+id/sq1"
+            app:layout_constraintEnd_toStartOf="@id/sq3"
+            app:layout_constraintStart_toEndOf="@id/sq1"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck"/>
 
@@ -128,13 +147,14 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq7"
+            app:layout_constraintBottom_toTopOf="@id/sq6"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq4"
-            app:layout_constraintStart_toEndOf="@+id/sq2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sq2"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="SpeakableTextPresentCheck" />
 
+        <!-- Row 2 -->
         <Button
             android:id="@+id/sq4"
             android:layout_width="0dp"
@@ -142,12 +162,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq8"
+            app:layout_constraintBottom_toTopOf="@id/sq7"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sq3"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            app:layout_constraintEnd_toStartOf="@id/sq5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sq1"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/sq5"
@@ -156,12 +176,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq9"
+            app:layout_constraintBottom_toTopOf="@id/sq8"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sq1"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            app:layout_constraintEnd_toStartOf="@id/sq6"
+            app:layout_constraintStart_toEndOf="@id/sq4"
+            app:layout_constraintTop_toBottomOf="@id/sq2"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/sq6"
@@ -170,13 +190,14 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq10"
+            app:layout_constraintBottom_toTopOf="@id/sq9"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq7"
-            app:layout_constraintStart_toEndOf="@+id/sq5"
-            app:layout_constraintTop_toBottomOf="@+id/sq2"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sq5"
+            app:layout_constraintTop_toBottomOf="@id/sq3"
+            tools:ignore="SpeakableTextPresentCheck" />
 
+        <!-- Row 3 -->
         <Button
             android:id="@+id/sq7"
             android:layout_width="0dp"
@@ -184,12 +205,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq11"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq8"
-            app:layout_constraintStart_toEndOf="@+id/sq6"
-            app:layout_constraintTop_toBottomOf="@+id/sq3"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            app:layout_constraintEnd_toStartOf="@id/sq8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sq4"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/sq8"
@@ -198,12 +219,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq12"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sq7"
-            app:layout_constraintTop_toBottomOf="@+id/sq4"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            app:layout_constraintEnd_toStartOf="@id/sq9"
+            app:layout_constraintStart_toEndOf="@id/sq7"
+            app:layout_constraintTop_toBottomOf="@id/sq5"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/sq9"
@@ -212,112 +233,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq13"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq10"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sq5"
-            tools:ignore="SpeakableTextPresentCheck"/>
-
-        <Button
-            android:id="@+id/sq10"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq14"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq11"
-            app:layout_constraintStart_toEndOf="@+id/sq9"
-            app:layout_constraintTop_toBottomOf="@+id/sq6"
-            tools:ignore="SpeakableTextPresentCheck"/>
-
-        <Button
-            android:id="@+id/sq11"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq15"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq12"
-            app:layout_constraintStart_toEndOf="@+id/sq10"
-            app:layout_constraintTop_toBottomOf="@+id/sq7"
-            tools:ignore="SpeakableTextPresentCheck"/>
-
-        <Button
-            android:id="@+id/sq12"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toTopOf="@+id/sq16"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sq11"
-            app:layout_constraintTop_toBottomOf="@+id/sq8"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-
-        <Button
-            android:id="@+id/sq13"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sq9"
-            tools:ignore="SpeakableTextPresentCheck"/>
-
-        <Button
-            android:id="@+id/sq14"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
             android:contentDescription="@string/sqDesc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq15"
-            app:layout_constraintStart_toEndOf="@+id/sq13"
-            app:layout_constraintTop_toBottomOf="@+id/sq10"
-            tools:ignore="SpeakableTextPresentCheck"/>
-
-        <Button
-            android:id="@+id/sq15"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/sq16"
-            app:layout_constraintStart_toEndOf="@+id/sq14"
-            app:layout_constraintTop_toBottomOf="@+id/sq11"
-            tools:ignore="SpeakableTextPresentCheck"/>
-
-        <Button
-            android:id="@+id/sq16"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sq15"
-            app:layout_constraintTop_toBottomOf="@+id/sq12"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            app:layout_constraintStart_toEndOf="@id/sq8"
+            app:layout_constraintTop_toBottomOf="@id/sq6" />
 
         <Button
             android:id="@+id/nextLevel"
@@ -357,8 +278,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
             app:layout_constraintWidth_percent="0.4"
-            android:contentDescription="@string/coinIconDesc"/>
-
+            android:contentDescription="@string/resetBtnDesc"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -407,10 +327,10 @@
         android:id="@+id/newHScore"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
         android:text="@string/new_highscore"
-        android:layout_marginTop="5dp"
         android:textAlignment="center"
         android:textColor="@color/green"
         android:visibility="invisible"
@@ -443,7 +363,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.978"
         app:layout_constraintWidth_percent="0.3" />
-
     <RelativeLayout
         android:id="@+id/itemBar"
         android:layout_width="match_parent"
@@ -504,6 +423,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

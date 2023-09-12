@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -40,8 +41,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-public class Hard extends AppCompatActivity {
+public class HardTimed extends AppCompatActivity {
 
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
@@ -60,6 +62,11 @@ public class Hard extends AppCompatActivity {
     private Button nextLevel;
     private ImageView coinPlus;
     private ImageButton revealBtn;
+    private TextView timerText;
+    private CountDownTimer countDown;
+    private long milliLeft;
+    private long timerTotalTimeMs;
+
     private Button sq1;
     private Button sq2;
     private Button sq3;
@@ -91,7 +98,7 @@ public class Hard extends AppCompatActivity {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
 
-    private static final String highscoreKey = "highscoreKeyHard";
+    private static final String highscoreKey = "highscoreKeyHardtimed";
 
 
 
@@ -100,7 +107,7 @@ public class Hard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_hard);
+        setContentView(R.layout.activity_hard_timed);
         MyGlobals gob = new MyGlobals(this);
 
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
@@ -115,6 +122,7 @@ public class Hard extends AppCompatActivity {
         nextLevel = findViewById(R.id.nextLevel);
         coinPlus = findViewById(R.id.coinPlus);
         revealBtn = findViewById(R.id.revelearBtn);
+        timerText = findViewById(R.id.timerText);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -143,6 +151,9 @@ public class Hard extends AppCompatActivity {
         gameOverSound = MediaPlayer.create(this, R.raw.game_over);
         gameOnSound.setLooping(true);
         gameOnSound.start();
+
+        timerTotalTimeMs = 10000;
+        milliLeft = timerTotalTimeMs;
 
         float musicVol = prefs.getInt(musicVolKey, 100) * 0.01f;
         gameOnSound.setVolume(musicVol, musicVol);
@@ -363,6 +374,8 @@ public class Hard extends AppCompatActivity {
             scoreText.setText("Score: " + currentScore);
             turns = levelTurns;
             newScore.setVisibility(View.INVISIBLE);
+            milliLeft = timerTotalTimeMs;
+            timerText.setText(R.string.timerTextString);
             editor.putInt(delay1, 1000);
             editor.putInt(delay2, 1800);
             editor.putInt(delay3, 1500);
@@ -384,6 +397,7 @@ public class Hard extends AppCompatActivity {
                 editor.apply();
                 revealersCountText.setText("x" + revealersCount);
                 title.setText("Revealing!");
+                timerPause();
                 makeSqUnclickable();
                 revealBtn.setClickable(false);
                 revealBtn.setAlpha(0.5f);
@@ -413,6 +427,7 @@ public class Hard extends AppCompatActivity {
                                 Handler titleHandler = new Handler();
                                 titleHandler.postDelayed(() -> {
                                     title.setText("Repeat the pattern");
+                                    timerResume();
                                     makeSqClickable();
                                     revealBtn.setClickable(true);
                                     if (revealersCount > 0){
@@ -442,6 +457,8 @@ public class Hard extends AppCompatActivity {
 
         title.setText("Watch the pattern");
         level.setText("Level " + currentLevel);
+        timerStart(milliLeft);
+        timerPause();
         makeSqUnclickable();
         revealBtn.setClickable(false);
         revealBtn.setAlpha(0.5f);
@@ -478,6 +495,7 @@ public class Hard extends AppCompatActivity {
                         titleHandler.postDelayed(() -> {
                             title.setText("Repeat the pattern");
                             level.setText(0 + "/" + levelTurns);
+                            timerResume();
                             if(repeatSound != null){
                                 repeatSound.start();
                             }
@@ -516,6 +534,7 @@ public class Hard extends AppCompatActivity {
 
         title.setText("Game Over!");
         level.setText("Try again");
+        timerPause();
         revealBtn.setClickable(false);
         if (gameOnSound != null){
             gameOnSound.stop();
@@ -557,6 +576,7 @@ public class Hard extends AppCompatActivity {
         final int[] delayBetween = {prefs.getInt(delay3, 0)};
 
         title.setText("Correct!");
+        timerPause();
         if (correctSound != null) {
             correctSound.start();
         }
@@ -709,6 +729,8 @@ public class Hard extends AppCompatActivity {
             editor.apply();
             userIndex = 0;
             userSeq.clear();
+            milliLeft = timerTotalTimeMs;
+            timerText.setText(R.string.timerTextString);
             startGameRun();
 
         });
@@ -732,6 +754,31 @@ public class Hard extends AppCompatActivity {
             };handler.postDelayed(afterGameOver, 300);
         });
         dialog.show();
+    }
+
+    private void timerStart(long timeLengthMs){
+        countDown = new CountDownTimer(timeLengthMs, 1){
+            public void onTick(long millisUntilFinished){
+                milliLeft = millisUntilFinished;
+                @SuppressLint("DefaultLocale")
+                String text = String.format("%02d.%02d",
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished),
+                        (TimeUnit.MILLISECONDS.toMillis(millisUntilFinished) / 10) % 100);
+                timerText.setText(text);
+            }
+            public  void onFinish(){
+                timerText.setText("Out of time!");
+                gameOverCall();
+            }
+        }.start();
+    }
+
+    public void timerPause() {
+        countDown.cancel();
+    }
+
+    private void timerResume() {
+        timerStart(milliLeft);
     }
 
     @Override
