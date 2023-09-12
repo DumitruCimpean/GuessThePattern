@@ -61,10 +61,13 @@ public class MediumTimed extends AppCompatActivity {
     private TextView scoreText;
     private TextView highscoreText;
     private TextView newScore;
+    TextView revealersCountText;
     private ImageButton reset;
     private Button nextLevel;
     private ImageView coinPlus;
     private ImageButton revealBtn;
+    private ConstraintLayout revealBox;
+    private int bcgID;
     private TextView timerText;
     private CountDownTimer countDown;
     private long milliLeft;
@@ -92,6 +95,7 @@ public class MediumTimed extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
+    private MyGlobals gob;
 
     private static final String highscoreKey = "highscoreKeyMediumTimed";
 
@@ -103,7 +107,7 @@ public class MediumTimed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_medium_timed);
-        MyGlobals gob = new MyGlobals(this);
+        gob = new MyGlobals(this);
 
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
@@ -118,6 +122,8 @@ public class MediumTimed extends AppCompatActivity {
         coinPlus = findViewById(R.id.coinPlus);
         revealBtn = findViewById(R.id.revelearBtn);
         timerText = findViewById(R.id.timerText);
+        revealBox = findViewById(R.id.revealerBox);
+        revealersCountText = findViewById(R.id.revelearsCount);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -162,7 +168,7 @@ public class MediumTimed extends AppCompatActivity {
             showExitConfirmationDialog();
         });
 
-        int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
@@ -192,7 +198,6 @@ public class MediumTimed extends AppCompatActivity {
         highscoreText.setText(combinedHighscore);
 
         revealersCount = prefs.getInt(revealsKey, 0);
-        TextView revealersCountText = findViewById(R.id.revelearsCount);
         revealersCountText.setText("x" + revealersCount);
         revivesOwned = prefs.getInt(revivesKey, 0);
 
@@ -294,88 +299,12 @@ public class MediumTimed extends AppCompatActivity {
         });
 
         makeSqUnclickable();
-        reset.setOnClickListener(view -> {
-            reset.setVisibility(View.INVISIBLE);
-            startSound.start();
-            gameOnSound.start();
-            levelTurns = 4;
-            levelTurnsPace = prefs.getInt(paceKey, 0);
-            currentLevel = 1;
-            level.setText("Level: " + currentLevel);
-            currentScore = 0;
-            scoreText.setText("Score: " + currentScore);
-            turns = levelTurns;
-            newScore.setVisibility(View.INVISIBLE);
-            milliLeft = timerTotalTimeMs;
-            timerText.setText(R.string.timerTextString);
-            editor.putInt(delay1, 1000);
-            editor.putInt(delay2, 1800);
-            editor.putInt(delay3, 1500);
-            editor.putInt(coinsPoolKey, 1);
-            editor.apply();
-            startGameRun();
-        });
+        reset.setOnClickListener(view -> resetStart());
 
-        ConstraintLayout revealBox = findViewById(R.id.revealerBox);
         if (revealersCount == 0){
             revealBtn.setAlpha(0.5f);
         }
-        revealBtn.setOnClickListener(view -> {
-            if (revealersCount > 0){
-                gob.clickEffectResize(revealBox, this);
-                revealSound.start();
-                revealersCount--;
-                editor.putInt(revealsKey, revealersCount);
-                editor.apply();
-                revealersCountText.setText("x" + revealersCount);
-                title.setText("Revealing!");
-                timerPause();
-                makeSqUnclickable();
-                revealBtn.setClickable(false);
-                revealBtn.setAlpha(0.5f);
-                Handler handler = new Handler();
-                final int[] userIndexAux = {userIndex};
-
-                Runnable revealRun = new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()){
-                            Button square = correctSeq.get(userIndexAux[0]);
-                            int delay1ms = prefs.getInt(delay1, 0);
-                            int delay2ms = prefs.getInt(delay2, 0);
-                            int delayBetween = prefs.getInt(delay3, 0);
-                            Handler handler = new Handler();
-
-                            Runnable runnable = () -> square.setBackgroundResource(bcgID);
-                            handler.postDelayed(runnable, delay2ms);
-
-                            Runnable runnable2 = () -> {
-                                square.setBackgroundResource(R.drawable.start_rectangle);
-                                userIndexAux[0]++;
-                            };
-                            handler.postDelayed(runnable2, delay1ms);
-                            if (userIndexAux[0] == correctSeq.size() - 1) {
-                                Handler titleHandler = new Handler();
-                                titleHandler.postDelayed(() -> {
-                                    title.setText("Repeat the pattern");
-                                    timerResume();
-                                    makeSqClickable();
-                                    revealBtn.setClickable(true);
-                                    if (revealersCount > 0){
-                                        revealBtn.setAlpha(1.0f);
-                                    }
-                                }, delay2ms);
-                            }
-                            handler.postDelayed(this, delayBetween);
-                        }
-                    }
-
-                };
-                handler.post(revealRun);
-            }
-
-        });
+        revealBtn.setOnClickListener(view -> revealerStart());
 
     }
 
@@ -467,6 +396,7 @@ public class MediumTimed extends AppCompatActivity {
         title.setText("Game Over!");
         level.setText("Try again");
         timerPause();
+        timerText.setTextColor(getResources().getColor(R.color.red));
         revealBtn.setClickable(false);
         if (gameOnSound != null){
             gameOnSound.stop();
@@ -674,6 +604,89 @@ public class MediumTimed extends AppCompatActivity {
         dialog.show();
     }
 
+    private void revealerStart() {
+
+        if (revealersCount > 0) {
+            gob.clickEffectResize(revealBox, this);
+            revealSound.start();
+            revealersCount--;
+            editor.putInt(revealsKey, revealersCount);
+            editor.apply();
+            revealersCountText.setText("x" + revealersCount);
+            title.setText("Revealing!");
+            timerPause();
+            makeSqUnclickable();
+            revealBtn.setClickable(false);
+            revealBtn.setAlpha(0.5f);
+            Handler handler = new Handler();
+            final int[] userIndexAux = {userIndex};
+
+            Runnable revealRun = new Runnable() {
+                @Override
+                public void run() {
+
+                    if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()) {
+                        Button square = correctSeq.get(userIndexAux[0]);
+                        int delay1ms = prefs.getInt(delay1, 0);
+                        int delay2ms = prefs.getInt(delay2, 0);
+                        int delayBetween = prefs.getInt(delay3, 0);
+                        Handler handler = new Handler();
+
+                        Runnable runnable = () -> square.setBackgroundResource(bcgID);
+                        handler.postDelayed(runnable, delay2ms);
+
+                        Runnable runnable2 = () -> {
+                            square.setBackgroundResource(R.drawable.start_rectangle);
+                            userIndexAux[0]++;
+                        };
+                        handler.postDelayed(runnable2, delay1ms);
+                        if (userIndexAux[0] == correctSeq.size() - 1) {
+                            Handler titleHandler = new Handler();
+                            titleHandler.postDelayed(() -> {
+                                title.setText("Repeat the pattern");
+                                timerResume();
+                                makeSqClickable();
+                                revealBtn.setClickable(true);
+                                if (revealersCount > 0) {
+                                    revealBtn.setAlpha(1.0f);
+                                }
+                            }, delay2ms);
+                        }
+                        handler.postDelayed(this, delayBetween);
+                    }
+                }
+
+            };
+            handler.post(revealRun);
+        }
+    }
+
+    private void resetStart(){
+        reset.setVisibility(View.INVISIBLE);
+        if (startSound != null){
+            startSound.start();
+        }
+        if (gameOnSound != null){
+            gameOnSound.start();
+        }
+        levelTurns = 4;
+        levelTurnsPace = prefs.getInt(paceKey, 0);
+        currentLevel = 1;
+        level.setText("Level: " + currentLevel);
+        currentScore = 0;
+        scoreText.setText("Score: " + currentScore);
+        turns = levelTurns;
+        newScore.setVisibility(View.INVISIBLE);
+        milliLeft = timerTotalTimeMs;
+        timerText.setText(R.string.timerTextString);
+        editor.putInt(delay1, 1000);
+        editor.putInt(delay2, 1800);
+        editor.putInt(delay3, 1500);
+        editor.putInt(coinsPoolKey, 1);
+        editor.apply();
+        startGameRun();
+    }
+
     private void timerStart(long timeLengthMs){
         countDown = new CountDownTimer(timeLengthMs, 1){
             public void onTick(long millisUntilFinished){
@@ -683,6 +696,7 @@ public class MediumTimed extends AppCompatActivity {
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished),
                         (TimeUnit.MILLISECONDS.toMillis(millisUntilFinished) / 10) % 100);
                 timerText.setText(text);
+                timerText.setTextColor(getResources().getColor(R.color.red));
             }
             public  void onFinish(){
                 timerText.setText("Out of time!");
@@ -693,6 +707,7 @@ public class MediumTimed extends AppCompatActivity {
 
     private void timerPause() {
         countDown.cancel();
+        timerText.setTextColor(getResources().getColor(R.color.light_blue));
     }
 
     private void timerResume() {

@@ -42,7 +42,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Easy extends AppCompatActivity {
-
+    private Button sq1;
+    private Button sq2;
+    private Button sq3;
+    private Button sq4;
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
     private MediaPlayer gameOnSound;
@@ -60,13 +63,12 @@ public class Easy extends AppCompatActivity {
     private Button nextLevel;
     private ImageView coinPlus;
     private ImageButton revealBtn;
-    private Button sq1;
-    private Button sq2;
-    private Button sq3;
-    private Button sq4;
+    private TextView revealersCountText;
+    private ConstraintLayout revealBox;
     private int userIndex;
     private ArrayList<Button> userSeq;
     private ArrayList<Button> correctSeq;
+    private int bcgID;
     private int currentLevel;
     private int currentScore;
     private int overallHighscore;
@@ -77,6 +79,7 @@ public class Easy extends AppCompatActivity {
     private int revivesOwned;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
+    private MyGlobals gob;
     private static final String highscoreKey = "highscoreKeyEasy";
 
 
@@ -87,7 +90,7 @@ public class Easy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_easy);
-        MyGlobals gob = new MyGlobals(this);
+        gob = new MyGlobals(this);
 
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
@@ -101,6 +104,8 @@ public class Easy extends AppCompatActivity {
         nextLevel = findViewById(R.id.nextLevel);
         coinPlus = findViewById(R.id.coinPlus);
         revealBtn = findViewById(R.id.revelearBtn);
+        revealBox = findViewById(R.id.revealerBox);
+        revealersCountText = findViewById(R.id.revelearsCount);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -137,7 +142,7 @@ public class Easy extends AppCompatActivity {
             showExitConfirmationDialog();
         });
 
-        int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         Button[] squares = {sq1, sq2, sq3, sq4};
@@ -167,7 +172,6 @@ public class Easy extends AppCompatActivity {
         highscoreText.setText(combinedHighscore);
 
         revealersCount = prefs.getInt(revealsKey, 0);
-        TextView revealersCountText = findViewById(R.id.revelearsCount);
         revealersCountText.setText("x" + revealersCount);
         revivesOwned = prefs.getInt(revivesKey, 0);
 
@@ -229,84 +233,13 @@ public class Easy extends AppCompatActivity {
         });
 
         makeSqUnclickable();
-        reset.setOnClickListener(view -> {
-            reset.setVisibility(View.INVISIBLE);
-            startSound.start();
-            gameOnSound.start();
-            levelTurns = 4;
-            levelTurnsPace = prefs.getInt(paceKey, 0);
-            currentLevel = 1;
-            level.setText("Level: " + currentLevel);
-            currentScore = 0;
-            scoreText.setText("Score: " + currentScore);
-            turns = levelTurns;
-            newScore.setVisibility(View.INVISIBLE);
-            editor.putInt(delay1, 1000);
-            editor.putInt(delay2, 1800);
-            editor.putInt(delay3, 1500);
-            editor.putInt(coinsPoolKey, 1);
-            editor.apply();
-            startGameRun();
-        });
+        reset.setOnClickListener(view -> resetStart());
 
-        ConstraintLayout revealBox = findViewById(R.id.revealerBox);
+
         if (revealersCount == 0){
             revealBtn.setAlpha(0.5f);
         }
-        revealBtn.setOnClickListener(view -> {
-            if (revealersCount > 0){
-                gob.clickEffectResize(revealBox, this);
-                revealSound.start();
-                revealersCount--;
-                editor.putInt(revealsKey, revealersCount);
-                editor.apply();
-                revealersCountText.setText("x" + revealersCount);
-                title.setText("Revealing!");
-                makeSqUnclickable();
-                revealBtn.setClickable(false);
-                revealBtn.setAlpha(0.5f);
-                Handler handler = new Handler();
-                final int[] userIndexAux = {userIndex};
-
-                Runnable revealRun = new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()){
-                            Button square = correctSeq.get(userIndexAux[0]);
-                            int delay1ms = prefs.getInt(delay1, 0);
-                            int delay2ms = prefs.getInt(delay2, 0);
-                            int delayBetween = prefs.getInt(delay3, 0);
-                            Handler handler = new Handler();
-
-                            Runnable runnable = () -> square.setBackgroundResource(bcgID);
-                            handler.postDelayed(runnable, delay2ms);
-
-                            Runnable runnable2 = () -> {
-                                square.setBackgroundResource(R.drawable.start_rectangle);
-                                userIndexAux[0]++;
-                            };
-                            handler.postDelayed(runnable2, delay1ms);
-                            if (userIndexAux[0] == correctSeq.size() - 1) {
-                                Handler titleHandler = new Handler();
-                                titleHandler.postDelayed(() -> {
-                                    title.setText("Repeat the pattern");
-                                    makeSqClickable();
-                                    revealBtn.setClickable(true);
-                                    if (revealersCount > 0){
-                                        revealBtn.setAlpha(1.0f);
-                                    }
-                                }, delay2ms);
-                            }
-                            handler.postDelayed(this, delayBetween);
-                        }
-                    }
-
-                };
-                handler.post(revealRun);
-            }
-
-        });
+        revealBtn.setOnClickListener(view -> revealerStart());
 
     }
 
@@ -586,6 +519,84 @@ public class Easy extends AppCompatActivity {
             };handler.postDelayed(afterGameOver, 300);
         });
         dialog.show();
+    }
+
+    private void revealerStart() {
+
+        if (revealersCount > 0) {
+            gob.clickEffectResize(revealBox, this);
+            revealSound.start();
+            revealersCount--;
+            editor.putInt(revealsKey, revealersCount);
+            editor.apply();
+            revealersCountText.setText("x" + revealersCount);
+            title.setText("Revealing!");
+            makeSqUnclickable();
+            revealBtn.setClickable(false);
+            revealBtn.setAlpha(0.5f);
+            Handler handler = new Handler();
+            final int[] userIndexAux = {userIndex};
+
+            Runnable revealRun = new Runnable() {
+                @Override
+                public void run() {
+
+                    if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()) {
+                        Button square = correctSeq.get(userIndexAux[0]);
+                        int delay1ms = prefs.getInt(delay1, 0);
+                        int delay2ms = prefs.getInt(delay2, 0);
+                        int delayBetween = prefs.getInt(delay3, 0);
+                        Handler handler = new Handler();
+
+                        Runnable runnable = () -> square.setBackgroundResource(bcgID);
+                        handler.postDelayed(runnable, delay2ms);
+
+                        Runnable runnable2 = () -> {
+                            square.setBackgroundResource(R.drawable.start_rectangle);
+                            userIndexAux[0]++;
+                        };
+                        handler.postDelayed(runnable2, delay1ms);
+                        if (userIndexAux[0] == correctSeq.size() - 1) {
+                            Handler titleHandler = new Handler();
+                            titleHandler.postDelayed(() -> {
+                                title.setText("Repeat the pattern");
+                                makeSqClickable();
+                                revealBtn.setClickable(true);
+                                if (revealersCount > 0) {
+                                    revealBtn.setAlpha(1.0f);
+                                }
+                            }, delay2ms);
+                        }
+                        handler.postDelayed(this, delayBetween);
+                    }
+                }
+
+            };
+            handler.post(revealRun);
+        }
+    }
+    private void resetStart(){
+        reset.setVisibility(View.INVISIBLE);
+        if (startSound != null){
+            startSound.start();
+        }
+        if (gameOnSound != null){
+            gameOnSound.start();
+        }
+        levelTurns = 4;
+        levelTurnsPace = prefs.getInt(paceKey, 0);
+        currentLevel = 1;
+        level.setText("Level: " + currentLevel);
+        currentScore = 0;
+        scoreText.setText("Score: " + currentScore);
+        turns = levelTurns;
+        newScore.setVisibility(View.INVISIBLE);
+        editor.putInt(delay1, 1000);
+        editor.putInt(delay2, 1800);
+        editor.putInt(delay3, 1500);
+        editor.putInt(coinsPoolKey, 1);
+        editor.apply();
+        startGameRun();
     }
 
     @Override

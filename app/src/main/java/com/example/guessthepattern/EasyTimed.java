@@ -60,11 +60,14 @@ public class EasyTimed extends AppCompatActivity {
     private TextView scoreText;
     private TextView highscoreText;
     private TextView newScore;
+    TextView revealersCountText;
     private ImageButton reset;
     private Button nextLevel;
     private ImageView coinPlus;
     private ImageButton revealBtn;
+    private ConstraintLayout revealBox;
     private TextView timerText;
+    private int bcgID;
     private CountDownTimer countDown;
     private long milliLeft;
     private long timerTotalTimeMs;
@@ -84,11 +87,11 @@ public class EasyTimed extends AppCompatActivity {
     private int levelTurnsPace;
     private int revivesOwned;
 
-    SharedPreferences prefs;
-    SharedPreferences.Editor editor;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
+    private MyGlobals gob;
 
     private static final String highscoreKey = "highscoreKeyEasyTimed";
-
 
 
     @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
@@ -97,7 +100,7 @@ public class EasyTimed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_easy_timed);
-        MyGlobals gob = new MyGlobals(this);
+        gob = new MyGlobals(getApplicationContext());
 
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
@@ -112,6 +115,8 @@ public class EasyTimed extends AppCompatActivity {
         coinPlus = findViewById(R.id.coinPlus);
         revealBtn = findViewById(R.id.revelearBtn);
         timerText = findViewById(R.id.timerText);
+        revealBox = findViewById(R.id.revealerBox);
+        revealersCountText = findViewById(R.id.revelearsCount);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -150,7 +155,7 @@ public class EasyTimed extends AppCompatActivity {
             showExitConfirmationDialog();
         });
 
-        int bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         Button[] squares = {sq1, sq2, sq3, sq4};
@@ -158,7 +163,7 @@ public class EasyTimed extends AppCompatActivity {
             square.setBackground(background);
         }
         boolean sqNumbered = prefs.getBoolean(sqNum, false);
-        if (sqNumbered){
+        if (sqNumbered) {
             int sqIndex = 1;
             for (Button square : squares) {
                 square.setText(String.valueOf(sqIndex));
@@ -180,7 +185,6 @@ public class EasyTimed extends AppCompatActivity {
         highscoreText.setText(combinedHighscore);
 
         revealersCount = prefs.getInt(revealsKey, 0);
-        TextView revealersCountText = findViewById(R.id.revelearsCount);
         revealersCountText.setText("x" + revealersCount);
         revivesOwned = prefs.getInt(revivesKey, 0);
 
@@ -198,7 +202,7 @@ public class EasyTimed extends AppCompatActivity {
             start.setAlpha(0.5f);
             startSound.start();
             level.setVisibility(View.VISIBLE);
-            scoreText.setText("Score: "+ (currentLevel - 1));
+            scoreText.setText("Score: " + (currentLevel - 1));
             scoreText.setVisibility(View.VISIBLE);
             itemBar.setVisibility(View.VISIBLE);
 
@@ -242,94 +246,20 @@ public class EasyTimed extends AppCompatActivity {
         });
 
         makeSqUnclickable();
-        reset.setOnClickListener(view -> {
-            reset.setVisibility(View.INVISIBLE);
-            startSound.start();
-            gameOnSound.start();
-            levelTurns = 4;
-            levelTurnsPace = prefs.getInt(paceKey, 0);
-            currentLevel = 1;
-            level.setText("Level: " + currentLevel);
-            currentScore = 0;
-            scoreText.setText("Score: " + currentScore);
-            turns = levelTurns;
-            newScore.setVisibility(View.INVISIBLE);
-            milliLeft = timerTotalTimeMs;
-            timerText.setText(R.string.timerTextString);
-            editor.putInt(delay1, 1000);
-            editor.putInt(delay2, 1800);
-            editor.putInt(delay3, 1500);
-            editor.putInt(coinsPoolKey, 1);
-            editor.apply();
-            startGameRun();
-        });
 
-        ConstraintLayout revealBox = findViewById(R.id.revealerBox);
-        if (revealersCount == 0){
+        reset.setOnClickListener(view -> resetStart());
+
+        if (revealersCount == 0) {
             revealBtn.setAlpha(0.5f);
         }
-        revealBtn.setOnClickListener(view -> {
-            if (revealersCount > 0){
-                gob.clickEffectResize(revealBox, this);
-                revealSound.start();
-                revealersCount--;
-                editor.putInt(revealsKey, revealersCount);
-                editor.apply();
-                revealersCountText.setText("x" + revealersCount);
-                title.setText("Revealing!");
-                timerPause();
-                makeSqUnclickable();
-                revealBtn.setClickable(false);
-                revealBtn.setAlpha(0.5f);
-                Handler handler = new Handler();
-                final int[] userIndexAux = {userIndex};
 
-                Runnable revealRun = new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()){
-                            Button square = correctSeq.get(userIndexAux[0]);
-                            int delay1ms = prefs.getInt(delay1, 0);
-                            int delay2ms = prefs.getInt(delay2, 0);
-                            int delayBetween = prefs.getInt(delay3, 0);
-                            Handler handler = new Handler();
-
-                            Runnable runnable = () -> square.setBackgroundResource(bcgID);
-                            handler.postDelayed(runnable, delay2ms);
-
-                            Runnable runnable2 = () -> {
-                                square.setBackgroundResource(R.drawable.start_rectangle);
-                                userIndexAux[0]++;
-                            };
-                            handler.postDelayed(runnable2, delay1ms);
-                            if (userIndexAux[0] == correctSeq.size() - 1) {
-                                Handler titleHandler = new Handler();
-                                titleHandler.postDelayed(() -> {
-                                    title.setText("Repeat the pattern");
-                                    timerResume();
-                                    makeSqClickable();
-                                    revealBtn.setClickable(true);
-                                    if (revealersCount > 0){
-                                        revealBtn.setAlpha(1.0f);
-                                    }
-                                }, delay2ms);
-                            }
-                            handler.postDelayed(this, delayBetween);
-                        }
-                    }
-
-                };
-                handler.post(revealRun);
-            }
-
-        });
+        revealBtn.setOnClickListener(view -> revealerStart());
 
     }
 
 
     @SuppressLint("SetTextI18n")
-    public void startGameRun(){
+    public void startGameRun() {
 
         correctSeq.clear();
         coinPlus.setVisibility(View.INVISIBLE);
@@ -349,7 +279,7 @@ public class EasyTimed extends AppCompatActivity {
         Runnable game = new Runnable() {
             @Override
             public void run() {
-                if (turns > 0){
+                if (turns > 0) {
                     int delay1ms = prefs.getInt(delay1, 0);
                     int delay2ms = prefs.getInt(delay2, 0);
                     int delayBetween = prefs.getInt(delay3, 0);
@@ -376,12 +306,12 @@ public class EasyTimed extends AppCompatActivity {
                             title.setText("Repeat the pattern");
                             level.setText(0 + "/" + levelTurns);
                             timerResume();
-                            if(repeatSound != null){
+                            if (repeatSound != null) {
                                 repeatSound.start();
                             }
                             makeSqClickable();
                             revealBtn.setClickable(true);
-                            if (revealersCount > 0){
+                            if (revealersCount > 0) {
                                 revealBtn.setAlpha(1.0f);
                             }
                         }, delay2ms);
@@ -395,38 +325,39 @@ public class EasyTimed extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    public void checkSequence(Button sqAdded){
+    public void checkSequence(Button sqAdded) {
 
         userSeq.add(userIndex, sqAdded);
 
-        if (userSeq.get(userIndex) == correctSeq.get(userIndex)){
+        if (userSeq.get(userIndex) == correctSeq.get(userIndex)) {
             userIndex++;
             level.setText(userIndex + "/" + levelTurns);
-        }else{
+        } else {
             gameOverCall();
         }
-        if (userIndex == levelTurns){
+        if (userIndex == levelTurns) {
             correctCall();
         }
     }
 
     @SuppressLint("SetTextI18n")
-    public void gameOverCall(){
+    public void gameOverCall() {
 
         title.setText("Game Over!");
         level.setText("Try again");
         timerPause();
+        timerText.setTextColor(getResources().getColor(R.color.red));
         revealBtn.setClickable(false);
-        if (gameOnSound != null){
+        if (gameOnSound != null) {
             gameOnSound.stop();
             gameOnSound.prepareAsync();
         }
-        if (gameOverSound != null){
+        if (gameOverSound != null) {
             gameOverSound.start();
         }
-        if (revivesOwned > 0){
+        if (revivesOwned > 0) {
             showReviveConfirmation();
-        }else {
+        } else {
             if (currentScore > overallHighscore) {
                 editor.putInt(highscoreKey, currentScore);
                 editor.apply();
@@ -448,7 +379,7 @@ public class EasyTimed extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    public void correctCall(){
+    public void correctCall() {
 
         final int[] totalCoins = {prefs.getInt(coinsKey, 0)};
         final int[] coinPool = {prefs.getInt(coinsPoolKey, 0)};
@@ -458,13 +389,13 @@ public class EasyTimed extends AppCompatActivity {
 
         title.setText("Correct!");
         timerPause();
-        if (correctSound != null){
+        if (correctSound != null) {
             correctSound.start();
         }
         makeSqUnclickable();
         revealBtn.setClickable(false);
         currentScore++;
-        totalCoins[0]+= coinPool[0];
+        totalCoins[0] += coinPool[0];
         level.setText("+" + coinPool[0] + " ");
         coinPlus.setVisibility(View.VISIBLE);
         delay1change[0] /= 1.01;    // ratios for increasing the speed at which the sequence is shown (decreases the delay)
@@ -482,7 +413,7 @@ public class EasyTimed extends AppCompatActivity {
         userSeq.clear();
         correctSeq.clear();
         levelTurnsPace--;
-        if(levelTurnsPace == 0){
+        if (levelTurnsPace == 0) {
             levelTurns++;
             levelTurnsPace = prefs.getInt(paceKey, 0);
             coinPool[0]++;
@@ -502,21 +433,21 @@ public class EasyTimed extends AppCompatActivity {
         handler.postDelayed(afterCongrats, 500);
     }
 
-    public void makeSqUnclickable(){
+    public void makeSqUnclickable() {
         sq1.setClickable(false);
         sq2.setClickable(false);
         sq3.setClickable(false);
         sq4.setClickable(false);
     }
 
-    public void makeSqClickable(){
+    public void makeSqClickable() {
         sq1.setClickable(true);
         sq2.setClickable(true);
         sq3.setClickable(true);
         sq4.setClickable(true);
     }
 
-    public void changeSqAlpha(float alphaValue){
+    public void changeSqAlpha(float alphaValue) {
         Button[] squares = {sq1, sq2, sq3, sq4};
         for (Button square : squares) {
             square.setAlpha(alphaValue);
@@ -594,7 +525,7 @@ public class EasyTimed extends AppCompatActivity {
 
         negativeButton.setOnClickListener(v -> {
             dialog.dismiss();
-            if (currentScore > overallHighscore){
+            if (currentScore > overallHighscore) {
                 editor.putInt(highscoreKey, currentScore);
                 editor.apply();
                 overallHighscore = prefs.getInt(highscoreKey, 0);
@@ -608,11 +539,94 @@ public class EasyTimed extends AppCompatActivity {
             Runnable afterGameOver = () -> {
                 changeSqAlpha(0.5f);
                 reset.setVisibility(View.VISIBLE);
-            };handler.postDelayed(afterGameOver, 300);
+            };
+            handler.postDelayed(afterGameOver, 300);
         });
         dialog.show();
     }
-    // TODO: timer text color change when time is about to run out; tweak total time
+
+    private void revealerStart() {
+
+        if (revealersCount > 0) {
+            gob.clickEffectResize(revealBox, this);
+            revealSound.start();
+            revealersCount--;
+            editor.putInt(revealsKey, revealersCount);
+            editor.apply();
+            revealersCountText.setText("x" + revealersCount);
+            title.setText("Revealing!");
+            timerPause();
+            makeSqUnclickable();
+            revealBtn.setClickable(false);
+            revealBtn.setAlpha(0.5f);
+            Handler handler = new Handler();
+            final int[] userIndexAux = {userIndex};
+
+            Runnable revealRun = new Runnable() {
+                @Override
+                public void run() {
+
+                    if (userIndexAux[0] >= 0 && userIndexAux[0] < correctSeq.size()) {
+                        Button square = correctSeq.get(userIndexAux[0]);
+                        int delay1ms = prefs.getInt(delay1, 0);
+                        int delay2ms = prefs.getInt(delay2, 0);
+                        int delayBetween = prefs.getInt(delay3, 0);
+                        Handler handler = new Handler();
+
+                        Runnable runnable = () -> square.setBackgroundResource(bcgID);
+                        handler.postDelayed(runnable, delay2ms);
+
+                        Runnable runnable2 = () -> {
+                            square.setBackgroundResource(R.drawable.start_rectangle);
+                            userIndexAux[0]++;
+                        };
+                        handler.postDelayed(runnable2, delay1ms);
+                        if (userIndexAux[0] == correctSeq.size() - 1) {
+                            Handler titleHandler = new Handler();
+                            titleHandler.postDelayed(() -> {
+                                title.setText("Repeat the pattern");
+                                timerResume();
+                                makeSqClickable();
+                                revealBtn.setClickable(true);
+                                if (revealersCount > 0) {
+                                    revealBtn.setAlpha(1.0f);
+                                }
+                            }, delay2ms);
+                        }
+                        handler.postDelayed(this, delayBetween);
+                    }
+                }
+
+            };
+            handler.post(revealRun);
+        }
+    }
+
+    private void resetStart(){
+        reset.setVisibility(View.INVISIBLE);
+        if (startSound != null){
+            startSound.start();
+        }
+        if (gameOnSound != null){
+            gameOnSound.start();
+        }
+        levelTurns = 4;
+        levelTurnsPace = prefs.getInt(paceKey, 0);
+        currentLevel = 1;
+        level.setText("Level: " + currentLevel);
+        currentScore = 0;
+        scoreText.setText("Score: " + currentScore);
+        turns = levelTurns;
+        newScore.setVisibility(View.INVISIBLE);
+        milliLeft = timerTotalTimeMs;
+        timerText.setText(R.string.timerTextString);
+        editor.putInt(delay1, 1000);
+        editor.putInt(delay2, 1800);
+        editor.putInt(delay3, 1500);
+        editor.putInt(coinsPoolKey, 1);
+        editor.apply();
+        startGameRun();
+    }
 
     private void timerStart(long timeLengthMs){
         countDown = new CountDownTimer(timeLengthMs, 1){
@@ -623,6 +637,7 @@ public class EasyTimed extends AppCompatActivity {
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished),
                         (TimeUnit.MILLISECONDS.toMillis(millisUntilFinished) / 10) % 100);
                 timerText.setText(text);
+                timerText.setTextColor(getResources().getColor(R.color.red));
             }
             public  void onFinish(){
                 timerText.setText("Out of time!");
@@ -633,6 +648,7 @@ public class EasyTimed extends AppCompatActivity {
 
     private void timerPause() {
         countDown.cancel();
+        timerText.setTextColor(getResources().getColor(R.color.light_blue));
     }
 
     private void timerResume() {
