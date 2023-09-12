@@ -1,20 +1,10 @@
 package com.example.guessthepattern;
 
-import static com.example.guessthepattern.MainActivity.prefsName;
-import static com.example.guessthepattern.MainActivity.sfxVolKey;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -29,26 +19,34 @@ public class Gamemodes extends AppCompatActivity {
         setContentView(R.layout.activity_gamemodes);
         MyGlobals gob = new MyGlobals(this);
         shouldPlay = false;
+        Handler handler = new Handler();
 
-        Button classicBtn = findViewById(R.id.classicGames);
+        Button classicBtn = findViewById(R.id.classicGamemode);
         Button timedBtn = findViewById(R.id.timedGamemod);
+        Button reflexBtn = findViewById(R.id.reflexGamemod);
+
         classicBtn.setOnClickListener(v -> {
             gob.clickEffectResize(classicBtn, this);
-            gob.openActivityWithExtraInt(Grids.class, "gamemodeSelected", 1);
+            handler.postDelayed(() -> gob.openActivityWithExtraInt(Grids.class, "gamemodeSelected", 1), 200);
             shouldPlay = true;
         });
 
         timedBtn.setOnClickListener(v -> {
             gob.clickEffectResize(timedBtn, this);
-            gob.openActivityWithExtraInt(Grids.class, "gamemodeSelected", 2);
+            handler.postDelayed(() -> gob.openActivityWithExtraInt(Grids.class, "gamemodeSelected", 2), 200);
             shouldPlay = true;
+        });
+
+        reflexBtn.setOnClickListener(v -> {
+            gob.clickEffectDarken(reflexBtn);
+            gob.showWIP();
         });
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(v -> {
             gob.clickEffectResize(back, this);
             shouldPlay = true;
-            finish();
+            handler.postDelayed(this::finish, 100 );
         });
 
     }
@@ -73,7 +71,6 @@ public class Gamemodes extends AppCompatActivity {
                 themeSong.pause();
             }
         }
-        finish();
 
     }
 

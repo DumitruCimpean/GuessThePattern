@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -31,16 +32,16 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         resources = getResources();
 
-
         MyGlobals gob = new MyGlobals(this);
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        Handler handler = new Handler();
 
         ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(v -> {
             gob.clickEffectResize(back, this);
             shouldPlay = true;
-            finish();
+            handler.postDelayed(this::finish, 100);
         });
 
         ImageButton sqBlue = findViewById(R.id.sq1);

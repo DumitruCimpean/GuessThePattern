@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String paceKey = "paceKey";
     public static final String bcgKey = "bcgKey";
     public static final String sqNum = "sqNum";
+    public static final String timerMsKey = "timerMsKey";
     public static final String musicVolKey = "musicVolKey";
     public static final String sfxVolKey = "sfxVolKey";
 
@@ -44,8 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer coinSfx;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
 
-    // TODO More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
-    // TODO include some documentation and update the README on github
+    private Handler resetHandler;
+
+    /*
+     1. TODO: More personalization,ui tweaks for tablets and maybe landscape mode, unlock levels on certain highscores?, global leaderboard
+     2. TODO: include some documentation somewhere
+    */
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -55,10 +60,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MyGlobals gob = new MyGlobals(this);
         shouldPlay = false;
+        resetHandler = new Handler();
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(paceKey, 2);
+        editor.putInt(timerMsKey, 10000); // 10 seconds
         editor.putInt(delay1, 1000);
         editor.putInt(delay2, 1800);
         editor.putInt(delay3, 1500);
@@ -100,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             levelEnter.seekTo(0);
             levelEnter.start();
             Intent intent = new Intent(this, Gamemodes.class);
-            Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                         view,
@@ -118,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             levelEnter.seekTo(0);
             levelEnter.start();
             Intent intent = new Intent(this, Shop.class);
-            Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                         view,
@@ -136,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             levelEnter.seekTo(0);
             levelEnter.start();
             Intent intent = new Intent(this, Settings.class);
-            Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                         view,
@@ -175,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showFirstTimePresent() {
-
+        MyGlobals gob = new MyGlobals(MainActivity.this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.first_time_dialog_layout, null);
@@ -185,8 +189,9 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {
-            dialog.dismiss();
+            gob.clickEffectResize(positiveButton, this);
             coinSfx.start();
+            resetHandler.postDelayed(dialog::dismiss, 200);
         });
 
         dialog.show();

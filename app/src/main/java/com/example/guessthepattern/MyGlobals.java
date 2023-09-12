@@ -63,10 +63,10 @@ public class MyGlobals extends Activity {
     }
 
     public void clickEffectResize(final View button , Context context){
+        Handler resetHandler = new Handler();
         final Animation scaleDown = AnimationUtils.loadAnimation(context, R.anim.button_down);
         final Animation scaleUp = AnimationUtils.loadAnimation(context, R.anim.button_up);
         button.startAnimation(scaleDown);
-        Handler resetHandler = new Handler();
         resetHandler.postDelayed(() -> button.startAnimation(scaleUp), 200);
     }
 

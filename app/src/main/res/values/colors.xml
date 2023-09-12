@@ -11,6 +11,7 @@
     <color name="transparent">#00ffffff</color>
 
     <color name="semi_dark_grey_100">#50202124</color>
+    <color name="darker_white">#aaaaaa</color>
 
     <color name="red">#ff3333</color>
     <color name="yellow">#fcff34</color>

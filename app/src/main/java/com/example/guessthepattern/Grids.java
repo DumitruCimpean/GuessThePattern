@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Grids extends AppCompatActivity {
     private static boolean shouldPlay;
@@ -25,6 +26,7 @@ public class Grids extends AppCompatActivity {
         MyGlobals gob = new MyGlobals(this);
         shouldPlay = false;
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        Handler resetHandler = new Handler();
 
         int modeSelected = getIntent().getIntExtra("gamemodeSelected", 0);
 
@@ -40,15 +42,16 @@ public class Grids extends AppCompatActivity {
 
         easyBtn.setOnClickListener(view -> {
             gob.clickEffectResize(easyBtn, this);
-            levelEnter.seekTo(0);
-            levelEnter.start();
+            if (levelEnter != null){
+                levelEnter.seekTo(0);
+                levelEnter.start();
+            }
             Intent intent;
             if (modeSelected == 1){
                 intent = new Intent(this, Easy.class);
             }else{
                 intent = new Intent(this, EasyTimed.class);
             }
-            Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                         view,
@@ -61,15 +64,16 @@ public class Grids extends AppCompatActivity {
 
         mediumBtn.setOnClickListener(view -> {
             gob.clickEffectResize(mediumBtn, this);
-            levelEnter.seekTo(0);
-            levelEnter.start();
+            if (levelEnter != null){
+                levelEnter.seekTo(0);
+                levelEnter.start();
+            }
             Intent intent;
             if (modeSelected == 1){
                 intent = new Intent(this, Medium.class);
             }else{
                 intent = new Intent(this, MediumTimed.class);
             }
-            Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                         view,
@@ -81,15 +85,16 @@ public class Grids extends AppCompatActivity {
         });
         hardBtn.setOnClickListener(view -> {
             gob.clickEffectResize(hardBtn,this);
-            levelEnter.seekTo(0);
-            levelEnter.start();
+            if (levelEnter != null){
+                levelEnter.seekTo(0);
+                levelEnter.start();
+            }
             Intent intent;
             if (modeSelected == 1){
                 intent = new Intent(this, Hard.class);
             }else{
                 intent = new Intent(this, HardTimed.class);
             }
-            Handler resetHandler = new Handler();
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
                         view,
@@ -98,6 +103,13 @@ public class Grids extends AppCompatActivity {
                 );
                 startActivity(intent, options.toBundle());
             }, buttonPressDelay);
+        });
+
+        ImageButton back = findViewById(R.id.backButton);
+        back.setOnClickListener(v -> {
+            gob.clickEffectResize(back, this);
+            shouldPlay = true;
+            resetHandler.postDelayed(this::finish, 100 );
         });
 
     }

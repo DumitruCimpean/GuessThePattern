@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class Shop extends AppCompatActivity {
         MyGlobals gob = new MyGlobals(this);
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        Handler handler = new Handler();
+
         final int[] coins = {prefs.getInt(coinsKey, 0)};
         final int[] revivesPrice = {30};
         final int[] revealsPrice = {20};
@@ -43,7 +46,7 @@ public class Shop extends AppCompatActivity {
         back.setOnClickListener(v -> {
             gob.clickEffectResize(back, this);
             shouldPlay = true;
-            finish();
+            handler.postDelayed(this::finish, 100);
         });
 
 
@@ -55,8 +58,10 @@ public class Shop extends AppCompatActivity {
         buyRevive.setOnClickListener(view -> {
             if (coins[0] >= revivesPrice[0]) {
                 gob.clickEffectResize(buyRevive, this);
-                coinSfx.seekTo(0);
-                coinSfx.start();
+                if (coinSfx != null){
+                    coinSfx.seekTo(0);
+                    coinSfx.start();
+                }
                 revives[0]++;
                 coins[0] -= revivesPrice[0];
                 if(coins[0] < revivesPrice[0]){
@@ -86,8 +91,10 @@ public class Shop extends AppCompatActivity {
         buyReveal.setOnClickListener(view -> {
             if (coins[0] >= revealsPrice[0]) {
                 gob.clickEffectResize(buyReveal, this);
-                coinSfx.seekTo(0);
-                coinSfx.start();
+                if (coinSfx != null){
+                    coinSfx.seekTo(0);
+                    coinSfx.start();
+                }
                 reveals[0]++;
                 coins[0] -= revealsPrice[0];
                 if(coins[0] < revealsPrice[0]){
@@ -140,6 +147,11 @@ public class Shop extends AppCompatActivity {
                 themeSong.pause();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         if (coinSfx != null){
             coinSfx.release();
             coinSfx = null;

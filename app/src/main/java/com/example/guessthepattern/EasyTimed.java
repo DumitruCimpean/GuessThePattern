@@ -14,6 +14,7 @@ import static com.example.guessthepattern.MainActivity.revivesKey;
 import static com.example.guessthepattern.MainActivity.scoreKey;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
 import static com.example.guessthepattern.MainActivity.sqNum;
+import static com.example.guessthepattern.MainActivity.timerMsKey;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -140,7 +141,7 @@ public class EasyTimed extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        timerTotalTimeMs = 10000;
+        timerTotalTimeMs = prefs.getInt(timerMsKey, 0);
         milliLeft = timerTotalTimeMs;
 
         ImageButton back = findViewById(R.id.backButton);
