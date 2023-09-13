@@ -4,6 +4,7 @@ import static com.example.guessthepattern.MainActivity.prefsName;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -30,9 +31,9 @@ public class Grids extends AppCompatActivity {
 
         int modeSelected = getIntent().getIntExtra("gamemodeSelected", 0);
 
-        Button easyBtn = findViewById(R.id.diffEasy);
-        Button mediumBtn = findViewById(R.id.diffMedium);
-        Button hardBtn = findViewById(R.id.diffHard);
+        ConstraintLayout easyBtn = findViewById(R.id.diffEasy);
+        ConstraintLayout mediumBtn = findViewById(R.id.diffMedium);
+        ConstraintLayout hardBtn = findViewById(R.id.diffHard);
 
         final float[] sfxVol = {prefs.getInt(sfxVolKey, 100) * 0.01f};
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);

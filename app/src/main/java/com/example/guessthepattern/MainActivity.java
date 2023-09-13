@@ -1,6 +1,7 @@
 package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.io.IOException;
 
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView logo = findViewById(R.id.gtpLogo);
 
-        Button chooseBtn = findViewById(R.id.diffChoose);
+        ConstraintLayout chooseBtn = findViewById(R.id.diffChoose);
         chooseBtn.setOnClickListener(view -> {
             gob.clickEffectResize(chooseBtn, this);
             levelEnter.seekTo(0);
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             }, 100);
         });
 
-        Button shop = findViewById(R.id.shopBtn);
+        ConstraintLayout shop = findViewById(R.id.shopBtn);
         shop.setOnClickListener(view -> {
             gob.clickEffectResize(shop, this);
             levelEnter.seekTo(0);
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }, 100);
         });
 
-        Button settingsBtn = findViewById(R.id.settingsBtn);
+        ConstraintLayout settingsBtn = findViewById(R.id.settingsBtn);
         settingsBtn.setOnClickListener(view -> {
             gob.clickEffectResize(settingsBtn, this);
             levelEnter.seekTo(0);

@@ -1,6 +1,7 @@
 package com.example.guessthepattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -21,9 +22,9 @@ public class Gamemodes extends AppCompatActivity {
         shouldPlay = false;
         Handler handler = new Handler();
 
-        Button classicBtn = findViewById(R.id.classicGamemode);
-        Button timedBtn = findViewById(R.id.timedGamemod);
-        Button reflexBtn = findViewById(R.id.reflexGamemod);
+        ConstraintLayout classicBtn = findViewById(R.id.classicGamemode);
+        ConstraintLayout timedBtn = findViewById(R.id.timedGamemode);
+        ConstraintLayout reflexBtn = findViewById(R.id.reflexGamemode);
 
         classicBtn.setOnClickListener(v -> {
             gob.clickEffectResize(classicBtn, this);
