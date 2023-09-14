@@ -89,7 +89,7 @@ public class MediumReflex extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_medium_reflex);
 
-        // -------------------------- Initializations --------------------------------------------- //
+        // ------------------------------ Initializations ----------------------------------------- //
 
         gob = new MyGlobals(this);
         stopwatch = new Stopwatch();
@@ -106,6 +106,7 @@ public class MediumReflex extends AppCompatActivity {
         timerText = findViewById(R.id.timerText);
         reset = findViewById(R.id.redoButton);
         Button start = findViewById(R.id.startBtn);
+        ImageButton back = findViewById(R.id.backButton);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -139,14 +140,6 @@ public class MediumReflex extends AppCompatActivity {
             highscoreText.setText(combinedHighscore);
         }
 
-        // ----------------------------Back Button------------------------------------------------- //
-
-        ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(view -> {
-            gob.clickEffectResize(back, this);
-            showExitConfirmationDialog();
-        });
-
         // -----------------------Applying selected settings -------------------------------------- //
 
         bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
@@ -176,7 +169,12 @@ public class MediumReflex extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        // ------------------------- Start and Reset buttons -------------------------------------- //
+        // ------------------------------- Misc buttons ------------------------------------------- //
+
+        back.setOnClickListener(view -> {
+            gob.clickEffectResize(back, this);
+            showExitConfirmationDialog();
+        });
 
         start.setOnClickListener(view -> {
             start.setAlpha(0.5f);
@@ -259,7 +257,6 @@ public class MediumReflex extends AppCompatActivity {
     }
 
 
-    @SuppressLint("SetTextI18n")
     public void startGameRun(){
 
         correctSq.clear();
@@ -292,8 +289,6 @@ public class MediumReflex extends AppCompatActivity {
 
 
     }
-
-    @SuppressLint("SetTextI18n")
     public void checkSequence(Button sqAdded){
         stopwatch.stop();
         if (sqAdded == correctSq.get(0)){
@@ -302,7 +297,7 @@ public class MediumReflex extends AppCompatActivity {
             wrongSquareClick(sqAdded);
         }
     }
-    @SuppressLint("SetTextI18n")
+
     public void wrongSquareClick(Button sqAdded){
         title.setText("Wrong square!");
         if (gameOverSound != null){
@@ -317,8 +312,6 @@ public class MediumReflex extends AppCompatActivity {
         }, 1000);
 
     }
-
-    @SuppressLint("SetTextI18n")
     public void correctSquareClick(){
         title.setText("Correct!");
         level.setText("+1 ");
@@ -355,7 +348,6 @@ public class MediumReflex extends AppCompatActivity {
 
     }
 
-    @SuppressLint("SetTextI18n")
     private void showExitConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
@@ -376,8 +368,6 @@ public class MediumReflex extends AppCompatActivity {
         dialog.show();
 
     }
-
-
 
     @Override
     public void onBackPressed() {

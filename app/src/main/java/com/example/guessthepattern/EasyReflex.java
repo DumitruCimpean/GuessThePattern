@@ -101,6 +101,7 @@ public class EasyReflex extends AppCompatActivity {
         timerText = findViewById(R.id.timerText);
         reset = findViewById(R.id.redoButton);
         Button start = findViewById(R.id.startBtn);
+        ImageButton back = findViewById(R.id.backButton);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -128,14 +129,6 @@ public class EasyReflex extends AppCompatActivity {
         }else{
             highscoreText.setText(combinedHighscore);
         }
-
-        // ----------------------------Back Button------------------------------------------------- //
-
-        ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(view -> {
-            gob.clickEffectResize(back, this);
-            showExitConfirmationDialog();
-        });
 
         // -----------------------Applying selected settings -------------------------------------- //
 
@@ -166,7 +159,12 @@ public class EasyReflex extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        // ------------------------- Start and Reset buttons -------------------------------------- //
+        // ---------------------------- Misc buttons ---------------------------------------------- //
+
+        back.setOnClickListener(view -> {
+            gob.clickEffectResize(back, this);
+            showExitConfirmationDialog();
+        });
 
         start.setOnClickListener(view -> {
             start.setAlpha(0.5f);
@@ -214,7 +212,7 @@ public class EasyReflex extends AppCompatActivity {
     }
 
 
-    @SuppressLint("SetTextI18n")
+
     public void startGameRun(){
 
         correctSq.clear();
@@ -247,8 +245,6 @@ public class EasyReflex extends AppCompatActivity {
 
 
     }
-
-    @SuppressLint("SetTextI18n")
     public void checkSequence(Button sqAdded){
         stopwatch.stop();
         if (sqAdded == correctSq.get(0)){
@@ -257,7 +253,7 @@ public class EasyReflex extends AppCompatActivity {
             wrongSquareClick(sqAdded);
         }
     }
-    @SuppressLint("SetTextI18n")
+
     public void wrongSquareClick(Button sqAdded){
         title.setText("Wrong square!");
         if (gameOverSound != null){
@@ -272,8 +268,6 @@ public class EasyReflex extends AppCompatActivity {
         }, 1000);
 
     }
-
-    @SuppressLint("SetTextI18n")
     public void correctSquareClick(){
         title.setText("Correct!");
         level.setText("+1 ");
@@ -310,8 +304,6 @@ public class EasyReflex extends AppCompatActivity {
 
     }
 
-
-    @SuppressLint("SetTextI18n")
     private void showExitConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
@@ -332,7 +324,6 @@ public class EasyReflex extends AppCompatActivity {
         dialog.show();
 
     }
-
 
 
     @Override

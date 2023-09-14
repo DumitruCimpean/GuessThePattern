@@ -51,6 +51,7 @@ public class Medium extends AppCompatActivity {
     private Button sq7;
     private Button sq8;
     private Button sq9;
+    private Button[] squares;
     private MediaPlayer startSound;
     private MediaPlayer sqSound;
     private MediaPlayer gameOnSound;
@@ -96,8 +97,10 @@ public class Medium extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_medium);
-        gob = new MyGlobals(this);
 
+        // ----------------------------- Initializations ------------------------------------------ //
+
+        gob = new MyGlobals(this);
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
 
@@ -112,6 +115,9 @@ public class Medium extends AppCompatActivity {
         revealBtn = findViewById(R.id.revelearBtn);
         revealBox = findViewById(R.id.revealerBox);
         revealersCountText = findViewById(R.id.revealersCount);
+        ImageButton back = findViewById(R.id.backButton);
+        Button start = findViewById(R.id.startBtn);
+        RelativeLayout itemBar = findViewById(R.id.itemBar);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -122,6 +128,7 @@ public class Medium extends AppCompatActivity {
         sq7 = findViewById(R.id.sq7);
         sq8 = findViewById(R.id.sq8);
         sq9 = findViewById(R.id.sq9);
+        squares = new Button[]{sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
 
         sqSound = MediaPlayer.create(this, R.raw.sq_clicked);
         startSound = MediaPlayer.create(this, R.raw.start_sound);
@@ -133,44 +140,6 @@ public class Medium extends AppCompatActivity {
         gameOverSound = MediaPlayer.create(this, R.raw.game_over);
         gameOnSound.setLooping(true);
         gameOnSound.start();
-
-        float musicVol = prefs.getInt(musicVolKey, 100) * 0.01f;
-        gameOnSound.setVolume(musicVol, musicVol);
-
-        float sfxVol = prefs.getInt(sfxVolKey, 100) * 0.01f;
-        sqSound.setVolume(sfxVol, sfxVol);
-        startSound.setVolume(sfxVol, sfxVol);
-        repeatSound.setVolume(sfxVol, sfxVol);
-        revealSound.setVolume(sfxVol, sfxVol);
-        reviveSound.setVolume(sfxVol, sfxVol);
-        correctSound.setVolume(sfxVol, sfxVol);
-        gameOverSound.setVolume(sfxVol, sfxVol);
-
-
-        ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(view -> {
-            gob.clickEffectResize(back, this);
-            showExitConfirmationDialog();
-        });
-
-        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
-        Resources res = getResources();
-        Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
-        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
-        for (Button square : squares) {
-            square.setBackground(background);
-        }
-        boolean sqNumbered = prefs.getBoolean(sqNum, false);
-        if (sqNumbered){
-            int sqIndex = 1;
-            for (Button square : squares) {
-                square.setText(String.valueOf(sqIndex));
-                sqIndex++;
-            }
-        }
-
-        Button start = findViewById(R.id.startBtn);
-        RelativeLayout itemBar = findViewById(R.id.itemBar);
 
         currentLevel = 1;
         currentScore = 0;
@@ -195,6 +164,46 @@ public class Medium extends AppCompatActivity {
         userSeq = new ArrayList<>();
         correctSeq = new ArrayList<>();
 
+        if (revealersCount == 0){
+            revealBtn.setAlpha(0.5f);
+        }
+
+        // ----------------------------------- Applying settings ---------------------------------- //
+
+        float musicVol = prefs.getInt(musicVolKey, 100) * 0.01f;
+        gameOnSound.setVolume(musicVol, musicVol);
+
+        float sfxVol = prefs.getInt(sfxVolKey, 100) * 0.01f;
+        sqSound.setVolume(sfxVol, sfxVol);
+        startSound.setVolume(sfxVol, sfxVol);
+        repeatSound.setVolume(sfxVol, sfxVol);
+        revealSound.setVolume(sfxVol, sfxVol);
+        reviveSound.setVolume(sfxVol, sfxVol);
+        correctSound.setVolume(sfxVol, sfxVol);
+        gameOverSound.setVolume(sfxVol, sfxVol);
+
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        Resources res = getResources();
+        Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
+        for (Button square : squares) {
+            square.setBackground(background);
+        }
+        boolean sqNumbered = prefs.getBoolean(sqNum, false);
+        if (sqNumbered){
+            int sqIndex = 1;
+            for (Button square : squares) {
+                square.setText(String.valueOf(sqIndex));
+                sqIndex++;
+            }
+        }
+
+        // --------------------------------- Misc buttons ----------------------------------------- //
+
+        back.setOnClickListener(view -> {
+            gob.clickEffectResize(back, this);
+            showExitConfirmationDialog();
+        });
+
         start.setOnClickListener(view -> {
 
             start.setAlpha(0.5f);
@@ -210,6 +219,11 @@ public class Medium extends AppCompatActivity {
             resetHandler.postDelayed(() -> start.setVisibility(View.INVISIBLE), 100);
         });
 
+        reset.setOnClickListener(view -> resetStart());
+
+        revealBtn.setOnClickListener(view -> revealerStart());
+
+        // ----------------------------------- Squares -------------------------------------------- //
 
         sq1.setOnClickListener(view -> {
             gob.clickEffectDarken(sq1);
@@ -274,18 +288,13 @@ public class Medium extends AppCompatActivity {
             checkSequence(sq9);
         });
 
-        makeSqUnclickable();
-        reset.setOnClickListener(view -> resetStart());
+        gob.makeSqUnclickable(squares);
 
-        if (revealersCount == 0){
-            revealBtn.setAlpha(0.5f);
-        }
-        revealBtn.setOnClickListener(view -> revealerStart());
+        // ---------------------------------------------------------------------------------------- //
 
     }
 
 
-    @SuppressLint("SetTextI18n")
     public void startGameRun(){
 
         correctSeq.clear();
@@ -294,11 +303,11 @@ public class Medium extends AppCompatActivity {
 
         title.setText("Watch the pattern");
         level.setText("Level " + currentLevel);
-        makeSqUnclickable();
+        gob.makeSqUnclickable(squares);
         revealBtn.setClickable(false);
         revealBtn.setAlpha(0.5f);
 
-        changeSqAlpha(1.0f);
+        gob.changeSqAlpha(squares, 1.0f);
 
         Handler handler = new Handler();
         Runnable game = new Runnable() {
@@ -308,8 +317,6 @@ public class Medium extends AppCompatActivity {
                     int delay1ms = prefs.getInt(delay1, 0);
                     int delay2ms = prefs.getInt(delay2, 0);
                     int delayBetween = prefs.getInt(delay3, 0);
-
-                    Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
 
                     Handler handler = new Handler();
                     Random random = new Random();
@@ -333,7 +340,7 @@ public class Medium extends AppCompatActivity {
                             if(repeatSound != null){
                                 repeatSound.start();
                             }
-                            makeSqClickable();
+                            gob.makeSqClickable(squares);
                             revealBtn.setClickable(true);
                             if (revealersCount > 0){
                                 revealBtn.setAlpha(1.0f);
@@ -347,8 +354,6 @@ public class Medium extends AppCompatActivity {
         };
         handler.post(game);
     }
-
-    @SuppressLint("SetTextI18n")
     public void checkSequence(Button sqAdded){
 
         userSeq.add(userIndex, sqAdded);
@@ -363,7 +368,7 @@ public class Medium extends AppCompatActivity {
             correctCall();
         }
     }
-    @SuppressLint("SetTextI18n")
+
     public void gameOverCall(){
 
         title.setText("Game Over!");
@@ -386,20 +391,18 @@ public class Medium extends AppCompatActivity {
                 newScore.setVisibility(View.VISIBLE);
             }
             highscoreText.setText("Highscore: " + overallHighscore);
-            makeSqUnclickable();
+            gob.makeSqUnclickable(squares);
             userIndex = 0;
             userSeq.clear();
             Handler handler = new Handler();
             Runnable afterGameOver = () -> {
-                changeSqAlpha(0.5f);
+                gob.changeSqAlpha(squares, 0.5f);
                 reset.setVisibility(View.VISIBLE);
             };
             handler.postDelayed(afterGameOver, 300);
         }
 
     }
-
-    @SuppressLint("SetTextI18n")
     public void correctCall(){
 
         final int[] totalCoins = {prefs.getInt(coinsKey, 0)};
@@ -412,7 +415,7 @@ public class Medium extends AppCompatActivity {
         if (correctSound != null) {
             correctSound.start();
         }
-        makeSqUnclickable();
+        gob.makeSqUnclickable(squares);
         revealBtn.setClickable(false);
         currentScore++;
         totalCoins[0]+= coinPool[0];
@@ -448,40 +451,9 @@ public class Medium extends AppCompatActivity {
         Handler handler = new Handler();
         Runnable afterCongrats = () -> {
             nextLevel.setVisibility(View.VISIBLE);
-            changeSqAlpha(0.5f);
+            gob.changeSqAlpha(squares, 0.5f);
         };
         handler.postDelayed(afterCongrats, 500);
-    }
-
-    public void makeSqUnclickable(){
-        sq1.setClickable(false);
-        sq2.setClickable(false);
-        sq3.setClickable(false);
-        sq4.setClickable(false);
-        sq5.setClickable(false);
-        sq6.setClickable(false);
-        sq7.setClickable(false);
-        sq8.setClickable(false);
-        sq9.setClickable(false);
-    }
-
-    public void makeSqClickable(){
-        sq1.setClickable(true);
-        sq2.setClickable(true);
-        sq3.setClickable(true);
-        sq4.setClickable(true);
-        sq5.setClickable(true);
-        sq6.setClickable(true);
-        sq7.setClickable(true);
-        sq8.setClickable(true);
-        sq9.setClickable(true);
-    }
-
-    public void changeSqAlpha(float alphaValue){
-        Button[] squares = {sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8, sq9};
-        for (Button square : squares) {
-            square.setAlpha(alphaValue);
-        }
     }
 
 
@@ -544,12 +516,12 @@ public class Medium extends AppCompatActivity {
                 newScore.setVisibility(View.VISIBLE);
             }
             highscoreText.setText("Highscore: " + overallHighscore);
-            makeSqUnclickable();
+            gob.makeSqUnclickable(squares);
             userIndex = 0;
             userSeq.clear();
             Handler handler = new Handler();
             Runnable afterGameOver = () -> {
-                changeSqAlpha(0.5f);
+                gob.changeSqAlpha(squares, 0.5f);
                 reset.setVisibility(View.VISIBLE);
             };handler.postDelayed(afterGameOver, 300);
         });
@@ -566,7 +538,7 @@ public class Medium extends AppCompatActivity {
             editor.apply();
             revealersCountText.setText("x" + revealersCount);
             title.setText("Revealing!");
-            makeSqUnclickable();
+            gob.makeSqUnclickable(squares);
             revealBtn.setClickable(false);
             revealBtn.setAlpha(0.5f);
             Handler handler = new Handler();
@@ -595,7 +567,7 @@ public class Medium extends AppCompatActivity {
                             Handler titleHandler = new Handler();
                             titleHandler.postDelayed(() -> {
                                 title.setText("Repeat the pattern");
-                                makeSqClickable();
+                                gob.makeSqClickable(squares);
                                 revealBtn.setClickable(true);
                                 if (revealersCount > 0) {
                                     revealBtn.setAlpha(1.0f);
