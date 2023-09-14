@@ -201,34 +201,30 @@ public class Easy extends AppCompatActivity {
 
 
         sq1.setOnClickListener(view -> {
-            sq1.setAlpha(0.5F);
+            gob.clickEffectDarken(sq1);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq1);
             checkSequence(sq1);
         });
 
         sq2.setOnClickListener(view -> {
-            sq2.setAlpha(0.5F);
+            gob.clickEffectDarken(sq2);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq2);
             checkSequence(sq2);
         });
 
         sq3.setOnClickListener(view -> {
-            sq3.setAlpha(0.5F);
+            gob.clickEffectDarken(sq3);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq3);
             checkSequence(sq3);
         });
 
         sq4.setOnClickListener(view -> {
-            sq4.setAlpha(0.5F);
+            gob.clickEffectDarken(sq4);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq4);
             checkSequence(sq4);
         });
 

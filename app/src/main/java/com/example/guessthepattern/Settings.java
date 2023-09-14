@@ -50,7 +50,7 @@ public class Settings extends AppCompatActivity {
         ImageButton sqPurple = findViewById(R.id.sq4);
 
         int sqBlueID = R.drawable.sq_bcg_blue;
-        int sqRedID = R.drawable.sq_bcg_red;
+        int sqRedID = R.drawable.sq_bcg_white;
         int sqYellowID = R.drawable.sq_bcg_yellow;
         int sqPurpleID = R.drawable.sq_bcg_purple;
 

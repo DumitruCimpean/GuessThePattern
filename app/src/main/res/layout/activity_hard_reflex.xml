@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey_100"
-    tools:context=".EasyTimed">
+    tools:context=".HardReflex">
 
     <ImageView
         android:layout_width="match_parent"
@@ -99,7 +99,6 @@
         android:layout_marginBottom="5dp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
-        android:text="10.00"
         android:textAlignment="center"
         android:textColor="@color/light_blue"
         android:textFontWeight="700"
@@ -111,18 +110,22 @@
         app:layout_constraintVertical_bias="1.0"
         app:layout_constraintWidth_percent="0.3" />
 
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/squaresLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/score"
+        app:layout_constraintBottom_toTopOf="@+id/highscore"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerText"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.708">
+
 
         <Button
             android:id="@+id/sq1"
@@ -131,13 +134,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:textColor="@color/dark_grey_100"
-            app:layout_constraintBottom_toTopOf="@id/sq3"
+            app:layout_constraintBottom_toTopOf="@+id/sq5"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/sq2"
+            app:layout_constraintEnd_toStartOf="@+id/sq2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Button
             android:id="@+id/sq2"
@@ -146,13 +148,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:textColor="@color/dark_grey_100"
-            app:layout_constraintBottom_toTopOf="@id/sq4"
+            app:layout_constraintBottom_toTopOf="@+id/sq6"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/sq1"
+            app:layout_constraintEnd_toStartOf="@+id/sq3"
+            app:layout_constraintStart_toEndOf="@+id/sq1"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Button
             android:id="@+id/sq3"
@@ -161,13 +162,12 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:textColor="@color/dark_grey_100"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/sq7"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/sq4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sq1"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:layout_constraintEnd_toStartOf="@+id/sq4"
+            app:layout_constraintStart_toEndOf="@+id/sq2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <Button
             android:id="@+id/sq4"
@@ -176,39 +176,187 @@
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/sq_bcg_blue"
-            android:textColor="@color/dark_grey_100"
+            app:layout_constraintBottom_toTopOf="@+id/sq8"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sq3"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq9"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sq1"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq10"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq7"
+            app:layout_constraintStart_toEndOf="@+id/sq5"
+            app:layout_constraintTop_toBottomOf="@+id/sq2"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq11"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq8"
+            app:layout_constraintStart_toEndOf="@+id/sq6"
+            app:layout_constraintTop_toBottomOf="@+id/sq3"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq12"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sq7"
+            app:layout_constraintTop_toBottomOf="@+id/sq4"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq9"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq13"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sq5"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq10"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq14"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq11"
+            app:layout_constraintStart_toEndOf="@+id/sq9"
+            app:layout_constraintTop_toBottomOf="@+id/sq6"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq11"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq15"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq12"
+            app:layout_constraintStart_toEndOf="@+id/sq10"
+            app:layout_constraintTop_toBottomOf="@+id/sq7"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq12"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toTopOf="@+id/sq16"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sq11"
+            app:layout_constraintTop_toBottomOf="@+id/sq8"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+
+        <Button
+            android:id="@+id/sq13"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sq9"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq14"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq15"
+            app:layout_constraintStart_toEndOf="@+id/sq13"
+            app:layout_constraintTop_toBottomOf="@+id/sq10"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq15"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq16"
+            app:layout_constraintStart_toEndOf="@+id/sq14"
+            app:layout_constraintTop_toBottomOf="@+id/sq11"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq16"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/sq3"
-            app:layout_constraintTop_toBottomOf="@id/sq2"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <Button
-            android:id="@+id/nextLevel"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/nextlvl_bcg"
-            android:padding="10dp"
-            android:text="@string/next_level"
-            android:textColor="@color/white"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintWidth_percent="0.4" />
+            app:layout_constraintStart_toEndOf="@+id/sq15"
+            app:layout_constraintTop_toBottomOf="@+id/sq12"
+            tools:ignore="SpeakableTextPresentCheck"/>
 
         <ImageButton
             android:id="@+id/redoButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/nextlvl_bcg"
-            android:contentDescription="@string/resetBtnDesc"
             android:elevation="4dp"
             android:padding="10dp"
             android:scaleType="fitCenter"
@@ -222,36 +370,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintWidth_percent="0.4" />
+            app:layout_constraintWidth_percent="0.4"
+            android:contentDescription="@string/coinIconDesc"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:background="@drawable/scores_bcg"
-        android:fontFamily="@font/jost_variablewght"
-        android:padding="5dp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textFontWeight="700"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/startBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/level"
-        app:layout_constraintVertical_bias="0.833"
-        app:layout_constraintWidth_percent="0.2" />
 
     <TextView
         android:id="@+id/highscore"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/scores_bcg"
         android:fontFamily="@font/jost_variablewght"
@@ -263,8 +391,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.867"
         app:layout_constraintWidth_percent="0.3" />
 
     <TextView
@@ -322,50 +450,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/revealerBox"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/scores_bcg">
-
-
-            <ImageButton
-                android:id="@+id/revelearBtn"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/transparent"
-                android:contentDescription="@string/revealerBtnDesc"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/revealer"
-                app:layout_constraintBottom_toTopOf="@+id/revealersCount"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.7"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent="0.9" />
-
-            <TextView
-                android:id="@+id/revealersCount"
-                android:layout_width="100dp"
-                android:layout_height="0dp"
-                android:autoSizeTextType="uniform"
-                android:fontFamily="@font/jost_variablewght"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.3"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.95" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 

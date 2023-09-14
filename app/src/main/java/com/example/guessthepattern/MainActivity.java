@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String delay1 = "delay1";
     public static final String delay2 = "delay2";
     public static final String delay3 = "delay3";
+
+    private MyGlobals gob;
     private MediaPlayer coinSfx;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
 
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
-        MyGlobals gob = new MyGlobals(this);
+        gob = new MyGlobals(this);
         shouldPlay = false;
         resetHandler = new Handler();
 
@@ -181,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showFirstTimePresent() {
-        MyGlobals gob = new MyGlobals(MainActivity.this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.first_time_dialog_layout, null);

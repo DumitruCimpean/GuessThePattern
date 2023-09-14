@@ -50,8 +50,10 @@ public class Grids extends AppCompatActivity {
             Intent intent;
             if (modeSelected == 1){
                 intent = new Intent(this, Easy.class);
-            }else{
+            }else if (modeSelected == 2){
                 intent = new Intent(this, EasyTimed.class);
+            }else {
+                intent = new Intent(this, EasyReflex.class);
             }
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -72,8 +74,10 @@ public class Grids extends AppCompatActivity {
             Intent intent;
             if (modeSelected == 1){
                 intent = new Intent(this, Medium.class);
-            }else{
+            }else if (modeSelected == 2){
                 intent = new Intent(this, MediumTimed.class);
+            }else {
+                intent = new Intent(this, MediumReflex.class);
             }
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -93,8 +97,10 @@ public class Grids extends AppCompatActivity {
             Intent intent;
             if (modeSelected == 1){
                 intent = new Intent(this, Hard.class);
-            }else{
+            }else if (modeSelected == 2){
                 intent = new Intent(this, HardTimed.class);
+            }else {
+                intent = new Intent(this, HardReflex.class);
             }
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -114,6 +120,11 @@ public class Grids extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed(){
+        shouldPlay = true;
+        finish();
+    }
 
     @Override
     protected void onDestroy() {
@@ -124,6 +135,13 @@ public class Grids extends AppCompatActivity {
             levelEnter.release();
             levelEnter = null;
         }
+
+        if (!shouldPlay){
+            if (themeSong != null){
+                themeSong.pause();
+            }
+        }
+
     }
 
     @Override

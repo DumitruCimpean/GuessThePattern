@@ -227,74 +227,65 @@ public class MediumTimed extends AppCompatActivity {
 
 
         sq1.setOnClickListener(view -> {
-            sq1.setAlpha(0.5F);
+            gob.clickEffectDarken(sq1);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq1);
             checkSequence(sq1);
         });
 
         sq2.setOnClickListener(view -> {
-            sq2.setAlpha(0.5F);
+            gob.clickEffectDarken(sq2);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq2);
             checkSequence(sq2);
         });
 
         sq3.setOnClickListener(view -> {
-            sq3.setAlpha(0.5F);
+            gob.clickEffectDarken(sq3);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq3);
             checkSequence(sq3);
         });
 
         sq4.setOnClickListener(view -> {
-            sq4.setAlpha(0.5F);
+            gob.clickEffectDarken(sq4);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq4);
             checkSequence(sq4);
         });
 
         sq5.setOnClickListener(view -> {
-            sq5.setAlpha(0.5F);
+            gob.clickEffectDarken(sq5);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq5);
             checkSequence(sq5);
         });
 
         sq6.setOnClickListener(view -> {
-            sq6.setAlpha(0.5F);
+            gob.clickEffectDarken(sq6);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq6);
             checkSequence(sq6);
         });
 
         sq7.setOnClickListener(view -> {
-            sq7.setAlpha(0.5F);
+            gob.clickEffectDarken(sq7);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq7);
             checkSequence(sq7);
         });
 
         sq8.setOnClickListener(view -> {
-            sq8.setAlpha(0.5F);
+            gob.clickEffectDarken(sq8);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq8);
             checkSequence(sq8);
         });
 
         sq9.setOnClickListener(view -> {
-            sq9.setAlpha(0.5F);
+            gob.clickEffectDarken(sq9);
             sqSound.seekTo(0);
             sqSound.start();
-            gob.clickEffectDarken(sq9);
             checkSequence(sq9);
         });
 
