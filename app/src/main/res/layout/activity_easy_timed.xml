@@ -341,7 +341,7 @@
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/revealer"
-                app:layout_constraintBottom_toTopOf="@+id/revelearsCount"
+                app:layout_constraintBottom_toTopOf="@+id/revealersCount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.7"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -351,7 +351,7 @@
                 app:layout_constraintWidth_percent="0.9" />
 
             <TextView
-                android:id="@+id/revelearsCount"
+                android:id="@+id/revealersCount"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:autoSizeTextType="uniform"

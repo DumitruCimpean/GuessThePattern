@@ -116,7 +116,7 @@ public class EasyTimed extends AppCompatActivity {
         revealBtn = findViewById(R.id.revelearBtn);
         timerText = findViewById(R.id.timerText);
         revealBox = findViewById(R.id.revealerBox);
-        revealersCountText = findViewById(R.id.revelearsCount);
+        revealersCountText = findViewById(R.id.revealersCount);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);

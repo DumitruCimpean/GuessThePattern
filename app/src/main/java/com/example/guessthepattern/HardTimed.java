@@ -93,7 +93,7 @@ public class HardTimed extends AppCompatActivity {
     private int currentLevel;
     private int currentScore;
     private int overallHighscore;
-    private int revealersCount;
+    private int revealCount;
     private int levelTurns;
     private int turns;
     private int levelTurnsPace;
@@ -129,6 +129,7 @@ public class HardTimed extends AppCompatActivity {
         revealBtn = findViewById(R.id.revelearBtn);
         timerText = findViewById(R.id.timerText);
         revealBox = findViewById(R.id.revealerBox);
+        revealersCountText = findViewById(R.id.revealersCount);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -209,8 +210,8 @@ public class HardTimed extends AppCompatActivity {
         String combinedHighscore = "Highscore: " + overallHighscore;
         highscoreText.setText(combinedHighscore);
 
-        revealersCount = prefs.getInt(revealsKey, 0);
-        revealersCountText.setText("x" + revealersCount);
+        revealCount = prefs.getInt(revealsKey, 0);
+        revealersCountText.setText("x" + revealCount);
         revivesOwned = prefs.getInt(revivesKey, 0);
 
 
@@ -369,7 +370,7 @@ public class HardTimed extends AppCompatActivity {
         makeSqUnclickable();
         reset.setOnClickListener(view -> resetStart());
 
-        if (revealersCount == 0){
+        if (revealCount == 0){
             revealBtn.setAlpha(0.5f);
         }
         revealBtn.setOnClickListener(view -> revealerStart());
@@ -430,7 +431,7 @@ public class HardTimed extends AppCompatActivity {
                             }
                             makeSqClickable();
                             revealBtn.setClickable(true);
-                            if (revealersCount > 0){
+                            if (revealCount > 0){
                                 revealBtn.setAlpha(1.0f);
                             }
                         }, delay2ms);
@@ -688,13 +689,13 @@ public class HardTimed extends AppCompatActivity {
 
     private void revealerStart() {
 
-        if (revealersCount > 0) {
+        if (revealCount > 0) {
             gob.clickEffectResize(revealBox, this);
             revealSound.start();
-            revealersCount--;
-            editor.putInt(revealsKey, revealersCount);
+            revealCount--;
+            editor.putInt(revealsKey, revealCount);
             editor.apply();
-            revealersCountText.setText("x" + revealersCount);
+            revealersCountText.setText("x" + revealCount);
             title.setText("Revealing!");
             timerPause();
             makeSqUnclickable();
@@ -729,7 +730,7 @@ public class HardTimed extends AppCompatActivity {
                                 timerResume();
                                 makeSqClickable();
                                 revealBtn.setClickable(true);
-                                if (revealersCount > 0) {
+                                if (revealCount > 0) {
                                     revealBtn.setAlpha(1.0f);
                                 }
                             }, delay2ms);

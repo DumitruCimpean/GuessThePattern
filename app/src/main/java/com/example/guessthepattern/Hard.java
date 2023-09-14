@@ -118,7 +118,7 @@ public class Hard extends AppCompatActivity {
         coinPlus = findViewById(R.id.coinPlus);
         revealBtn = findViewById(R.id.revelearBtn);
         revealBox = findViewById(R.id.revealerBox);
-        revealersCountText = findViewById(R.id.revelearsCount);
+        revealersCountText = findViewById(R.id.revealersCount);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
