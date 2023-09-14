@@ -1,10 +1,13 @@
 package com.example.guessthepattern;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.renderscript.Sampler;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -68,6 +71,24 @@ public class MyGlobals extends Activity {
         final Animation scaleUp = AnimationUtils.loadAnimation(context, R.anim.button_up);
         button.startAnimation(scaleDown);
         resetHandler.postDelayed(() -> button.startAnimation(scaleUp), 200);
+    }
+
+    public void makeSqUnclickable(Button[] squaresList){
+        for (Button square:squaresList){
+            square.setClickable(false);
+        }
+    }
+
+    public void makeSqClickable(Button[] squaresList){
+        for (Button square:squaresList){
+            square.setClickable(true);
+        }
+    }
+
+    public void changeSqAlpha(Button[] squares, float alphaValue){
+        for (Button square : squares) {
+            square.setAlpha(alphaValue);
+        }
     }
 
 

@@ -252,7 +252,7 @@ public class MediumReflex extends AppCompatActivity {
             checkSequence(sq9);
         });
 
-        makeSqUnclickable();
+        gob.makeSqUnclickable(squares);
 
         // ---------------------------------------------------------------------------------------- //
 
@@ -264,7 +264,7 @@ public class MediumReflex extends AppCompatActivity {
 
         correctSq.clear();
         reset.setVisibility(View.INVISIBLE);
-        changeSqAlpha(1.0f);
+        gob.changeSqAlpha(squares, 1.0f);
         title.setText("Wait...");
         timerText.setVisibility(View.INVISIBLE);
         level.setVisibility(View.INVISIBLE);
@@ -282,7 +282,7 @@ public class MediumReflex extends AppCompatActivity {
 
         handler.postDelayed(() -> {
 
-            makeSqClickable();
+            gob.makeSqClickable(squares);
             title.setText("Go!");
             correctSq.get(0).setBackgroundResource(R.drawable.start_rectangle);
             stopwatch.start();
@@ -309,10 +309,10 @@ public class MediumReflex extends AppCompatActivity {
             gameOverSound.start();
         }
         sqAdded.setBackgroundResource(R.drawable.sq_bcg_red);
-        makeSqUnclickable();
+        gob.makeSqUnclickable(squares);
 
         handler.postDelayed(() ->{
-            changeSqAlpha(0.5f);
+            gob.changeSqAlpha(squares, 0.5f);
             reset.setVisibility(View.VISIBLE);
         }, 1000);
 
@@ -346,33 +346,14 @@ public class MediumReflex extends AppCompatActivity {
         editor.apply();
 
         correctSq.get(0).setBackgroundResource(bcgID);
-        makeSqUnclickable();
+        gob.makeSqUnclickable(squares);
         handler.postDelayed(()->{
-            changeSqAlpha(0.5f);
+            gob.changeSqAlpha(squares, 0.5f);
             reset.setVisibility(View.VISIBLE);
         },300);
 
 
     }
-
-    public void makeSqUnclickable(){
-        for (Button square : squares) {
-            square.setClickable(false);
-        }
-    }
-
-    public void makeSqClickable(){
-        for (Button square : squares) {
-            square.setClickable(true);
-        }
-    }
-
-    public void changeSqAlpha(float alphaValue){
-        for (Button square : squares) {
-            square.setAlpha(alphaValue);
-        }
-    }
-
 
     @SuppressLint("SetTextI18n")
     private void showExitConfirmationDialog() {
@@ -381,25 +362,8 @@ public class MediumReflex extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.exit_dialog_layout, null);
         builder.setView(dialogView);
 
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        int displayWidth = metrics.widthPixels;
-        int displayHeight = metrics.heightPixels;
-        int displayAvg = (displayHeight + displayWidth) / 2;
-
-        TextView message = dialogView.findViewById(R.id.dialog_message);
-        message.getLayoutParams().height = (int) (displayAvg * 0.08f);
-        message.setText("Quit to main menu?");
-
         Button positiveButton = dialogView.findViewById(R.id.positive_button);
-        positiveButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
-        positiveButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
-
         Button negativeButton = dialogView.findViewById(R.id.negative_button);
-        negativeButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
-        negativeButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
-
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {
@@ -407,9 +371,10 @@ public class MediumReflex extends AppCompatActivity {
             finish();
             overridePendingTransition(0, 0);
         });
-
         negativeButton.setOnClickListener(v -> dialog.dismiss());
+
         dialog.show();
+
     }
 
 

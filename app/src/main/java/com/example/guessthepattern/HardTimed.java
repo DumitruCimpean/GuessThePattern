@@ -589,25 +589,8 @@ public class HardTimed extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.exit_dialog_layout, null);
         builder.setView(dialogView);
 
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        int displayWidth = metrics.widthPixels;
-        int displayHeight = metrics.heightPixels;
-        int displayAvg = (displayHeight + displayWidth) / 2;
-
-        TextView message = dialogView.findViewById(R.id.dialog_message);
-        message.getLayoutParams().height = (int) (displayAvg * 0.08f);
-        message.setText("Quit to main menu?");
-
         Button positiveButton = dialogView.findViewById(R.id.positive_button);
-        positiveButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
-        positiveButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
-
         Button negativeButton = dialogView.findViewById(R.id.negative_button);
-        negativeButton.getLayoutParams().height = (int) (displayHeight * 0.07f);
-        negativeButton.getLayoutParams().width = (int) (displayWidth * 0.2f);
-
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {
@@ -615,9 +598,10 @@ public class HardTimed extends AppCompatActivity {
             finish();
             overridePendingTransition(0, 0);
         });
-
         negativeButton.setOnClickListener(v -> dialog.dismiss());
+
         dialog.show();
+
     }
 
     @SuppressLint("SetTextI18n")
