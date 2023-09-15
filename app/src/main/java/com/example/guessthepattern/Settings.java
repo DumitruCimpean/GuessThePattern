@@ -1,20 +1,41 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Settings extends AppCompatActivity {
     private static boolean shouldPlay;
@@ -23,6 +44,9 @@ public class Settings extends AppCompatActivity {
     private static final String sqNum = "sqNum";
     private static final String musicVolKey = "musicVolKey";
     private static final String sfxVolKey = "sfxVolKey";
+
+    private static final String IMAGE_URI_KEY = "imageUri";
+
 
     private Drawable checkmark;
     private Drawable checkmarkDark;
@@ -37,6 +61,7 @@ public class Settings extends AppCompatActivity {
     private ImageButton sqBrown;
     private ImageButton sqTurquoise;
     private HorizontalScrollView sqScrollView;
+    private ConstraintLayout entireLayout;
     private int sqBlueID;
     private int sqWhiteID;
     private int sqYellowID;
@@ -44,6 +69,7 @@ public class Settings extends AppCompatActivity {
     private int sqPeachID;
     private int sqBrownID;
     private int sqTurquoiseID;
+    private Button selectBackgroundButton;
     private ImageButton[] squares;
     private Resources resources;
     private MyGlobals gob;
@@ -52,6 +78,9 @@ public class Settings extends AppCompatActivity {
     private Handler handler;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     private MediaPlayer levelEnter;
+    private static final int REQUEST_CODE_IMAGE_PICK = 123;
+    private static final int REQUEST_CODE_PERMISSION = 456;
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +102,9 @@ public class Settings extends AppCompatActivity {
         TextView sfxText = findViewById(R.id.sfxVolumeText);
         SeekBar sfxSeek = findViewById(R.id.sfxSeekBar);
 
+        selectBackgroundButton = findViewById(R.id.selectBackgroundButton);
         sqScrollView = findViewById(R.id.sqColorScrollView);
+        entireLayout = findViewById(R.id.entireLayout);
         sqBlue = findViewById(R.id.sq1);
         sqWhite = findViewById(R.id.sq2);
         sqYellow = findViewById(R.id.sq3);
@@ -143,12 +174,38 @@ public class Settings extends AppCompatActivity {
             numberedBtn.setImageDrawable(null);
         }
 
+        String imageUriString = prefs.getString(bcgImgUriKey, null);
+        if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            setAppBackground(imageUri);
+        }
+
+
         // ---------------------------------- Buttons --------------------------------------------- //
 
         back.setOnClickListener(v -> {
             gob.clickEffectResize(back, this);
             shouldPlay = true;
             handler.postDelayed(this::finish, 100);
+        });
+
+        selectBackgroundButton.setOnClickListener(v -> {
+            gob.clickEffectResize(selectBackgroundButton, this);
+
+            if (Build.VERSION.SDK_INT < 33){
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    selectBackgroundImage();
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+                }
+            }else{
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
+                    selectBackgroundImage();
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, REQUEST_CODE_PERMISSION);
+                }
+            }
+
         });
 
 
@@ -272,6 +329,105 @@ public class Settings extends AppCompatActivity {
             sqScrollView.smoothScrollTo(scrollX, 0);
         });
 
+    }
+
+    private void enableBackgroundImageSelection(Button selectBackgroundButton) {
+        selectBackgroundButton.setEnabled(true);
+        // Set button text or appearance as needed
+    }
+
+    private void disableBackgroundImageSelection(Button selectBackgroundButton) {
+        selectBackgroundButton.setEnabled(false);
+        // Set button text or appearance as needed
+    }
+
+    private void selectBackgroundImage() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICK);
+    }
+
+    private void setAppBackground(Uri imageUri) {
+        try {
+            // Take persistable URI permission to ensure access to the image URI
+            getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            Drawable drawable = Drawable.createFromStream(inputStream, imageUri.toString());
+            editor.putString(bcgImgUriKey, imageUri.toString());
+            editor.apply();
+            gob.showToast("Background Image applied");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("setAppBackground", "Exception occurred while setting the background");
+        }
+    }
+
+    private void saveImageUriToInternalStorage(Uri imageUri) {
+        try {
+            // Convert the URI to a string and save it to internal storage
+            String uriString = imageUri.toString();
+            FileOutputStream fos = openFileOutput(IMAGE_URI_KEY, Context.MODE_PRIVATE);
+            fos.write(uriString.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Uri loadImageUriFromInternalStorage() {
+        try {
+            // Read the saved URI string from internal storage
+            FileInputStream fis = openFileInput(IMAGE_URI_KEY);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+            fis.close();
+
+            // Convert the saved URI string back to a Uri
+            return Uri.parse(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                selectedImageUri = data.getData();
+
+                // Save the selected image URI to internal storage
+                saveImageUriToInternalStorage(selectedImageUri);
+
+                // Set the app background
+                setAppBackground(selectedImageUri);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted. Enable the image selection button.
+                enableBackgroundImageSelection(selectBackgroundButton);
+                gob.showToast("Click on the button again");
+            } else {
+                // Permission was denied. Handle this case (e.g., show a message to the user).
+                // You can also disable the image selection button if needed.
+            }
+        }
     }
 
     @Override

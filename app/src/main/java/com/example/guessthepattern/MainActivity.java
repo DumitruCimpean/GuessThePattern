@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,11 +22,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
     public static final String prefsName = "MyPrefs"; // Name for the preferences file
     private MediaPlayer levelEnter;
     public static boolean shouldPlay;
+    public static final String bcgImgUriKey = "backgroundImageUri";
     public static final  String coinsKey = "coinsKey";
     public static final String coinsPoolKey = "coinsPoolKey";
     public static final String revealsKey = "revealsKey";

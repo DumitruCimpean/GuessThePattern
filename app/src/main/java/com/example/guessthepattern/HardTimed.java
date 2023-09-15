@@ -1,5 +1,6 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.coinsPoolKey;
@@ -28,6 +29,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -135,6 +137,14 @@ public class HardTimed extends AppCompatActivity {
         ImageButton back = findViewById(R.id.backButton);
         Button start = findViewById(R.id.startBtn);
         RelativeLayout itemBar = findViewById(R.id.itemBar);
+
+        ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
+        String imageUriString = prefs.getString(bcgImgUriKey, null);
+        if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            gob.setAppBackground(imageUri, backgroundLayout);
+            backgroundLayout.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);

@@ -1,5 +1,6 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.musicVolKey;
@@ -8,6 +9,7 @@ import static com.example.guessthepattern.MainActivity.sfxVolKey;
 import static com.example.guessthepattern.MainActivity.sqNum;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
@@ -18,6 +20,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -89,6 +92,14 @@ public class EasyReflex extends AppCompatActivity {
         reset = findViewById(R.id.redoButton);
         Button start = findViewById(R.id.startBtn);
         ImageButton back = findViewById(R.id.backButton);
+
+        ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
+        String imageUriString = prefs.getString(bcgImgUriKey, null);
+        if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            gob.setAppBackground(imageUri, backgroundLayout);
+            backgroundLayout.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);

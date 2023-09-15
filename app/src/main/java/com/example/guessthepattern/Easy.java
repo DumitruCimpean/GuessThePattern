@@ -1,5 +1,6 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.coinsPoolKey;
@@ -27,6 +28,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -37,6 +39,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -112,6 +116,14 @@ public class Easy extends AppCompatActivity {
         RelativeLayout itemBar = findViewById(R.id.itemBar);
         ImageButton back = findViewById(R.id.backButton);
 
+        ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
+        String imageUriString = prefs.getString(bcgImgUriKey, null);
+        if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            gob.setAppBackground(imageUri, backgroundLayout);
+            backgroundLayout.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
+
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
         sq3 = findViewById(R.id.sq3);
@@ -128,6 +140,7 @@ public class Easy extends AppCompatActivity {
         gameOverSound = MediaPlayer.create(this, R.raw.game_over);
         gameOnSound.setLooping(true);
         gameOnSound.start();
+
 
         currentLevel = 1;
         currentScore = 0;

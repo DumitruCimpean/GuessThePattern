@@ -8,11 +8,9 @@
     tools:context=".MediumReflex">
 
   <ImageView
+      android:id="@+id/backgroundLayout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:scaleType="centerCrop"
-      android:src="@drawable/red_nature_bcg"
-      android:visibility="invisible"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.5"
