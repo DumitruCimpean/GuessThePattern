@@ -2,21 +2,12 @@ package com.example.guessthepattern;
 
 import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
-import static com.example.guessthepattern.MainActivity.coinsPoolKey;
-import static com.example.guessthepattern.MainActivity.delay1;
-import static com.example.guessthepattern.MainActivity.delay2;
-import static com.example.guessthepattern.MainActivity.delay3;
 import static com.example.guessthepattern.MainActivity.musicVolKey;
-import static com.example.guessthepattern.MainActivity.paceKey;
 import static com.example.guessthepattern.MainActivity.prefsName;
-import static com.example.guessthepattern.MainActivity.revealsKey;
-import static com.example.guessthepattern.MainActivity.revivesKey;
-import static com.example.guessthepattern.MainActivity.scoreKey;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
 import static com.example.guessthepattern.MainActivity.sqNum;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
@@ -28,21 +19,17 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 public class EasyReflex extends AppCompatActivity {
     private Button sq1;
@@ -132,7 +119,7 @@ public class EasyReflex extends AppCompatActivity {
 
         // -----------------------Applying selected settings -------------------------------------- //
 
-        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         for (Button square : squares) {
@@ -237,7 +224,7 @@ public class EasyReflex extends AppCompatActivity {
 
             gob.makeSqClickable(squares);
             title.setText("Go!");
-            correctSq.get(0).setBackgroundResource(R.drawable.start_rectangle);
+            correctSq.get(0).setBackgroundResource(R.drawable.sq_bcg_green);
             stopwatch.start();
 
         }, randomDelay);
@@ -259,7 +246,7 @@ public class EasyReflex extends AppCompatActivity {
         if (gameOverSound != null){
             gameOverSound.start();
         }
-        sqAdded.setBackgroundResource(R.drawable.sq_bcg_red);
+        sqAdded.setBackgroundResource(R.drawable.sq_bcg_red_lc);
         gob.makeSqUnclickable(squares);
 
         handler.postDelayed(() ->{

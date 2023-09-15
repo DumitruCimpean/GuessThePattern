@@ -29,7 +29,6 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -171,7 +170,7 @@ public class Easy extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         for (Button square : squares) {
@@ -381,7 +380,7 @@ public class Easy extends AppCompatActivity {
         coinPlus.setVisibility(View.VISIBLE);
         delay1change[0] /= 1.01;    // ratios for increasing the speed at which the sequence is shown (decreases the delay)
         delay2change[0] /= 1.03;    //  --> these two should be close or same
-        delayBetween[0] /= 1.03;    //  ----^
+        delayBetween[0] /= 1.03;    //  ----^ TODO: tweak delay increase rate (on all activities)
         editor.putInt(scoreKey, currentScore);
         editor.putInt(coinsKey, totalCoins[0]);
         editor.putInt(delay1, delay1change[0]);
@@ -509,7 +508,7 @@ public class Easy extends AppCompatActivity {
                         handler.postDelayed(runnable, delay2ms);
 
                         Runnable runnable2 = () -> {
-                            square.setBackgroundResource(R.drawable.start_rectangle);
+                            square.setBackgroundResource(R.drawable.sq_bcg_green);
                             userIndexAux[0]++;
                         };
                         handler.postDelayed(runnable2, delay1ms);

@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,7 +23,33 @@ public class Settings extends AppCompatActivity {
     private static final String sqNum = "sqNum";
     private static final String musicVolKey = "musicVolKey";
     private static final String sfxVolKey = "sfxVolKey";
+
+    private Drawable checkmark;
+    private Drawable checkmarkDark;
+    private boolean numberedBool;
+    private int musicVolumeChosen;
+    private int sfxVolumeChosen;
+    private ImageButton sqBlue;
+    private ImageButton sqWhite;
+    private ImageButton sqYellow;
+    private ImageButton sqPurple;
+    private ImageButton sqPeach;
+    private ImageButton sqBrown;
+    private ImageButton sqTurquoise;
+    private HorizontalScrollView sqScrollView;
+    private int sqBlueID;
+    private int sqWhiteID;
+    private int sqYellowID;
+    private int sqPurpleID;
+    private int sqPeachID;
+    private int sqBrownID;
+    private int sqTurquoiseID;
+    private ImageButton[] squares;
     private Resources resources;
+    private MyGlobals gob;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
+    private Handler handler;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     private MediaPlayer levelEnter;
 
@@ -30,59 +57,45 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        resources = getResources();
 
-        MyGlobals gob = new MyGlobals(this);
-        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Handler handler = new Handler();
+        // ------------------------ Initializations ----------------------------------------------- //
+
+        resources = getResources();
+        gob = new MyGlobals(this);
+        prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        editor = prefs.edit();
+        handler = new Handler();
 
         ImageButton back = findViewById(R.id.backButton);
-        back.setOnClickListener(v -> {
-            gob.clickEffectResize(back, this);
-            shouldPlay = true;
-            handler.postDelayed(this::finish, 100);
-        });
-
-        ImageButton sqBlue = findViewById(R.id.sq1);
-        ImageButton sqRed = findViewById(R.id.sq2);
-        ImageButton sqYellow = findViewById(R.id.sq3);
-        ImageButton sqPurple = findViewById(R.id.sq4);
-
-        int sqBlueID = R.drawable.sq_bcg_blue;
-        int sqRedID = R.drawable.sq_bcg_white;
-        int sqYellowID = R.drawable.sq_bcg_yellow;
-        int sqPurpleID = R.drawable.sq_bcg_purple;
-
-        Drawable checkmark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark, getTheme());
-        Drawable checkmarkDark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark_darkgrey, getTheme());
-
-        int selectedBcg = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
-        if (selectedBcg == sqBlueID){
-            sqBlue.setImageDrawable(checkmark);
-            clearOtherSquaresExcept(sqBlue);
-        }
-        if (selectedBcg == sqRedID){
-            sqRed.setImageDrawable(checkmark);
-            clearOtherSquaresExcept(sqRed);
-        }
-        if (selectedBcg == sqYellowID){
-            sqYellow.setImageDrawable(checkmarkDark);
-            clearOtherSquaresExcept(sqYellow);
-        }
-        if (selectedBcg == sqPurpleID){
-            sqPurple.setImageDrawable(checkmark);
-            clearOtherSquaresExcept(sqPurple);
-        }
-
         ImageButton numberedBtn = findViewById(R.id.numberedCheckbox);
-        final boolean[] numberedBool = {prefs.getBoolean(sqNum, false)};
-        if (numberedBool[0]){
-            numberedBtn.setImageDrawable(checkmark);
-        }else{
-            numberedBtn.setImageDrawable(null);
-        }
+        TextView musicText = findViewById(R.id.musicVolumeText);
+        SeekBar musicSeek = findViewById(R.id.musicSeekBar);
+        TextView sfxText = findViewById(R.id.sfxVolumeText);
+        SeekBar sfxSeek = findViewById(R.id.sfxSeekBar);
 
+        sqScrollView = findViewById(R.id.sqColorScrollView);
+        sqBlue = findViewById(R.id.sq1);
+        sqWhite = findViewById(R.id.sq2);
+        sqYellow = findViewById(R.id.sq3);
+        sqPurple = findViewById(R.id.sq4);
+        sqPeach = findViewById(R.id.sq5);
+        sqBrown = findViewById(R.id.sq6);
+        sqTurquoise = findViewById(R.id.sq7);
+        squares = new ImageButton[]{sqBlue, sqWhite, sqYellow, sqPurple, sqPeach, sqBrown, sqTurquoise};
+
+        sqBlueID = R.drawable.sq_bcg_blue_lc;
+        sqWhiteID = R.drawable.sq_bcg_white_dc;
+        sqYellowID = R.drawable.sq_bcg_yellow_dc;
+        sqPurpleID = R.drawable.sq_bcg_purple_lc;
+        sqPeachID = R.drawable.sq_bcg_peach;
+        sqBrownID = R.drawable.sq_bcg_brown;
+        sqTurquoiseID = R.drawable.sq_bcg_turquoise;
+
+        levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
+        checkmark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark, getTheme());
+        checkmarkDark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark_darkgrey, getTheme());
+
+        // Numbered checkbox resize so it stays square
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         int displayHeight = metrics.heightPixels;
@@ -91,60 +104,110 @@ public class Settings extends AppCompatActivity {
         numberedBtn.getLayoutParams().width = numLayoutHeight / 2;
         numberedBtn.getLayoutParams().height = numLayoutHeight / 2;
 
+        // -------------------------------- Restoring settings ------------------------------------ //
+
+        int selectedBcg = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        if (selectedBcg == sqBlueID){
+            sqBlue.setImageDrawable(checkmark);
+            checkAndScrollToSquare(sqBlue);
+        }
+        if (selectedBcg == sqWhiteID){
+            sqWhite.setImageDrawable(checkmark);
+            checkAndScrollToSquare(sqWhite);
+        }
+        if (selectedBcg == sqYellowID){
+            sqYellow.setImageDrawable(checkmarkDark);
+            checkAndScrollToSquare(sqYellow);
+        }
+        if (selectedBcg == sqPurpleID){
+            sqPurple.setImageDrawable(checkmark);
+            checkAndScrollToSquare(sqPurple);
+        }
+        if (selectedBcg == sqPeachID){
+            sqPeach.setImageDrawable(checkmark);
+            checkAndScrollToSquare(sqPeach);
+        }
+        if (selectedBcg == sqBrownID){
+            sqBrown.setImageDrawable(checkmark);
+            checkAndScrollToSquare(sqBrown);
+        }
+        if (selectedBcg == sqTurquoiseID){
+            sqTurquoise.setImageDrawable(checkmark);
+            checkAndScrollToSquare(sqTurquoise);
+        }
+
+        numberedBool = prefs.getBoolean(sqNum, false);
+        if (numberedBool){
+            numberedBtn.setImageDrawable(checkmark);
+        }else{
+            numberedBtn.setImageDrawable(null);
+        }
+
+        // ---------------------------------- Buttons --------------------------------------------- //
+
+        back.setOnClickListener(v -> {
+            gob.clickEffectResize(back, this);
+            shouldPlay = true;
+            handler.postDelayed(this::finish, 100);
+        });
+
+
+        // Squares color ---------------------------------------------------------------------------
 
         sqBlue.setOnClickListener(v -> {
-            gob.clickEffectResize(sqBlue, this);
-            sqBlue.setImageDrawable(checkmark);
-            clearOtherSquaresExcept(sqBlue);
-            editor.putInt(bcgKey, sqBlueID);
-            editor.apply();
+            sqCheckRoutine(sqBlue, sqBlueID);
         });
-        sqRed.setOnClickListener(v -> {
-            gob.clickEffectResize(sqRed, this);
-            sqRed.setImageDrawable(checkmark);
-            clearOtherSquaresExcept(sqRed);
-            editor.putInt(bcgKey, sqRedID);
-            editor.apply();
+
+        sqWhite.setOnClickListener(v -> {
+            sqCheckRoutine(sqWhite, sqWhiteID);
         });
+
         sqYellow.setOnClickListener(v -> {
-            gob.clickEffectResize(sqYellow, this);
-            sqYellow.setImageDrawable(checkmark);
-            clearOtherSquaresExcept(sqYellow);
-            editor.putInt(bcgKey, sqYellowID);
-            editor.apply();
+           sqCheckRoutine(sqYellow, sqYellowID);
         });
+
         sqPurple.setOnClickListener(v -> {
-            gob.clickEffectResize(sqPurple, this);
-            sqPurple.setImageDrawable(checkmark);
-            clearOtherSquaresExcept(sqPurple);
-            editor.putInt(bcgKey, sqPurpleID);
-            editor.apply();
+            sqCheckRoutine(sqPurple, sqPurpleID);
         });
+
+        sqPeach.setOnClickListener(v -> {
+            sqCheckRoutine(sqPeach, sqPeachID);
+        });
+
+        sqBrown.setOnClickListener(v -> {
+            sqCheckRoutine(sqBrown, sqBrownID);
+        });
+
+        sqTurquoise.setOnClickListener(v -> {
+            sqCheckRoutine(sqTurquoise, sqTurquoiseID);
+        });
+
+        // Numbered squares check ------------------------------------------------------------------
 
         numberedBtn.setOnClickListener(v ->{
             gob.clickEffectResize(numberedBtn, this);
-            if (numberedBool[0]){
-                numberedBool[0] = false;
+            if (numberedBool){
+                numberedBool = false;
                 editor.putBoolean(sqNum, false);
                 numberedBtn.setImageDrawable(null);
             }else{
-                numberedBool[0] = true;
+                numberedBool = true;
                 editor.putBoolean(sqNum, true);
                 numberedBtn.setImageDrawable(checkmark);
             }
             editor.apply();
         });
 
-        TextView musicText = findViewById(R.id.musicVolumeText);
-        SeekBar musicSeek = findViewById(R.id.musicSeekBar);
-        final int[] musicVolumeChosen = {prefs.getInt(musicVolKey, 100)};
-        musicSeek.setProgress(musicVolumeChosen[0]);
+        // Sound settings --------------------------------------------------------------------------
+
+        musicVolumeChosen = prefs.getInt(musicVolKey, 100);
+        musicSeek.setProgress(musicVolumeChosen);
         musicSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 themeSong.setVolume(i * 0.01f , i * 0.01f);
-                musicVolumeChosen[0] = i;
-                editor.putInt(musicVolKey, musicVolumeChosen[0]);
+                musicVolumeChosen = i;
+                editor.putInt(musicVolKey, musicVolumeChosen);
                 editor.apply();
                 musicText.setText(String.valueOf(i));
             }
@@ -161,18 +224,15 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        TextView sfxText = findViewById(R.id.sfxVolumeText);
-        SeekBar sfxSeek = findViewById(R.id.sfxSeekBar);
-        levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
-        final int[] sfxVolumeChosen = {prefs.getInt(sfxVolKey, 100)};
-        sfxSeek.setProgress(sfxVolumeChosen[0]);
+        sfxVolumeChosen = prefs.getInt(sfxVolKey, 100);
+        sfxSeek.setProgress(sfxVolumeChosen);
 
         sfxSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 levelEnter.setVolume(i * 0.01f, i * 0.01f);
-                sfxVolumeChosen[0] = i;
-                editor.putInt(sfxVolKey, sfxVolumeChosen[0]);
+                sfxVolumeChosen = i;
+                editor.putInt(sfxVolKey, sfxVolumeChosen);
                 editor.apply();
                 sfxText.setText(String.valueOf(i));
             }
@@ -190,26 +250,27 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        // ---------------------------------------------------------------------------------------- //
 
     }
 
-    public void clearOtherSquaresExcept(ImageButton sqToExclude){
-        ImageButton sqBlue = findViewById(R.id.sq1);
-        ImageButton sqRed = findViewById(R.id.sq2);
-        ImageButton sqYellow = findViewById(R.id.sq3);
-        ImageButton sqPurple = findViewById(R.id.sq4);
-        Drawable checkmark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark, getTheme());
-        Drawable checkmarkDark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark_darkgrey, getTheme());
+    public void sqCheckRoutine(ImageButton sqColor, int sqColorID){
+        gob.clickEffectResize(sqColor, this);
+        checkAndScrollToSquare(sqColor);
+        editor.putInt(bcgKey, sqColorID);
+        editor.apply();
+    }
 
-        ImageButton[] squares = {sqBlue, sqRed, sqYellow, sqPurple};
+    public void checkAndScrollToSquare(ImageButton sqToExclude){
         for (ImageButton square : squares){
             square.setImageDrawable(null);
         }
-        if (sqToExclude == sqYellow ||  sqToExclude == sqRed){
-            sqToExclude.setImageDrawable(checkmarkDark);
-        }else{
-            sqToExclude.setImageDrawable(checkmark);
-        }
+        sqToExclude.setImageDrawable(checkmarkDark);
+
+        sqScrollView.post(() -> {
+            int scrollX = sqToExclude.getLeft() - (sqScrollView.getWidth() - sqBlue.getWidth()) / 2;
+            sqScrollView.smoothScrollTo(scrollX, 0);
+        });
 
     }
 

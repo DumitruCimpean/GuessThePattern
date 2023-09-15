@@ -20,7 +20,6 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -143,7 +142,7 @@ public class HardReflex extends AppCompatActivity {
 
         // -----------------------Applying selected settings -------------------------------------- //
 
-        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         for (Button square : squares) {
@@ -331,7 +330,7 @@ public class HardReflex extends AppCompatActivity {
 
             gob.makeSqClickable(squares);
             title.setText("Go!");
-            correctSq.get(0).setBackgroundResource(R.drawable.start_rectangle);
+            correctSq.get(0).setBackgroundResource(R.drawable.sq_bcg_green);
             stopwatch.start();
 
         }, randomDelay);
@@ -353,7 +352,7 @@ public class HardReflex extends AppCompatActivity {
         if (gameOverSound != null){
             gameOverSound.start();
         }
-        sqAdded.setBackgroundResource(R.drawable.sq_bcg_red);
+        sqAdded.setBackgroundResource(R.drawable.sq_bcg_red_lc);
         gob.makeSqUnclickable(squares);
 
         handler.postDelayed(() ->{

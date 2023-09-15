@@ -104,7 +104,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="15dp"
             android:scaleType="fitCenter"
             android:src="@drawable/grid2x2"
             app:layout_constraintBottom_toBottomOf="parent"

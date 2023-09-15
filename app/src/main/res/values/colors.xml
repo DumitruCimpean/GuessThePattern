@@ -17,6 +17,9 @@
     <color name="yellow">#fcff34</color>
     <color name="green">#228B22</color>
     <color name="blue">#2c00fb</color>
+    <color name="peach">#EF9595</color>
+    <color name="brown_red">#952323</color>
+    <color name="turquoise">#00DFA2</color>
 
     <color name="dark_purple">#2A0134</color>
 </resources>

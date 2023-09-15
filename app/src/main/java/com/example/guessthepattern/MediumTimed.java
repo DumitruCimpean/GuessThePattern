@@ -31,7 +31,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -195,7 +194,7 @@ public class MediumTimed extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue);
+        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
         for (Button square : squares) {
@@ -510,7 +509,7 @@ public class MediumTimed extends AppCompatActivity {
                         handler.postDelayed(runnable, delay2ms);
 
                         Runnable runnable2 = () -> {
-                            square.setBackgroundResource(R.drawable.start_rectangle);
+                            square.setBackgroundResource(R.drawable.sq_bcg_green);
                             userIndexAux[0]++;
                         };
                         handler.postDelayed(runnable2, delay1ms);
