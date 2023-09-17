@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String delay1 = "delay1";
     public static final String delay2 = "delay2";
     public static final String delay3 = "delay3";
+    public static final String delay1ratio = "delay1ratio";
+    public static final String delay2ratio = "delay2ratio";
+    public static final String delay3ratio = "delay3ratio";
 
     private MyGlobals gob;
     private MediaPlayer coinSfx;
@@ -71,11 +74,14 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(paceKey, 2);
+        editor.putInt(paceKey, 3);
         editor.putInt(timerMsKey, 10000); // 10 seconds
         editor.putInt(delay1, 1000);
         editor.putInt(delay2, 1800);
         editor.putInt(delay3, 1500);
+        editor.putFloat(delay1ratio, 1.05f);
+        editor.putFloat(delay2ratio, 1.06f);
+        editor.putFloat(delay3ratio, 1.05f);
         editor.apply();
 
         int musicVol = prefs.getInt(musicVolKey, 100);

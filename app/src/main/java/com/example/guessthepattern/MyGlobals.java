@@ -67,7 +67,7 @@ public class MyGlobals extends Activity {
     public void clickEffectDarken(final View button){
         button.setAlpha(0.5f);
         Handler resetHandler = new Handler();
-        resetHandler.postDelayed(() -> button.setAlpha(1.0F), 200);
+        resetHandler.postDelayed(() -> button.setAlpha(1.0F), 150);
     }
 
     public void clickEffectResize(final View button , Context context){

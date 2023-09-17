@@ -5,8 +5,11 @@ import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.coinsPoolKey;
 import static com.example.guessthepattern.MainActivity.delay1;
+import static com.example.guessthepattern.MainActivity.delay1ratio;
 import static com.example.guessthepattern.MainActivity.delay2;
+import static com.example.guessthepattern.MainActivity.delay2ratio;
 import static com.example.guessthepattern.MainActivity.delay3;
+import static com.example.guessthepattern.MainActivity.delay3ratio;
 import static com.example.guessthepattern.MainActivity.musicVolKey;
 import static com.example.guessthepattern.MainActivity.paceKey;
 import static com.example.guessthepattern.MainActivity.prefsName;
@@ -393,6 +396,9 @@ public class EasyTimed extends AppCompatActivity {
         final int[] delay1change = {prefs.getInt(delay1, 0)};
         final int[] delay2change = {prefs.getInt(delay2, 0)};
         final int[] delayBetween = {prefs.getInt(delay3, 0)};
+        float delay1ratioF = prefs.getFloat(delay1ratio, 0);
+        float delay2ratioF = prefs.getFloat(delay2ratio, 0);
+        float delay3ratioF = prefs.getFloat(delay3ratio, 0);
 
         title.setText("Correct!");
         timerPause();
@@ -405,9 +411,9 @@ public class EasyTimed extends AppCompatActivity {
         totalCoins[0] += coinPool[0];
         level.setText("+" + coinPool[0] + " ");
         coinPlus.setVisibility(View.VISIBLE);
-        delay1change[0] /= 1.01;    // ratios for increasing the speed at which the sequence is shown (decreases the delay)
-        delay2change[0] /= 1.03;    //  --> these two should be close or same
-        delayBetween[0] /= 1.03;    //  ----^
+        delay1change[0] /= delay1ratioF;
+        delay2change[0] /= delay2ratioF;
+        delayBetween[0] /= delay3ratioF;
         editor.putInt(scoreKey, currentScore);
         editor.putInt(coinsKey, totalCoins[0]);
         editor.putInt(delay1, delay1change[0]);
