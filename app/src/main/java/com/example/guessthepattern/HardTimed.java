@@ -1,5 +1,6 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
@@ -10,6 +11,7 @@ import static com.example.guessthepattern.MainActivity.delay2;
 import static com.example.guessthepattern.MainActivity.delay2ratio;
 import static com.example.guessthepattern.MainActivity.delay3;
 import static com.example.guessthepattern.MainActivity.delay3ratio;
+import static com.example.guessthepattern.MainActivity.isPresetKey;
 import static com.example.guessthepattern.MainActivity.musicVolKey;
 import static com.example.guessthepattern.MainActivity.paceKey;
 import static com.example.guessthepattern.MainActivity.prefsName;
@@ -41,7 +43,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -94,7 +95,7 @@ public class HardTimed extends AppCompatActivity {
     private int userIndex;
     private ArrayList<Button> userSeq;
     private ArrayList<Button> correctSeq;
-    private int bcgID;
+    private int sqBcgID;
     private int currentLevel;
     private int currentScore;
     private int overallHighscore;
@@ -143,9 +144,18 @@ public class HardTimed extends AppCompatActivity {
 
         ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
         String imageUriString = prefs.getString(bcgImgUriKey, null);
-        if (imageUriString != null) {
+        boolean isGradient = prefs.getBoolean(isPresetKey, true);
+        int bcgId = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
+
+        if (isGradient){
+            scoreText.setBackgroundResource(R.drawable.scores_bcg_empty);
+            highscoreText.setBackgroundResource(R.drawable.scores_bcg_empty);
+            gob.setAppBackgroundPreset(bcgId, backgroundLayout);
+        }else if (imageUriString != null) {
             Uri imageUri = Uri.parse(imageUriString);
             gob.setAppBackground(imageUri, backgroundLayout);
+            scoreText.setBackgroundResource(R.drawable.scores_bcg_solid);
+            highscoreText.setBackgroundResource(R.drawable.scores_bcg_solid);
             backgroundLayout.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
@@ -222,9 +232,9 @@ public class HardTimed extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        sqBcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
         Resources res = getResources();
-        Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
+        Drawable background = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
         for (Button square : squares) {
             square.setBackground(background);
         }
@@ -582,7 +592,7 @@ public class HardTimed extends AppCompatActivity {
                         int delayBetween = prefs.getInt(delay3, 0);
                         Handler handler = new Handler();
 
-                        Runnable runnable = () -> square.setBackgroundResource(bcgID);
+                        Runnable runnable = () -> square.setBackgroundResource(sqBcgID);
                         handler.postDelayed(runnable, delay2ms);
 
                         Runnable runnable2 = () -> {

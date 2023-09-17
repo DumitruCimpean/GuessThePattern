@@ -1,16 +1,19 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
+import static com.example.guessthepattern.MainActivity.coinsKey;
+import static com.example.guessthepattern.MainActivity.isPresetKey;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,21 +26,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class Settings extends AppCompatActivity implements ColorPickerDialogFragment.ColorPickerListener {
     private static boolean shouldPlay;
@@ -48,6 +46,8 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private static final String sfxVolKey = "sfxVolKey";
 
     private static final String IMAGE_URI_KEY = "imageUri";
+    private static final String itemBought = "bought";
+    private static final String itemNotBought = "notBought";
 
 
     private Drawable checkmark;
@@ -63,11 +63,19 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private ImageButton sqPeach;
     private ImageButton sqBrown;
     private ImageButton sqTurquoise;
+    private ImageButton bcg1;
+    private ImageButton bcg2;
+    private ImageButton bcg3;
+    private ImageButton bcg4;
+    private ImageButton bcg5;
+    private ImageButton bcg6;
+    private ImageButton bcg7;
+
     private HorizontalScrollView sqScrollView;
+    private HorizontalScrollView bcgSelectionScrollView;
 
     private Button openColorPickerButton;
     private TextView selectedColorTextView;
-    private ConstraintLayout entireLayout;
     private int sqBlueID;
     private int sqWhiteID;
     private int sqYellowID;
@@ -75,8 +83,18 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private int sqPeachID;
     private int sqBrownID;
     private int sqTurquoiseID;
-    private Button selectBackgroundButton;
+
+    private int bcg1id;
+    private int bcg2id;
+    private int bcg3id;
+    private int bcg4id;
+    private int bcg5id;
+    private int bcg6id;
+    private int bcg7id;
+
+    private ImageButton selectBackgroundButton;
     private ImageButton[] squares;
+    private ImageButton[] bcgs;
     private Resources resources;
     private MyGlobals gob;
     private SharedPreferences prefs;
@@ -86,6 +104,8 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private MediaPlayer levelEnter;
     private static final int REQUEST_CODE_IMAGE_PICK = 123;
     private static final int REQUEST_CODE_PERMISSION = 456;
+    private int bcgPrice;
+    private int sqColorPrice;
     private Uri selectedImageUri;
 
     @Override
@@ -101,7 +121,9 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         editor = prefs.edit();
         handler = new Handler();
 
-        Button resetBcg = findViewById(R.id.resetBcgImage);
+        bcgPrice = 10;
+        sqColorPrice = 10;
+
         ImageButton back = findViewById(R.id.backButton);
         ImageButton numberedBtn = findViewById(R.id.numberedCheckbox);
         TextView musicText = findViewById(R.id.musicVolumeText);
@@ -115,8 +137,8 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         openColorPickerButton.setOnClickListener(v -> showColorPickerDialog());
 
         selectBackgroundButton = findViewById(R.id.selectBackgroundButton);
+        bcgSelectionScrollView = findViewById(R.id.bcgSelectionScrollView);
         sqScrollView = findViewById(R.id.sqColorScrollView);
-        entireLayout = findViewById(R.id.entireLayout);
         sqBlue = findViewById(R.id.sq1);
         sqWhite = findViewById(R.id.sq2);
         sqYellow = findViewById(R.id.sq3);
@@ -134,6 +156,23 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         sqBrownID = R.drawable.sq_bcg_brown;
         sqTurquoiseID = R.drawable.sq_bcg_turquoise;
 
+        bcg1 = findViewById(R.id.bcg1);
+        bcg2 = findViewById(R.id.bcg2);
+        bcg3 = findViewById(R.id.bcg3);
+        bcg4 = findViewById(R.id.bcg4);
+        bcg5 = findViewById(R.id.bcg5);
+        bcg6 = findViewById(R.id.bcg6);
+        bcg7 = findViewById(R.id.bcg7);
+        bcgs = new ImageButton[]{bcg1, bcg2, bcg3, bcg4, bcg5, bcg6, bcg7};
+
+        bcg1id = R.drawable.bcg_grey_100;
+        bcg2id = R.drawable.bcg_red_blue;
+        bcg3id = R.drawable.bcg_turquoise_blue;
+        bcg4id = R.drawable.bcg_yellow_orange;
+        bcg5id = R.drawable.bcg_peach_blue;
+        bcg6id = R.drawable.bcg_magenta_orange;
+        bcg7id = R.drawable.bcg_turquoise_magenta;
+
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
         checkmark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark, getTheme());
         checkmarkDark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark_darkgrey, getTheme());
@@ -149,35 +188,67 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
 
         // -------------------------------- Restoring settings ------------------------------------ //
 
-        int selectedBcg = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
-        if (selectedBcg == sqBlueID){
-            sqBlue.setImageDrawable(checkmark);
+        int selectedSqBcg = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        if (selectedSqBcg == sqBlueID){
             checkAndScrollToSquare(sqBlue);
         }
-        if (selectedBcg == sqWhiteID){
-            sqWhite.setImageDrawable(checkmark);
+        if (selectedSqBcg == sqWhiteID){
             checkAndScrollToSquare(sqWhite);
         }
-        if (selectedBcg == sqYellowID){
-            sqYellow.setImageDrawable(checkmarkDark);
+        if (selectedSqBcg == sqYellowID){
             checkAndScrollToSquare(sqYellow);
         }
-        if (selectedBcg == sqPurpleID){
-            sqPurple.setImageDrawable(checkmark);
+        if (selectedSqBcg == sqPurpleID){
             checkAndScrollToSquare(sqPurple);
         }
-        if (selectedBcg == sqPeachID){
-            sqPeach.setImageDrawable(checkmark);
+        if (selectedSqBcg == sqPeachID){
             checkAndScrollToSquare(sqPeach);
         }
-        if (selectedBcg == sqBrownID){
-            sqBrown.setImageDrawable(checkmark);
+        if (selectedSqBcg == sqBrownID){
             checkAndScrollToSquare(sqBrown);
         }
-        if (selectedBcg == sqTurquoiseID){
-            sqTurquoise.setImageDrawable(checkmark);
+        if (selectedSqBcg == sqTurquoiseID){
             checkAndScrollToSquare(sqTurquoise);
         }
+
+
+        int selectedBcg = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
+
+        if (selectedBcg == 0){
+            for (ImageButton bcg : bcgs){
+                bcg.setImageDrawable(null);
+            }
+        }
+
+        if (selectedBcg == bcg1id){
+            checkAndScrollToBackground(bcg1);
+        }
+
+        if (selectedBcg == bcg2id){
+            checkAndScrollToBackground(bcg2);
+        }
+
+        if (selectedBcg == bcg3id){
+            checkAndScrollToBackground(bcg3);
+        }
+
+        if (selectedBcg == bcg4id){
+            checkAndScrollToBackground(bcg4);
+        }
+
+        if (selectedBcg == bcg5id){
+            checkAndScrollToBackground(bcg5);
+        }
+
+        if (selectedBcg == bcg6id){
+            checkAndScrollToBackground(bcg6);
+        }
+
+        if (selectedBcg == bcg7id){
+            checkAndScrollToBackground(bcg7);
+        }
+
+
 
         numberedBool = prefs.getBoolean(sqNum, false);
         if (numberedBool){
@@ -185,6 +256,29 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         }else{
             numberedBtn.setImageDrawable(null);
         }
+
+
+        /*
+
+        boolean isFirstTimeSetting = prefs.getBoolean("veryFirstInitialization", true);
+        if (isFirstTimeSetting){
+            bcg2.setImageResource(R.drawable.coin);
+            bcg2.setTag(itemNotBought);
+            bcg3.setImageResource(R.drawable.coin);
+            bcg3.setTag(itemNotBought);
+            bcg4.setImageResource(R.drawable.coin);
+            bcg4.setTag(itemNotBought);
+            bcg5.setImageResource(R.drawable.coin);
+            bcg5.setTag(itemNotBought);
+            bcg6.setImageResource(R.drawable.coin);
+            bcg6.setTag(itemNotBought);
+            bcg7.setImageResource(R.drawable.coin);
+            bcg7.setTag(itemNotBought);
+            editor.putBoolean("veryFirstInitialization", false);
+            editor.apply();
+        }
+
+        */
 
 
 
@@ -215,12 +309,6 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
 
         });
 
-        resetBcg.setOnClickListener( v ->{
-            gob.clickEffectResize(resetBcg, this);
-            gob.showToast("Background image has been reset");
-            editor.putString(bcgImgUriKey, null);
-            editor.apply();
-        });
 
 
         // Squares color ---------------------------------------------------------------------------
@@ -252,6 +340,15 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         sqTurquoise.setOnClickListener(v -> {
             sqCheckRoutine(sqTurquoise, sqTurquoiseID);
         });
+
+        bcg1.setOnClickListener( v -> bcgCheckRoutine(bcg1, bcg1id));
+        bcg2.setOnClickListener( v -> bcgCheckRoutine(bcg2, bcg2id));
+        bcg3.setOnClickListener( v -> bcgCheckRoutine(bcg3, bcg3id));
+        bcg4.setOnClickListener( v -> bcgCheckRoutine(bcg4, bcg4id));
+        bcg5.setOnClickListener( v -> bcgCheckRoutine(bcg5, bcg5id));
+        bcg6.setOnClickListener( v -> bcgCheckRoutine(bcg6, bcg6id));
+        bcg7.setOnClickListener( v -> bcgCheckRoutine(bcg7, bcg7id));
+
 
         // Numbered squares check ------------------------------------------------------------------
 
@@ -325,18 +422,6 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
 
     }
 
-    private void showColorPickerDialog() {
-        ColorPickerDialogFragment colorPickerDialog = new ColorPickerDialogFragment();
-        colorPickerDialog.setColorPickerListener(this);
-        colorPickerDialog.show(getSupportFragmentManager(), "color_picker_dialog");
-    }
-
-
-    public void onColorSelected(int color) {
-        selectedColorTextView.setText("Selected Color: #" + Integer.toHexString(color).toUpperCase());
-        // Handle the selected color here as needed
-    }
-
     public void sqCheckRoutine(ImageButton sqColor, int sqColorID){
         gob.clickEffectResize(sqColor, this);
         checkAndScrollToSquare(sqColor);
@@ -344,26 +429,55 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         editor.apply();
     }
 
-    public void checkAndScrollToSquare(ImageButton sqToExclude){
-        for (ImageButton square : squares){
-            square.setImageDrawable(null);
+    public void bcgCheckRoutine(ImageButton bcgColor, int bcgColorID){
+        gob.clickEffectResize(bcgColor, this);
+        if (bcgColor.getTag() == itemNotBought){
+            showBuyConfirmationDialog(bcgColor, bcgPrice);
+        }else {
+            checkAndScrollToBackground(bcgColor);
+            editor.putInt(bcgImgPresetKey, bcgColorID);
+            editor.putBoolean(isPresetKey, true);
+            editor.apply();
         }
-        sqToExclude.setImageDrawable(checkmarkDark);
-
-        sqScrollView.post(() -> {
-            int scrollX = sqToExclude.getLeft() - (sqScrollView.getWidth() - sqBlue.getWidth()) / 2;
-            sqScrollView.smoothScrollTo(scrollX, 0);
-        });
-
     }
 
-    private void enableBackgroundImageSelection(Button selectBackgroundButton) {
+    public void checkAndScrollToSquare(ImageButton sqToCheck){
+        for (ImageButton square : squares){
+            if (square.getTag() != itemNotBought){
+                square.setImageDrawable(null);
+            }else{
+                square.setImageResource(R.drawable.coin);
+            }
+        }
+        sqToCheck.setImageDrawable(checkmarkDark);
+
+        sqScrollView.post(() -> {
+            int scrollX = sqToCheck.getLeft() - (sqScrollView.getWidth() - sqBlue.getWidth()) / 2;
+            sqScrollView.smoothScrollTo(scrollX, 0);
+        });
+    }
+
+    public void checkAndScrollToBackground(ImageButton bcgToCheck){
+        for (ImageButton bcg : bcgs){
+            if (bcg.getTag() != itemNotBought){
+                bcg.setImageDrawable(null);
+            }
+        }
+        bcgToCheck.setImageDrawable(checkmark);
+
+        sqScrollView.post(() -> {
+            int scrollX = bcgToCheck.getLeft() - (bcgSelectionScrollView.getWidth() - bcg1.getWidth()) / 2;
+            bcgSelectionScrollView.smoothScrollTo(scrollX, 0);
+        });
+    }
+
+    private void enableBackgroundImageSelection(View selectBackgroundButton) {
         selectBackgroundButton.setEnabled(true);
         selectBackgroundButton.setAlpha(1.0f);
 
     }
 
-    private void disableBackgroundImageSelection(Button selectBackgroundButton) {
+    private void disableBackgroundImageSelection(View selectBackgroundButton) {
         selectBackgroundButton.setEnabled(false);
         selectBackgroundButton.setAlpha(0.5f);
     }
@@ -379,7 +493,12 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         // Take persistable URI permission to ensure access to the image URI
         getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
         editor.putString(bcgImgUriKey, imageUri.toString());
+        editor.putInt(bcgImgPresetKey, 0);
+        editor.putBoolean(isPresetKey, false);
         editor.apply();
+        for (ImageButton bcg:bcgs){
+            bcg.setImageDrawable(null);
+        }
         gob.showToast("Background Image applied");
     }
 
@@ -393,27 +512,6 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private Uri loadImageUriFromInternalStorage() {
-        try {
-            // Read the saved URI string from internal storage
-            FileInputStream fis = openFileInput(IMAGE_URI_KEY);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader bufferedReader = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
-            }
-            fis.close();
-
-            // Convert the saved URI string back to a Uri
-            return Uri.parse(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 
@@ -473,6 +571,45 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         if (themeSong != null){
             themeSong.start();
         }
+    }
+
+    private void showBuyConfirmationDialog(ImageButton itemBought, int price) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.item_buy_confirmation, null);
+        builder.setView(dialogView);
+
+        Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        Button negativeButton = dialogView.findViewById(R.id.negative_button);
+        TextView buyPrice = dialogView.findViewById(R.id.buyItemPriceText);
+        buyPrice.setText(String.valueOf(price));
+        AlertDialog dialog = builder.create();
+
+        positiveButton.setOnClickListener(v -> {
+            itemBought.setTag(itemBought);
+            itemBought.setImageDrawable(null);
+            int totalCoins = prefs.getInt(coinsKey, 0);
+            totalCoins -= price;
+            editor.putInt(coinsKey, totalCoins);
+            editor.apply();
+            dialog.dismiss();
+        });
+        negativeButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+
+    }
+
+    private void showColorPickerDialog() {
+        ColorPickerDialogFragment colorPickerDialog = new ColorPickerDialogFragment();
+        colorPickerDialog.setColorPickerListener(this);
+        colorPickerDialog.show(getSupportFragmentManager(), "color_picker_dialog");
+    }
+
+
+    public void onColorSelected(int color) {
+        selectedColorTextView.setText("Selected Color: #" + Integer.toHexString(color).toUpperCase());
+        // Handle the selected color here as needed
     }
 
 }

@@ -1,15 +1,16 @@
 package com.example.guessthepattern;
 
+import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
+import static com.example.guessthepattern.MainActivity.isPresetKey;
 import static com.example.guessthepattern.MainActivity.musicVolKey;
 import static com.example.guessthepattern.MainActivity.prefsName;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
 import static com.example.guessthepattern.MainActivity.sqNum;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
@@ -56,7 +57,7 @@ public class EasyReflex extends AppCompatActivity {
     private ImageView coinPlus;
     private ImageButton reset;
     private ArrayList<Button> correctSq;
-    private int bcgID;
+    private int sqBcgID;
     private long overallHighscore;
     private Stopwatch stopwatch;
     private SharedPreferences prefs;
@@ -95,9 +96,16 @@ public class EasyReflex extends AppCompatActivity {
 
         ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
         String imageUriString = prefs.getString(bcgImgUriKey, null);
-        if (imageUriString != null) {
+        boolean isGradient = prefs.getBoolean(isPresetKey, true);
+        int bcgId = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
+
+        if (isGradient){
+            highscoreText.setBackgroundResource(R.drawable.scores_bcg_empty);
+            gob.setAppBackgroundPreset(bcgId, backgroundLayout);
+        }else if (imageUriString != null) {
             Uri imageUri = Uri.parse(imageUriString);
             gob.setAppBackground(imageUri, backgroundLayout);
+            highscoreText.setBackgroundResource(R.drawable.scores_bcg_solid);
             backgroundLayout.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
@@ -130,9 +138,9 @@ public class EasyReflex extends AppCompatActivity {
 
         // -----------------------Applying selected settings -------------------------------------- //
 
-        bcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        sqBcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
         Resources res = getResources();
-        Drawable background = ResourcesCompat.getDrawable(res, bcgID, getTheme());
+        Drawable background = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
         for (Button square : squares) {
             square.setBackground(background);
         }
@@ -223,7 +231,7 @@ public class EasyReflex extends AppCompatActivity {
         newScore.setVisibility(View.INVISIBLE);
 
         for (Button square:squares){
-            square.setBackgroundResource(bcgID);
+            square.setBackgroundResource(sqBcgID);
         }
         int randomDelay = ThreadLocalRandom.current().nextInt(1000, 3000);
 
@@ -292,7 +300,7 @@ public class EasyReflex extends AppCompatActivity {
         editor.putInt(coinsKey, totalCoins);
         editor.apply();
 
-        correctSq.get(0).setBackgroundResource(bcgID);
+        correctSq.get(0).setBackgroundResource(sqBcgID);
         gob.makeSqUnclickable(squares);
        handler.postDelayed(()->{
            gob.changeSqAlpha(squares, 0.5f);

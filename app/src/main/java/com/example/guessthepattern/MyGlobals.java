@@ -106,6 +106,10 @@ public class MyGlobals extends Activity {
         }
     }
 
+    public void setAppBackgroundPreset(int bcgId, ImageView layout){
+        layout.setImageResource(bcgId);
+    }
+
 
 
 }
