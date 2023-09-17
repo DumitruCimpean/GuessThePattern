@@ -118,7 +118,7 @@ public class Medium extends AppCompatActivity {
         revealersCountText = findViewById(R.id.revealersCount);
         ImageButton back = findViewById(R.id.backButton);
         Button start = findViewById(R.id.startBtn);
-        RelativeLayout itemBar = findViewById(R.id.itemBar);
+        ConstraintLayout itemBar = findViewById(R.id.itemBar);
 
         ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
         String imageUriString = prefs.getString(bcgImgUriKey, null);

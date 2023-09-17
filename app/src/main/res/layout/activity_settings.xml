@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".Settings">
 
+    <ImageView
+        android:id="@+id/backgroundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="0dp"
@@ -85,14 +96,14 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="5dp"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sqColorText"
-            app:layout_constraintVertical_bias="0.0"
-            android:scrollbars="none">
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/sqColorsList"
@@ -392,20 +403,20 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="20dp"
-            android:text="Select Background"
             android:autoSizeTextType="uniform"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/jost_variablewght"
             android:background="@drawable/sq_bcg_blue_lc"
+            android:fontFamily="@font/jost_variablewght"
+            android:padding="10dp"
+            android:text="Select Background"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.7"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.483"
-            app:layout_constraintWidth_percent="0.4"
-            app:layout_constraintHeight_percent="0.7"/>
+            app:layout_constraintWidth_percent="0.4" />
 
         <Button
             android:id="@+id/resetBcgImage"
@@ -416,8 +427,8 @@
             android:background="@drawable/rectangle_dark"
             android:fontFamily="@font/jost_variablewght"
             android:padding="10dp"
-            android:textColor="@color/white"
             android:text="Reset"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.7"
@@ -427,6 +438,34 @@
             app:layout_constraintWidth_percent="0.2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/colorPickerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Pick a Color"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.91" />
+
+    <TextView
+        android:id="@+id/selectedColorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select color"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

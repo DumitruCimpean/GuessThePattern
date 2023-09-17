@@ -129,6 +129,8 @@ public class MediumTimed extends AppCompatActivity {
         revealBox = findViewById(R.id.revealerBox);
         revealersCountText = findViewById(R.id.revealersCount);
         ImageButton back = findViewById(R.id.backButton);
+        Button start = findViewById(R.id.startBtn);
+        ConstraintLayout itemBar = findViewById(R.id.itemBar);
 
         ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
         String imageUriString = prefs.getString(bcgImgUriKey, null);
@@ -219,8 +221,6 @@ public class MediumTimed extends AppCompatActivity {
             }
         }
 
-        Button start = findViewById(R.id.startBtn);
-        RelativeLayout itemBar = findViewById(R.id.itemBar);
 
         // ----------------------------------- Misc buttons --------------------------------------- //
 
@@ -705,6 +705,10 @@ public class MediumTimed extends AppCompatActivity {
         if (reviveSound != null){
             reviveSound.release();
             reviveSound = null;
+        }
+        if (gameOverSound != null){
+            gameOverSound.release();
+            gameOverSound = null;
         }
 
     }

@@ -24,9 +24,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -37,7 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class Settings extends AppCompatActivity {
+public class Settings extends AppCompatActivity implements ColorPickerDialogFragment.ColorPickerListener {
     private static boolean shouldPlay;
     private static final String bcgKey = "bcgKey";
     private static final String prefsName = "MyPrefs";
@@ -53,6 +55,7 @@ public class Settings extends AppCompatActivity {
     private boolean numberedBool;
     private int musicVolumeChosen;
     private int sfxVolumeChosen;
+    private ColorPicker colorPicker;
     private ImageButton sqBlue;
     private ImageButton sqWhite;
     private ImageButton sqYellow;
@@ -61,6 +64,9 @@ public class Settings extends AppCompatActivity {
     private ImageButton sqBrown;
     private ImageButton sqTurquoise;
     private HorizontalScrollView sqScrollView;
+
+    private Button openColorPickerButton;
+    private TextView selectedColorTextView;
     private ConstraintLayout entireLayout;
     private int sqBlueID;
     private int sqWhiteID;
@@ -95,12 +101,18 @@ public class Settings extends AppCompatActivity {
         editor = prefs.edit();
         handler = new Handler();
 
+        Button resetBcg = findViewById(R.id.resetBcgImage);
         ImageButton back = findViewById(R.id.backButton);
         ImageButton numberedBtn = findViewById(R.id.numberedCheckbox);
         TextView musicText = findViewById(R.id.musicVolumeText);
         SeekBar musicSeek = findViewById(R.id.musicSeekBar);
         TextView sfxText = findViewById(R.id.sfxVolumeText);
         SeekBar sfxSeek = findViewById(R.id.sfxSeekBar);
+
+        openColorPickerButton = findViewById(R.id.colorPickerButton);
+        selectedColorTextView = findViewById(R.id.selectedColorText);
+
+        openColorPickerButton.setOnClickListener(v -> showColorPickerDialog());
 
         selectBackgroundButton = findViewById(R.id.selectBackgroundButton);
         sqScrollView = findViewById(R.id.sqColorScrollView);
@@ -174,11 +186,6 @@ public class Settings extends AppCompatActivity {
             numberedBtn.setImageDrawable(null);
         }
 
-        String imageUriString = prefs.getString(bcgImgUriKey, null);
-        if (imageUriString != null) {
-            Uri imageUri = Uri.parse(imageUriString);
-            setAppBackground(imageUri);
-        }
 
 
         // ---------------------------------- Buttons --------------------------------------------- //
@@ -206,6 +213,13 @@ public class Settings extends AppCompatActivity {
                 }
             }
 
+        });
+
+        resetBcg.setOnClickListener( v ->{
+            gob.clickEffectResize(resetBcg, this);
+            gob.showToast("Background image has been reset");
+            editor.putString(bcgImgUriKey, null);
+            editor.apply();
         });
 
 
@@ -311,6 +325,18 @@ public class Settings extends AppCompatActivity {
 
     }
 
+    private void showColorPickerDialog() {
+        ColorPickerDialogFragment colorPickerDialog = new ColorPickerDialogFragment();
+        colorPickerDialog.setColorPickerListener(this);
+        colorPickerDialog.show(getSupportFragmentManager(), "color_picker_dialog");
+    }
+
+
+    public void onColorSelected(int color) {
+        selectedColorTextView.setText("Selected Color: #" + Integer.toHexString(color).toUpperCase());
+        // Handle the selected color here as needed
+    }
+
     public void sqCheckRoutine(ImageButton sqColor, int sqColorID){
         gob.clickEffectResize(sqColor, this);
         checkAndScrollToSquare(sqColor);
@@ -333,12 +359,13 @@ public class Settings extends AppCompatActivity {
 
     private void enableBackgroundImageSelection(Button selectBackgroundButton) {
         selectBackgroundButton.setEnabled(true);
-        // Set button text or appearance as needed
+        selectBackgroundButton.setAlpha(1.0f);
+
     }
 
     private void disableBackgroundImageSelection(Button selectBackgroundButton) {
         selectBackgroundButton.setEnabled(false);
-        // Set button text or appearance as needed
+        selectBackgroundButton.setAlpha(0.5f);
     }
 
     private void selectBackgroundImage() {
@@ -349,19 +376,11 @@ public class Settings extends AppCompatActivity {
     }
 
     private void setAppBackground(Uri imageUri) {
-        try {
-            // Take persistable URI permission to ensure access to the image URI
-            getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-            Drawable drawable = Drawable.createFromStream(inputStream, imageUri.toString());
-            editor.putString(bcgImgUriKey, imageUri.toString());
-            editor.apply();
-            gob.showToast("Background Image applied");
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.d("setAppBackground", "Exception occurred while setting the background");
-        }
+        // Take persistable URI permission to ensure access to the image URI
+        getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        editor.putString(bcgImgUriKey, imageUri.toString());
+        editor.apply();
+        gob.showToast("Background Image applied");
     }
 
     private void saveImageUriToInternalStorage(Uri imageUri) {
@@ -424,6 +443,8 @@ public class Settings extends AppCompatActivity {
                 enableBackgroundImageSelection(selectBackgroundButton);
                 gob.showToast("Click on the button again");
             } else {
+                disableBackgroundImageSelection(selectBackgroundButton);
+                gob.showToast("Please allow access to media files to change background");
                 // Permission was denied. Handle this case (e.g., show a message to the user).
                 // You can also disable the image selection button if needed.
             }

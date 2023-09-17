@@ -355,10 +355,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.978"
         app:layout_constraintWidth_percent="0.3" />
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/rectangle_grey"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -366,16 +368,22 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:background="@drawable/rectangle_grey">
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/revealerBox"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
-            android:background="@drawable/scores_bcg">
+            android:background="@drawable/scores_bcg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
 
             <ImageButton
@@ -383,6 +391,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/revealerBtnDesc"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/revealer"
@@ -393,20 +402,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent="0.9"
-                android:contentDescription="@string/revealerBtnDesc"/>
+                app:layout_constraintWidth_percent="0.9" />
 
             <TextView
                 android:id="@+id/revealersCount"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:fontFamily="@font/jost_variablewght"
-                app:layout_constraintHeight_percent="0.3"
                 android:autoSizeTextType="uniform"
+                android:fontFamily="@font/jost_variablewght"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.3"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -414,7 +422,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

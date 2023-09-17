@@ -136,7 +136,7 @@ public class HardTimed extends AppCompatActivity {
         revealersCountText = findViewById(R.id.revealersCount);
         ImageButton back = findViewById(R.id.backButton);
         Button start = findViewById(R.id.startBtn);
-        RelativeLayout itemBar = findViewById(R.id.itemBar);
+        ConstraintLayout itemBar = findViewById(R.id.itemBar);
 
         ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
         String imageUriString = prefs.getString(bcgImgUriKey, null);
@@ -766,6 +766,10 @@ public class HardTimed extends AppCompatActivity {
         if (reviveSound != null){
             reviveSound.release();
             reviveSound = null;
+        }
+        if (gameOverSound != null){
+            gameOverSound.release();
+            gameOverSound = null;
         }
 
     }

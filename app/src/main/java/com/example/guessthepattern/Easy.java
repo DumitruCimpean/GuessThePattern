@@ -113,7 +113,7 @@ public class Easy extends AppCompatActivity {
         revealBox = findViewById(R.id.revealerBox);
         revealersCountText = findViewById(R.id.revealersCount);
         Button start = findViewById(R.id.startBtn);
-        RelativeLayout itemBar = findViewById(R.id.itemBar);
+        ConstraintLayout itemBar = findViewById(R.id.itemBar);
         ImageButton back = findViewById(R.id.backButton);
 
         ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
