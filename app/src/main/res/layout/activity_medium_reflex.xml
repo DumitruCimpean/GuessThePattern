@@ -42,17 +42,21 @@
       android:layout_width="0dp"
       android:layout_height="0dp"
       android:autoSizeTextType="uniform"
-      android:fontFamily="@font/jost_variablewght"
       android:text="@string/press_start"
       android:textAlignment="center"
       android:textColor="@color/white"
+      android:fontFamily="@font/jost_variablewght"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHeight_percent="0.07"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.098"
-      app:layout_constraintWidth_percent="0.8" />
+      app:layout_constraintWidth_percent="0.8"
+      android:shadowColor="@color/semi_dark_grey_100"
+      android:shadowDx="3"
+      android:shadowDy="3"
+      android:shadowRadius="1.5"/>
 
 
   <TextView
@@ -71,7 +75,11 @@
       app:layout_constraintHeight_percent="0.04"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/title"
-      app:layout_constraintVertical_bias="0.0" />
+      app:layout_constraintVertical_bias="0.0"
+      android:shadowColor="@color/semi_dark_grey_100"
+      android:shadowDx="3"
+      android:shadowDy="3"
+      android:shadowRadius="1.5"/>
 
 
   <ImageView
@@ -106,7 +114,11 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/level"
       app:layout_constraintVertical_bias="1.0"
-      app:layout_constraintWidth_percent="0.3" />
+      app:layout_constraintWidth_percent="0.3"
+      android:shadowColor="@color/semi_dark_grey_100"
+      android:shadowDx="3"
+      android:shadowDy="3"
+      android:shadowRadius="1.5"/>
 
 
 
