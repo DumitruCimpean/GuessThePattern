@@ -35,6 +35,52 @@
         app:layout_constraintVertical_bias="0.019"
         app:layout_constraintWidth_percent="0.1" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/coinBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/scores_bcg_solid"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        app:layout_constraintWidth_percent="0.26">
+
+        <ImageView
+            android:id="@+id/coinIcon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.481"
+            app:layout_constraintWidth_percent="0.3"
+            android:src="@drawable/coin" />
+
+
+        <TextView
+            android:id="@+id/coinAmount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:autoSizeTextType="uniform"
+            android:text="200"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintStart_toEndOf="@+id/coinIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/settingsTitle"
         android:layout_width="match_parent"
@@ -113,7 +159,7 @@
                 android:layout_marginEnd="10dp">
 
                 <!-- sq1 -->
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/sq1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -128,7 +174,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- sq2 -->
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/sq2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -144,7 +190,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- sq3 -->
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/sq3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -160,13 +206,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- sq4 -->
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/sq4"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/sq_bcg_purple_lc"
-                    android:src="@drawable/coin"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -175,7 +220,7 @@
                     app:layout_constraintStart_toEndOf="@+id/sq3"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/sq5"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -189,7 +234,7 @@
                     app:layout_constraintStart_toEndOf="@+id/sq4"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/sq6"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -203,7 +248,7 @@
                     app:layout_constraintStart_toEndOf="@+id/sq5"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/sq7"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -281,7 +326,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp">
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/bcg1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -295,14 +340,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- sq2 -->
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/bcg2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/bcg_red_blue"
-                    android:src="@drawable/coin"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -311,14 +354,12 @@
                     app:layout_constraintStart_toEndOf="@+id/bcg1"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- sq3 -->
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/bcg3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/bcg_turquoise_blue"
-                    android:src="@drawable/coin"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -327,14 +368,12 @@
                     app:layout_constraintStart_toEndOf="@+id/bcg2"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- sq4 -->
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/bcg4"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/bcg_yellow_orange"
-                    android:src="@drawable/coin"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -343,7 +382,7 @@
                     app:layout_constraintStart_toEndOf="@+id/bcg3"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/bcg5"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -357,7 +396,7 @@
                     app:layout_constraintStart_toEndOf="@+id/bcg4"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/bcg6"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -371,12 +410,13 @@
                     app:layout_constraintStart_toEndOf="@+id/bcg5"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/bcg7"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/bcg_turquoise_magenta"
+                    android:src="@drawable/coin"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -385,7 +425,7 @@
                     app:layout_constraintStart_toEndOf="@+id/bcg6"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <com.example.guessthepattern.BuyButton
                     android:id="@+id/selectBackgroundButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"

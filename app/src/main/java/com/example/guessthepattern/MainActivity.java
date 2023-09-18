@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String delay1ratio = "delay1ratio";
     public static final String delay2ratio = "delay2ratio";
     public static final String delay3ratio = "delay3ratio";
+    private SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    private int firstTimeGiftAmount;
 
     private MyGlobals gob;
     private MediaPlayer coinSfx;
@@ -72,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         shouldPlay = false;
         resetHandler = new Handler();
 
-        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
+        editor = prefs.edit();
         editor.putInt(paceKey, 3);
         editor.putInt(timerMsKey, 10000); // 10 seconds
         editor.putInt(delay1, 1000);
@@ -181,9 +185,11 @@ public class MainActivity extends AppCompatActivity {
 
         };
         final int[] isFirstTimer = {prefs.getInt(firstTimerKey, 1)};
+
+        firstTimeGiftAmount = 50;
         if(isFirstTimer[0] == 1){
             showFirstTimePresent();
-            editor.putInt(coinsKey, 100);
+            editor.putInt(coinsKey, firstTimeGiftAmount);
             editor.putInt(firstTimerKey, 0);
             editor.apply();
         }
@@ -198,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        TextView ftRewardText = dialogView.findViewById(R.id.ftRewardSum);
+        ftRewardText.setText("+" + firstTimeGiftAmount);
         AlertDialog dialog = builder.create();
 
         positiveButton.setOnClickListener(v -> {
