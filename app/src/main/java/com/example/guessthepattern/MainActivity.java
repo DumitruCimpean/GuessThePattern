@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     SharedPreferences.Editor editor;
     private int firstTimeGiftAmount;
-
+    private ImageView logo;
+    private int cheatActivationCount;
     private MyGlobals gob;
     private MediaPlayer coinSfx;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
@@ -110,13 +111,27 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         final int[] sfxVol = {prefs.getInt(sfxVolKey, 100)};
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
         levelEnter.setVolume(sfxVol[0] * 0.01f,  sfxVol[0] * 0.01f);
         coinSfx = MediaPlayer.create(this, R.raw.spent_coins);
         coinSfx.setVolume(sfxVol[0], sfxVol[0]);
 
-        final ImageView logo = findViewById(R.id.gtpLogo);
+        logo = findViewById(R.id.gtpLogo);
+
+        cheatActivationCount = prefs.getInt("coinsCheat", 0);
+        logo.setOnClickListener(v -> {
+            cheatActivationCount++;
+            int totalCoins = prefs.getInt(coinsKey, 0);
+            if (cheatActivationCount == 10){
+                gob.showToast("Cheat money added");
+                totalCoins += 999;
+                editor.putInt(coinsKey, totalCoins);
+                editor.putInt("coinsCheat", cheatActivationCount + 5);
+                editor.apply();
+            }
+        });
 
         ConstraintLayout chooseBtn = findViewById(R.id.diffChoose);
         chooseBtn.setOnClickListener(view -> {
@@ -172,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
 
         final int[] logoResources = {R.drawable.gtp_phase2, R.drawable.gtp_phase3, R.drawable.gtp_phase4, R.drawable.gtp_logo};
         final int delayMS = 1000;
-
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             int currentIndex = 0;
@@ -196,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(runnable, delayMS);
 
     }
+
+
 
     private void showFirstTimePresent() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
