@@ -653,7 +653,6 @@ public class EasyTimed extends AppCompatActivity {
         super.onDestroy();
         overallHighscore = prefs.getInt(highscoreKey, 0);
         currentScore = prefs.getInt(scoreKey, 0);
-        timerPause();
 
         if (currentScore > overallHighscore){
             SharedPreferences.Editor editor = prefs.edit();
