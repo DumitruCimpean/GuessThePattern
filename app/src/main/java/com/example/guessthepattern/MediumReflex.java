@@ -383,6 +383,7 @@ public class MediumReflex extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        stopwatch.stop();
 
         if (sqSound != null){
             sqSound.release();
