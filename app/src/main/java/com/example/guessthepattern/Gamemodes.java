@@ -106,4 +106,12 @@ public class Gamemodes extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        shouldPlay = false;
+        if (themeSong != null){
+            themeSong.start();
+        }
+    }
 }

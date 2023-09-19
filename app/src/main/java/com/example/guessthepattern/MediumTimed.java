@@ -5,6 +5,9 @@ import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.coinsPoolKey;
+import static com.example.guessthepattern.MainActivity.defaultDelay1;
+import static com.example.guessthepattern.MainActivity.defaultDelay2;
+import static com.example.guessthepattern.MainActivity.defaultDelay3;
 import static com.example.guessthepattern.MainActivity.delay1;
 import static com.example.guessthepattern.MainActivity.delay1ratio;
 import static com.example.guessthepattern.MainActivity.delay2;
@@ -27,6 +30,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 
 import android.content.SharedPreferences;
@@ -102,6 +106,7 @@ public class MediumTimed extends AppCompatActivity {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private MyGlobals gob;
+    private Handler handler;
 
     private static final String highscoreKey = "highscoreKeyMediumTimed";
 
@@ -119,6 +124,7 @@ public class MediumTimed extends AppCompatActivity {
         gob = new MyGlobals(this);
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
+        handler = new Handler();
 
         title = findViewById(R.id.title);
         level = findViewById(R.id.level);
@@ -243,18 +249,11 @@ public class MediumTimed extends AppCompatActivity {
         });
 
         start.setOnClickListener(view -> {
-
-            start.setAlpha(0.5f);
-            startSound.start();
-            level.setVisibility(View.VISIBLE);
-            scoreText.setText("Score: "+ (currentLevel - 1));
-            scoreText.setVisibility(View.VISIBLE);
             itemBar.setVisibility(View.VISIBLE);
-
-            startGameRun();
-
-            Handler resetHandler = new Handler();
-            resetHandler.postDelayed(() -> start.setVisibility(View.INVISIBLE), 100);
+            level.setVisibility(View.VISIBLE);
+            scoreText.setVisibility(View.VISIBLE);
+            resetStart();
+            handler.postDelayed(() -> start.setVisibility(View.INVISIBLE), 100);
         });
 
         reset.setOnClickListener(view -> resetStart());
@@ -349,7 +348,6 @@ public class MediumTimed extends AppCompatActivity {
 
         gob.changeSqAlpha(squares, 1.0f);
 
-        Handler handler = new Handler();
         Runnable game = new Runnable() {
             @Override
             public void run() {
@@ -358,7 +356,6 @@ public class MediumTimed extends AppCompatActivity {
                     int delay2ms = prefs.getInt(delay2, 0);
                     int delayBetween = prefs.getInt(delay3, 0);
 
-                    Handler handler = new Handler();
                     Random random = new Random();
                     int randomIndex = random.nextInt(squares.length);
                     Button randomSq = squares[randomIndex];
@@ -373,8 +370,7 @@ public class MediumTimed extends AppCompatActivity {
                     handler.postDelayed(runnable2, delay1ms);
                     turns--;
                     if (turns == 0) {
-                        Handler titleHandler = new Handler();
-                        titleHandler.postDelayed(() -> {
+                        handler.postDelayed(() -> {
                             title.setText("Repeat the pattern");
                             level.setText(0 + "/" + levelTurns);
                             timerResume();
@@ -424,6 +420,13 @@ public class MediumTimed extends AppCompatActivity {
         if (gameOverSound != null){
             gameOverSound.start();
         }
+
+        handler.postDelayed(() ->{
+            gob.makeSqUnclickable(squares);
+            gob.changeSqAlpha(squares,0.5f);
+            reset.setVisibility(View.VISIBLE);
+        }, 200);
+
         if (revivesOwned > 0){
             showReviveConfirmation();
         }else {
@@ -435,9 +438,6 @@ public class MediumTimed extends AppCompatActivity {
             }
             highscoreText.setText("Highscore: " + overallHighscore);
             gob.makeSqUnclickable(squares);
-            userIndex = 0;
-            userSeq.clear();
-            Handler handler = new Handler();
             Runnable afterGameOver = () -> {
                 gob.changeSqAlpha(squares,0.5f);
                 reset.setVisibility(View.VISIBLE);
@@ -495,7 +495,6 @@ public class MediumTimed extends AppCompatActivity {
             nextLevel.setVisibility(View.INVISIBLE);
         });
         turns = levelTurns;
-        Handler handler = new Handler();
         Runnable afterCongrats = () -> {
             nextLevel.setVisibility(View.VISIBLE);
             gob.changeSqAlpha(squares,0.5f);
@@ -513,11 +512,11 @@ public class MediumTimed extends AppCompatActivity {
             editor.apply();
             revealersCountText.setText("x" + revealersCount);
             title.setText("Revealing!");
+            level.setText(userIndex + "/" + levelTurns);
             timerPause();
             gob.makeSqUnclickable(squares);
             revealBtn.setClickable(false);
             revealBtn.setAlpha(0.5f);
-            Handler handler = new Handler();
             final int[] userIndexAux = {userIndex};
 
             Runnable revealRun = new Runnable() {
@@ -529,7 +528,6 @@ public class MediumTimed extends AppCompatActivity {
                         int delay1ms = prefs.getInt(delay1, 0);
                         int delay2ms = prefs.getInt(delay2, 0);
                         int delayBetween = prefs.getInt(delay3, 0);
-                        Handler handler = new Handler();
 
                         Runnable runnable = () -> square.setBackgroundResource(sqBcgID);
                         handler.postDelayed(runnable, delay2ms);
@@ -540,9 +538,9 @@ public class MediumTimed extends AppCompatActivity {
                         };
                         handler.postDelayed(runnable2, delay1ms);
                         if (userIndexAux[0] == correctSeq.size() - 1) {
-                            Handler titleHandler = new Handler();
-                            titleHandler.postDelayed(() -> {
+                            handler.postDelayed(() -> {
                                 title.setText("Repeat the pattern");
+                                level.setText(userIndex + "/" + levelTurns);
                                 timerResume();
                                 gob.makeSqClickable(squares);
                                 revealBtn.setClickable(true);
@@ -570,16 +568,16 @@ public class MediumTimed extends AppCompatActivity {
         levelTurns = 4;
         levelTurnsPace = prefs.getInt(paceKey, 0);
         currentLevel = 1;
-        level.setText("Level: " + currentLevel);
+        level.setText("Level " + currentLevel);
         currentScore = 0;
         scoreText.setText("Score: " + currentScore);
         turns = levelTurns;
         newScore.setVisibility(View.INVISIBLE);
         milliLeft = timerTotalTimeMs;
         timerText.setText(R.string.timerTextString);
-        editor.putInt(delay1, 1000);
-        editor.putInt(delay2, 1800);
-        editor.putInt(delay3, 1500);
+        editor.putInt(delay1, defaultDelay1);
+        editor.putInt(delay2, defaultDelay2);
+        editor.putInt(delay3, defaultDelay3);
         editor.putInt(coinsPoolKey, 1);
         editor.apply();
         startGameRun();
@@ -646,17 +644,7 @@ public class MediumTimed extends AppCompatActivity {
 
         positiveButton.setOnClickListener(v -> {
             dialog.dismiss();
-            reviveSound.start();
-            gameOnSound.start();
-            revivesOwned--;
-            editor.putInt(revivesKey, revivesOwned);
-            editor.apply();
-            userIndex = 0;
-            userSeq.clear();
-            milliLeft = timerTotalTimeMs;
-            timerText.setText(R.string.timerTextString);
-            startGameRun();
-
+            reviveStart();
         });
 
         negativeButton.setOnClickListener(v -> {
@@ -671,13 +659,33 @@ public class MediumTimed extends AppCompatActivity {
             gob.makeSqUnclickable(squares);
             userIndex = 0;
             userSeq.clear();
-            Handler handler = new Handler();
             Runnable afterGameOver = () -> {
                 gob.changeSqAlpha(squares,0.5f);
                 reset.setVisibility(View.VISIBLE);
             };handler.postDelayed(afterGameOver, 300);
         });
-        dialog.show();
+        if(!((Activity) this).isFinishing()){
+            dialog.show();
+        }
+    }
+
+    private void reviveStart(){
+        gob.makeSqClickable(squares);
+        gob.changeSqAlpha(squares,1.0f);
+        reset.setVisibility(View.INVISIBLE);
+        if (reviveSound != null){
+            reviveSound.start();
+        }
+        if (gameOnSound != null){
+            gameOnSound.start();
+        }
+        revivesOwned--;
+        editor.putInt(revivesKey, revivesOwned);
+        editor.apply();
+        milliLeft = timerTotalTimeMs;
+        timerText.setText(R.string.timerTextString);
+        revealersCount++;
+        revealerStart();
     }
 
     @Override
@@ -690,6 +698,7 @@ public class MediumTimed extends AppCompatActivity {
         super.onDestroy();
         overallHighscore = prefs.getInt(highscoreKey, 0);
         currentScore = prefs.getInt(scoreKey, 0);
+        timerPause();
 
         if (currentScore > overallHighscore){
             SharedPreferences.Editor editor = prefs.edit();

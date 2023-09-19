@@ -102,6 +102,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private Handler handler;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
     private MediaPlayer levelEnter;
+    private MediaPlayer buySound;
     private static final int REQUEST_CODE_IMAGE_PICK = 123;
     private static final int REQUEST_CODE_PERMISSION = 456;
     private int bcgPriceGradient;
@@ -188,8 +189,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcg7id = R.drawable.bcg_turquoise_magenta;
 
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
+        buySound = MediaPlayer.create(this, R.raw.spent_coins);
+
         checkmark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark, getTheme());
         checkmarkDark = ResourcesCompat.getDrawable(resources, R.drawable.checkmark_darkgrey, getTheme());
+
         totalCoins = prefs.getInt(coinsKey, 0);
         coinAmountText.setText(String.valueOf(totalCoins));
 
@@ -572,6 +576,19 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (buySound != null){
+            buySound.release();
+            buySound = null;
+        }
+        if (levelEnter != null){
+            levelEnter.release();
+            levelEnter = null;
+        }
+    }
+
     private void showBuyConfirmationDialog(BuyButton itemBought, int price, boolean isLast) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         LayoutInflater inflater = getLayoutInflater();
@@ -589,7 +606,15 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
                 gob.clickEffectResize(positiveButton, getApplicationContext());
                 if (isLast){
                     itemBought.setBoughtLast(true);
+                    if (buySound != null){
+                        buySound.seekTo(0);
+                        buySound.start();
+                    }
                 }else{
+                    if (buySound != null){
+                        buySound.seekTo(0);
+                        buySound.start();
+                    }
                     itemBought.setBought(true);
                 }
                 totalCoins -= price;

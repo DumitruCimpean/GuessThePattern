@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     public static final String prefsName = "MyPrefs"; // Name for the preferences file
-    private MediaPlayer levelEnter;
+    private MediaPlayer clickSound;
     public static boolean shouldPlay;
     public static final String bcgImgUriKey = "backgroundImageUri";
     public static final String bcgImgPresetKey = "backgroundImagePreset";
@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String delay1ratio = "delay1ratio";
     public static final String delay2ratio = "delay2ratio";
     public static final String delay3ratio = "delay3ratio";
+    public static int defaultDelay1 = 1000;
+    public static int defaultDelay2 = 1800;
+    public static int defaultDelay3 = 1500;
     private SharedPreferences prefs;
     SharedPreferences.Editor editor;
     private int firstTimeGiftAmount;
@@ -81,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
         editor = prefs.edit();
         editor.putInt(paceKey, 3);
         editor.putInt(timerMsKey, 10000); // 10 seconds
-        editor.putInt(delay1, 1000);
-        editor.putInt(delay2, 1800);
-        editor.putInt(delay3, 1500);
+        editor.putInt(delay1, defaultDelay1);
+        editor.putInt(delay2, defaultDelay2);
+        editor.putInt(delay3, defaultDelay3);
         editor.putFloat(delay1ratio, 1.05f);
         editor.putFloat(delay2ratio, 1.06f);
         editor.putFloat(delay3ratio, 1.05f);
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             int resId = getResources().getIdentifier("main_theme", "raw", getPackageName());
 
             if (resId != 0) {
+                themeSong.reset();
                 themeSong.setDataSource(getApplicationContext(), Uri.parse("android.resource://" + getPackageName() + "/" + resId));
                 themeSong.prepare();
                 themeSong.start();
@@ -113,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         final int[] sfxVol = {prefs.getInt(sfxVolKey, 100)};
-        levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
-        levelEnter.setVolume(sfxVol[0] * 0.01f,  sfxVol[0] * 0.01f);
+        clickSound = MediaPlayer.create(this, R.raw.sq_clicked);
+        clickSound.setVolume(sfxVol[0] * 0.01f,  sfxVol[0] * 0.01f);
         coinSfx = MediaPlayer.create(this, R.raw.spent_coins);
         coinSfx.setVolume(sfxVol[0], sfxVol[0]);
 
@@ -136,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout chooseBtn = findViewById(R.id.diffChoose);
         chooseBtn.setOnClickListener(view -> {
             gob.clickEffectResize(chooseBtn, this);
-            levelEnter.seekTo(0);
-            levelEnter.start();
+            clickSound.seekTo(0);
+            clickSound.start();
             Intent intent = new Intent(this, Gamemodes.class);
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -153,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout shop = findViewById(R.id.shopBtn);
         shop.setOnClickListener(view -> {
             gob.clickEffectResize(shop, this);
-            levelEnter.seekTo(0);
-            levelEnter.start();
+            clickSound.seekTo(0);
+            clickSound.start();
             Intent intent = new Intent(this, Shop.class);
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -170,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout settingsBtn = findViewById(R.id.settingsBtn);
         settingsBtn.setOnClickListener(view -> {
             gob.clickEffectResize(settingsBtn, this);
-            levelEnter.seekTo(0);
-            levelEnter.start();
+            clickSound.seekTo(0);
+            clickSound.start();
             Intent intent = new Intent(this, Settings.class);
             resetHandler.postDelayed(() -> {
                 ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
@@ -237,10 +241,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (levelEnter != null){
-            levelEnter.stop();
-            levelEnter.release();
-            levelEnter = null;
+        if (clickSound != null){
+            clickSound.stop();
+            clickSound.release();
+            clickSound = null;
         }
         if (coinSfx != null){
             coinSfx.stop();
@@ -261,14 +265,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shouldPlay = false;
-        SharedPreferences prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         if (!themeSong.isPlaying()){
             themeSong.start();
         }
-        if (levelEnter != null){
+
+        if (clickSound != null){
             final float[] sfxVol = {prefs.getInt(sfxVolKey, 100) * 0.01f};
-            levelEnter.setVolume(sfxVol[0],  sfxVol[0]);
+            clickSound.setVolume(sfxVol[0],  sfxVol[0]);
         }
+
     }
 
 }

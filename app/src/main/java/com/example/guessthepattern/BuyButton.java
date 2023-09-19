@@ -11,8 +11,11 @@ import android.widget.ImageButton;
 public class BuyButton extends androidx.appcompat.widget.AppCompatImageButton {
     private boolean isBought = false;
     private boolean isBoughtLast = false;
-    SharedPreferences prefs;
-    SharedPreferences.Editor editor;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
+    private MyGlobals gob = new MyGlobals(getContext());
+
+
     public BuyButton(Context context) {
         super(context);
     }
