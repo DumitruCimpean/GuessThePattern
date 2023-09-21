@@ -142,16 +142,8 @@ public class MainActivity extends AppCompatActivity {
             gob.clickEffectResize(chooseBtn, this);
             clickSound.seekTo(0);
             clickSound.start();
-            Intent intent = new Intent(this, Gamemodes.class);
-            resetHandler.postDelayed(() -> {
-                ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                        view,
-                        0, 0,
-                        view.getWidth(), view.getHeight()
-                );
-                shouldPlay = true;
-                startActivity(intent, options.toBundle());
-            }, 100);
+            shouldPlay = true;
+            resetHandler.postDelayed(() -> gob.openActivity(Gamemodes.class), 200);
         });
 
         ConstraintLayout shop = findViewById(R.id.shopBtn);
@@ -159,16 +151,8 @@ public class MainActivity extends AppCompatActivity {
             gob.clickEffectResize(shop, this);
             clickSound.seekTo(0);
             clickSound.start();
-            Intent intent = new Intent(this, Shop.class);
-            resetHandler.postDelayed(() -> {
-                ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                        view,
-                        0, 0,
-                        view.getWidth(), view.getHeight()
-                );
-                shouldPlay = true;
-                startActivity(intent, options.toBundle());
-            }, 100);
+            shouldPlay = true;
+            resetHandler.postDelayed(() -> gob.openActivity(Shop.class), 200);
         });
 
         ConstraintLayout settingsBtn = findViewById(R.id.settingsBtn);
@@ -176,16 +160,8 @@ public class MainActivity extends AppCompatActivity {
             gob.clickEffectResize(settingsBtn, this);
             clickSound.seekTo(0);
             clickSound.start();
-            Intent intent = new Intent(this, Settings.class);
-            resetHandler.postDelayed(() -> {
-                ActivityOptions options = ActivityOptions.makeScaleUpAnimation(
-                        view,
-                        0, 0,
-                        view.getWidth(), view.getHeight()
-                );
-                shouldPlay = true;
-                startActivity(intent, options.toBundle());
-            }, 100);
+            shouldPlay = true;
+            resetHandler.postDelayed(()-> gob.openActivity(Settings.class), 200);
         });
 
 

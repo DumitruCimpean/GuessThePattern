@@ -4,9 +4,7 @@ import static com.example.guessthepattern.MainActivity.prefsName;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.widget.ImageButton;
 
 public class BuyButton extends androidx.appcompat.widget.AppCompatImageButton {
     private boolean isBought = false;
@@ -43,7 +41,7 @@ public class BuyButton extends androidx.appcompat.widget.AppCompatImageButton {
         }
     }
 
-    public void setBoughtLast(boolean bought) {
+    public void setBoughtPremium(boolean bought) {
         prefs = getContext().getSharedPreferences(prefsName, Context.MODE_PRIVATE);
         editor = prefs.edit();
 
@@ -52,9 +50,9 @@ public class BuyButton extends androidx.appcompat.widget.AppCompatImageButton {
         editor.apply();
 
         if (!isBoughtLast){
-            setImageResource(R.drawable.lock);
+            setImageResource(R.drawable.crown);
         }else {
-            setImageResource(R.drawable.plus);
+            setImageResource(R.drawable.image_gallery);
         }
     }
 

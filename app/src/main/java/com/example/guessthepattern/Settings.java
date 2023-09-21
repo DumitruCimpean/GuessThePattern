@@ -178,7 +178,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
             bcg.setBought(prefs.getBoolean("button_" + bcg.getId() + "_isBought", false));
         }
         bcg1.setBought(true);
-        selectBackgroundButton.setBoughtLast(prefs.getBoolean("button_" + selectBackgroundButton.getId() + "_isBought", false));
+        selectBackgroundButton.setBoughtPremium(prefs.getBoolean("button_" + selectBackgroundButton.getId() + "_isBought", false));
 
         bcg1id = R.drawable.bcg_grey_100;
         bcg2id = R.drawable.bcg_red_blue;
@@ -605,7 +605,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
             if (totalCoins >= price){
                 gob.clickEffectResize(positiveButton, getApplicationContext());
                 if (isLast){
-                    itemBought.setBoughtLast(true);
+                    itemBought.setBoughtPremium(true);
                     if (buySound != null){
                         buySound.seekTo(0);
                         buySound.start();
