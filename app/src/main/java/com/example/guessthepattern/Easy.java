@@ -22,6 +22,7 @@ import static com.example.guessthepattern.MainActivity.revealsKey;
 import static com.example.guessthepattern.MainActivity.revivesKey;
 import static com.example.guessthepattern.MainActivity.scoreKey;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
+import static com.example.guessthepattern.MainActivity.sqColorPickedKey;
 import static com.example.guessthepattern.MainActivity.sqNum;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +35,9 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -129,18 +132,6 @@ public class Easy extends AppCompatActivity {
         boolean isGradient = prefs.getBoolean(isPresetKey, true);
         int bcgId = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
 
-        if (isGradient){
-            scoreText.setBackgroundResource(R.drawable.scores_bcg_empty);
-            highscoreText.setBackgroundResource(R.drawable.scores_bcg_empty);
-            gob.setAppBackgroundPreset(bcgId, backgroundLayout);
-        }else if (imageUriString != null) {
-            Uri imageUri = Uri.parse(imageUriString);
-            gob.setAppBackground(imageUri, backgroundLayout);
-            scoreText.setBackgroundResource(R.drawable.scores_bcg_solid);
-            highscoreText.setBackgroundResource(R.drawable.scores_bcg_solid);
-            backgroundLayout.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        }
-
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
         sq3 = findViewById(R.id.sq3);
@@ -201,10 +192,20 @@ public class Easy extends AppCompatActivity {
         gameOverSound.setVolume(sfxVol, sfxVol);
 
         sqBcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        int sqColorPicked = prefs.getInt(sqColorPickedKey, 0);
         Resources res = getResources();
-        Drawable background = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
+        Drawable background;
+        if (sqBcgID != 0){
+            background = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
+        }else{
+            background = ResourcesCompat.getDrawable(res, R.drawable.sq_bcg_blue_lc, getTheme());
+        }
+
         for (Button square : squares) {
             square.setBackground(background);
+            if (sqColorPicked != 0){
+                square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
+            }
         }
         boolean sqNumbered = prefs.getBoolean(sqNum, false);
         if (sqNumbered){
@@ -213,6 +214,18 @@ public class Easy extends AppCompatActivity {
                 square.setText(String.valueOf(sqIndex));
                 sqIndex++;
             }
+        }
+
+        if (isGradient){
+            scoreText.setBackgroundResource(R.drawable.scores_bcg_empty);
+            highscoreText.setBackgroundResource(R.drawable.scores_bcg_empty);
+            gob.setAppBackgroundPreset(bcgId, backgroundLayout);
+        }else if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            gob.setAppBackground(imageUri, backgroundLayout);
+            scoreText.setBackgroundResource(R.drawable.scores_bcg_solid);
+            highscoreText.setBackgroundResource(R.drawable.scores_bcg_solid);
+            backgroundLayout.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
         // --------------------------------- Misc buttons ----------------------------------------- //

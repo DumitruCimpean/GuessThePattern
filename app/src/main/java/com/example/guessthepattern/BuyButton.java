@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 
 public class BuyButton extends androidx.appcompat.widget.AppCompatImageButton {
     private boolean isBought = false;
-    private boolean isBoughtLast = false;
+    private boolean isBoughtPremium = false;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private MyGlobals gob = new MyGlobals(getContext());
@@ -41,23 +41,23 @@ public class BuyButton extends androidx.appcompat.widget.AppCompatImageButton {
         }
     }
 
-    public void setBoughtPremium(boolean bought) {
+    public void setBoughtPremium(boolean bought, int drawableToSet) {
         prefs = getContext().getSharedPreferences(prefsName, Context.MODE_PRIVATE);
         editor = prefs.edit();
 
-        isBoughtLast = bought;
-        editor.putBoolean("button_" + getId() + "_isBought", isBoughtLast);
+        isBoughtPremium = bought;
+        editor.putBoolean("button_" + getId() + "_isBought", isBoughtPremium);
         editor.apply();
 
-        if (!isBoughtLast){
+        if (!isBoughtPremium){
             setImageResource(R.drawable.crown);
         }else {
-            setImageResource(R.drawable.image_gallery);
+            setImageResource(drawableToSet);
         }
     }
 
-    public boolean isBoughtLast(){
-        return isBoughtLast;
+    public boolean isBoughtPremium(){
+        return isBoughtPremium;
     }
 
     public boolean isBought() {

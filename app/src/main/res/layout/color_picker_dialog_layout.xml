@@ -70,6 +70,25 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:max="100" />
+    <TextView
+        android:id="@+id/hexTextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Or input your own HEX:"
+        android:textColor="@color/white"
+        android:fontFamily="@font/jost_variablewght"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/hexEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textColorHint="@color/darker_white"
+        android:textColorHighlight="@color/light_blue"
+        android:layout_gravity="center"
+        android:maxLength="7"
+        />
 
     <Button
         android:id="@+id/okButton"

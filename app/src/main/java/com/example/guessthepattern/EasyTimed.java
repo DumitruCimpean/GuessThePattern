@@ -556,7 +556,7 @@ public class EasyTimed extends AppCompatActivity {
     }
     private void timerPause() {
         countDown.cancel();
-        timerText.setTextColor(getResources().getColor(R.color.light_blue));
+        timerText.setTextColor(getResources().getColor(R.color.green));
     }
     private void timerResume() {
         timerStart(milliLeft);

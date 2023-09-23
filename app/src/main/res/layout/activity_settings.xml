@@ -252,16 +252,31 @@
                     android:id="@+id/sq7"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="30dp"
+                    android:layout_margin="5dp"
                     android:background="@drawable/sq_bcg_turquoise"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/colorPickerButton"
                     app:layout_constraintStart_toEndOf="@+id/sq6"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <com.example.guessthepattern.BuyButton
+                    android:id="@+id/colorPickerButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/sq_premium_bcg"
+                    android:src="@drawable/color_picker"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/sq7"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -433,10 +448,10 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginEnd="30dp"
-                    android:background="@drawable/nextlvl_bcg"
+                    android:background="@drawable/sq_premium_bcg"
                     android:padding="15dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/plus"
+                    android:src="@drawable/image_gallery"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -614,25 +629,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <Button
-        android:id="@+id/colorPickerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Pick a Color"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91" />
-
     <TextView
         android:id="@+id/selectedColorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select color"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="@color/white"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"

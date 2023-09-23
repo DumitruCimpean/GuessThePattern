@@ -42,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String musicVolKey = "musicVolKey";
     public static final String sfxVolKey = "sfxVolKey";
 
+    public static final String sqColorPickedKey = "sqColorPickedKey";
+    public static final String hueKey = "hueKey";
+    public static final String saturationKey = "saturationKey";
+    public static final String valueKey = "valueKey";
+    public static final String hexInputKey = "hexInputKey";
+
     // the difference between delay1 and delay2 is the amount of time (ms) the square is highlighted
     // delay3 is the delay between the finishing of a square highlight and the start of another one
 

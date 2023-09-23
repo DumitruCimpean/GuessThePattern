@@ -107,7 +107,7 @@
         android:fontFamily="@font/jost_variablewght"
         android:text="10.00"
         android:textAlignment="center"
-        android:textColor="@color/light_blue"
+        android:textColor="@color/white"
         android:textFontWeight="700"
         app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
         app:layout_constraintEnd_toEndOf="parent"
