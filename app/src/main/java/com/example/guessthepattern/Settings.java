@@ -4,6 +4,7 @@ import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.isPresetKey;
+import static com.example.guessthepattern.MainActivity.isColorFromPicker;
 import static com.example.guessthepattern.MainActivity.sqColorPickedKey;
 
 import androidx.annotation.NonNull;
@@ -182,11 +183,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcg1.setBought(true);
         selectBackgroundButton.setBoughtPremium(prefs.getBoolean("button_" + selectBackgroundButton.getId() + "_isBought", false), R.drawable.image_gallery);
 
-        int sqColorPicked = prefs.getInt(sqColorPickedKey, 0);
-        if (sqColorPicked != 0){
-            colorPickerButton.setImageTintList(ColorStateList.valueOf(sqColorPicked));
-        }
+        int sqColorPicked2 = prefs.getInt(sqColorPickedKey, 0);
         colorPickerButton.setBoughtPremium(prefs.getBoolean("button_" + colorPickerButton.getId() + "_isBought", false), R.drawable.color_picker);
+        if (colorPickerButton.isBoughtPremium()){
+            colorPickerButton.setImageTintList(ColorStateList.valueOf(sqColorPicked2));
+        }
 
         bcg1id = R.drawable.bcg_grey_100;
         bcg2id = R.drawable.bcg_red_blue;
@@ -342,10 +343,9 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         });
 
         colorPickerButton.setOnClickListener(v -> {
+            gob.clickEffectResize(colorPickerButton, this);
             if (colorPickerButton.isBoughtPremium()) {
                 showColorPickerDialog();
-                editor.putInt(bcgKey, 0);
-                editor.apply();
             }else {
                 if (totalCoins >= bcgPriceImage){
                     premiumDrawable = R.drawable.color_picker;
@@ -459,7 +459,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         }else {
             checkAndScrollToSquare(sqColor);
             editor.putInt(bcgKey, sqColorID);
-            editor.putInt(sqColorPickedKey, 0);
+            editor.putBoolean(isColorFromPicker, false);
             editor.apply();
         }
     }
@@ -696,10 +696,14 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
 
 
     public void onColorSelected(int color) {
-        String hexColor = Integer.toHexString(color).toUpperCase();
-        selectedColorTextView.setText("Selected Color: #" + hexColor);
         colorPickerButton.setImageTintList(ColorStateList.valueOf(color));
+        editor.putBoolean(isColorFromPicker, true);
         editor.putInt(sqColorPickedKey, color);
+        for (BuyButton square:squares){
+            if (square.isBought()){
+                square.setImageDrawable(null);
+            }
+        }
         editor.apply();
     }
 

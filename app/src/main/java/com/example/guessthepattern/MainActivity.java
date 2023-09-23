@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -42,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String musicVolKey = "musicVolKey";
     public static final String sfxVolKey = "sfxVolKey";
 
-    public static final String sqColorPickedKey = "sqColorPickedKey";
+    public static final String isColorFromPicker = "sqColorPickedKey";
+    public static final String sqColorPickedKey = "sqColorPickedKey2";
     public static final String hueKey = "hueKey";
     public static final String saturationKey = "saturationKey";
     public static final String valueKey = "valueKey";

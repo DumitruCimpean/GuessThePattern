@@ -1,7 +1,9 @@
 package com.example.guessthepattern;
+import static com.example.guessthepattern.MainActivity.bcgKey;
 import static com.example.guessthepattern.MainActivity.hexInputKey;
 import static com.example.guessthepattern.MainActivity.hueKey;
 import static com.example.guessthepattern.MainActivity.prefsName;
+import static com.example.guessthepattern.MainActivity.revealsKey;
 import static com.example.guessthepattern.MainActivity.saturationKey;
 import static com.example.guessthepattern.MainActivity.valueKey;
 
@@ -17,13 +19,19 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
@@ -47,11 +55,20 @@ import java.util.regex.Pattern;
 
 public class ColorPickerDialogFragment extends DialogFragment {
 
+    private BuyButton sq1bcg;
+    private BuyButton sq2bcg;
+    private BuyButton sq3bcg;
+    private BuyButton sq4bcg;
+    private BuyButton sq5bcg;
+    private BuyButton sq6bcg;
+    private BuyButton sq7bcg;
+    private BuyButton[] squares;
     private SeekBar hueSeekBar;
     private SeekBar saturationSeekBar;
     private SeekBar valueSeekBar;
     private View colorPreview;
     private Button okButton;
+    private ImageButton hexSaveBtn;
     private EditText hexInputBox;
     private TextView hexInputBoxTitle;
     private String hexColor;
@@ -64,6 +81,7 @@ public class ColorPickerDialogFragment extends DialogFragment {
     private float valueSaved;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
+    private MyGlobals gob;
     private Handler handler;
 
     public interface ColorPickerListener {
@@ -82,38 +100,68 @@ public class ColorPickerDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.color_picker_dialog_layout, null);
+        View settingsView = inflater.inflate(R.layout.activity_settings, null);
         builder.setView(view);
 
         prefs = requireContext().getSharedPreferences(prefsName, Context.MODE_PRIVATE);
         editor = prefs.edit();
         handler = new Handler();
+        gob = new MyGlobals(getContext());
 
         hexInputBox = view.findViewById(R.id.hexEditText);
         hexInputBoxTitle = view.findViewById(R.id.hexTextTitle);
+        hexSaveBtn = view.findViewById(R.id.hexSaveButton);
         hueSeekBar = view.findViewById(R.id.hueSeekBar);
         saturationSeekBar = view.findViewById(R.id.saturationSeekBar);
         valueSeekBar = view.findViewById(R.id.valueSeekBar);
         colorPreview = view.findViewById(R.id.colorPreview);
         okButton = view.findViewById(R.id.okButton);
+        sq1bcg = settingsView.findViewById(R.id.sq1);
+        sq2bcg = settingsView.findViewById(R.id.sq2);
+        sq3bcg = settingsView.findViewById(R.id.sq3);
+        sq4bcg = settingsView.findViewById(R.id.sq4);
+        sq5bcg = settingsView.findViewById(R.id.sq5);
+        sq6bcg = settingsView.findViewById(R.id.sq6);
+        sq7bcg = settingsView.findViewById(R.id.sq7);
+        squares = new BuyButton[]{sq1bcg, sq2bcg, sq3bcg, sq4bcg, sq5bcg, sq6bcg, sq7bcg};
 
-        hueSaved = prefs.getFloat(hueKey, 0.0f);
-        saturationSaved = prefs.getFloat(saturationKey, 1.0f);
-        valueSaved = prefs.getFloat(valueKey, 1.0f);
 
-        hueSeekBar.setMax(360);
-        hueSeekBar.setProgress((int) hueSaved);
+        hexInputBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        saturationSeekBar.setMax(100);
-        saturationSeekBar.setProgress((int) (saturationSaved * 100));
+            }
 
-        valueSeekBar.setMax(100);
-        valueSeekBar.setProgress((int) (valueSaved * 100));
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 6){
+                    hexSaveBtn.setVisibility(View.VISIBLE);
+                }else {
+                    hexSaveBtn.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         // Initialize hue, saturation, and value
         hue = prefs.getFloat(hueKey, 0.0f);
         saturation = prefs.getFloat(saturationKey, 1.0f);
         value = prefs.getFloat(valueKey, 1.0f);
+
+        hueSeekBar.setMax(360);
+        hueSeekBar.setProgress((int) hue);
+
+
+        saturationSeekBar.setMax(100);
+        saturationSeekBar.setProgress((int) (saturation * 100));
+
+        valueSeekBar.setMax(100);
+        valueSeekBar.setProgress((int) (value * 100));
 
         // Initialize selected color based on initial HSV values
         selectedColor = getColorFromHSV(hue, saturation, value);
@@ -128,6 +176,9 @@ public class ColorPickerDialogFragment extends DialogFragment {
                 hue = (float) progress;
                 selectedColor = getColorFromHSV(hue, saturation, value);
                 updateColorPreview(selectedColor);
+
+                hexColor = Integer.toHexString(selectedColor).toUpperCase();
+                hexInputBox.setHint("#" + hexColor.substring(2));
             }
 
             @Override
@@ -136,8 +187,7 @@ public class ColorPickerDialogFragment extends DialogFragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                hexColor = Integer.toHexString(selectedColor).toUpperCase();
-                hexInputBox.setHint("#" + hexColor.substring(2));
+
             }
         });
 
@@ -147,6 +197,9 @@ public class ColorPickerDialogFragment extends DialogFragment {
                 saturation = (float) progress / 100.0f;
                 selectedColor = getColorFromHSV(hue, saturation, value);
                 updateColorPreview(selectedColor);
+
+                hexColor = Integer.toHexString(selectedColor).toUpperCase();
+                hexInputBox.setHint("#" + hexColor.substring(2));
             }
 
             @Override
@@ -155,8 +208,7 @@ public class ColorPickerDialogFragment extends DialogFragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                hexColor = Integer.toHexString(selectedColor).toUpperCase();
-                hexInputBox.setHint("#" + hexColor.substring(2));
+
             }
         });
 
@@ -166,6 +218,9 @@ public class ColorPickerDialogFragment extends DialogFragment {
                 value = (float) progress / 100.0f;
                 selectedColor = getColorFromHSV(hue, saturation, value);
                 updateColorPreview(selectedColor);
+
+                hexColor = Integer.toHexString(selectedColor).toUpperCase();
+                hexInputBox.setHint("#" + hexColor.substring(2));
             }
 
             @Override
@@ -174,17 +229,31 @@ public class ColorPickerDialogFragment extends DialogFragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                hexColor = Integer.toHexString(selectedColor).toUpperCase();
-                hexInputBox.setHint("#" + hexColor.substring(2));
+
             }
         });
 
-        okButton.setOnClickListener(v -> {
-            if (isValidHexCode(hexInputBox.getText().toString()) && hexInputBox.getText() != null){
-                editor.putString(hexInputKey, hexInputBox.getText().toString().toUpperCase());
-                dismiss();
-            }else if (hexInputBox.getText() == null){
-                dismiss();
+        hexSaveBtn.setOnClickListener(v -> {
+            gob.clickEffectResize(hexSaveBtn, getContext());
+            String hexInputString = hexInputBox.getText().toString().toUpperCase();
+            if (isValidHexCode(hexInputString) && !TextUtils.isEmpty(hexInputString)){
+                editor.putString(hexInputKey, hexInputString);
+                int colorToConvert = Color.parseColor(hexInputString);
+
+                int red = Color.red(colorToConvert);
+                int green = Color.green(colorToConvert);
+                int blue = Color.blue(colorToConvert);
+
+                float[] hsv = new float[3];
+                Color.RGBToHSV(red, green, blue, hsv);
+
+                hueSeekBar.setProgress((int) hsv[0]);
+                saturationSeekBar.setProgress((int) (hsv[1] * 100));
+                valueSeekBar.setProgress((int) (hsv[2] * 100));
+                updateColorPreview(colorToConvert);
+                selectedColor = colorToConvert;
+
+                handler.postDelayed(()->hexSaveBtn.setVisibility(View.GONE), 200);
             }
             else{
                 hexInputBoxTitle.setText("Not a valid HEX code!");
@@ -192,16 +261,23 @@ public class ColorPickerDialogFragment extends DialogFragment {
                 handler.postDelayed(() -> {
                     hexInputBoxTitle.setText("Or input your own HEX:");
                     hexInputBoxTitle.setTextColor(getResources().getColor(R.color.white));
-                }, 1000);
+                }, 2000);
             }
+        });
+
+        okButton.setOnClickListener(v -> {
             editor.putFloat(hueKey, hue);
             editor.putFloat(saturationKey, saturation);
             editor.putFloat(valueKey, value);
+            editor.putInt(bcgKey, 0);
             editor.apply();
 
             if (listener != null) {
                 listener.onColorSelected(selectedColor);
             }
+
+
+            dismiss();
         });
 
         return builder.create();

@@ -18,9 +18,10 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="HUE"
+        android:textSize="20sp"
         android:fontFamily="@font/jost_variablewght"/>
 
     <SeekBar
@@ -37,9 +38,10 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="Saturation"
+        android:textSize="20sp"
         android:fontFamily="@font/jost_variablewght"/>
 
     <SeekBar
@@ -55,9 +57,10 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="Brightness"
+        android:textSize="20sp"
         android:fontFamily="@font/jost_variablewght"/>
 
     <SeekBar
@@ -70,25 +73,44 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:max="100" />
+
     <TextView
         android:id="@+id/hexTextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Or input your own HEX:"
         android:textColor="@color/white"
+        android:textSize="20sp"
         android:fontFamily="@font/jost_variablewght"
         android:layout_gravity="center"/>
 
-    <EditText
-        android:id="@+id/hexEditText"
+    <LinearLayout
+        android:id="@+id/hexLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textColorHint="@color/darker_white"
-        android:textColorHighlight="@color/light_blue"
-        android:layout_gravity="center"
-        android:maxLength="7"
-        />
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/hexEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textColorHint="@color/darker_white"
+            android:textColorHighlight="@color/light_blue"
+            android:layout_gravity="center"
+            android:maxLength="7" />
+
+        <ImageButton
+            android:id="@+id/hexSaveButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/floppy_disk"
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:padding="5dp"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/okButton"

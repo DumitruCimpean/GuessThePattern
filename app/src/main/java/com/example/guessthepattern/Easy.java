@@ -22,6 +22,7 @@ import static com.example.guessthepattern.MainActivity.revealsKey;
 import static com.example.guessthepattern.MainActivity.revivesKey;
 import static com.example.guessthepattern.MainActivity.scoreKey;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
+import static com.example.guessthepattern.MainActivity.isColorFromPicker;
 import static com.example.guessthepattern.MainActivity.sqColorPickedKey;
 import static com.example.guessthepattern.MainActivity.sqNum;
 
@@ -32,12 +33,10 @@ import androidx.core.content.res.ResourcesCompat;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -94,6 +93,11 @@ public class Easy extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private MyGlobals gob;
     private Handler handler;
+    private Drawable backgroundSq;
+    private Resources res;
+    private boolean isColorPicked;
+    private int sqColorPicked;
+
     private static final String highscoreKey = "highscoreKeyEasy";
 
 
@@ -111,6 +115,7 @@ public class Easy extends AppCompatActivity {
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
         handler = new Handler();
+        res = getResources();
 
         title = findViewById(R.id.title);
         level = findViewById(R.id.level);
@@ -131,6 +136,10 @@ public class Easy extends AppCompatActivity {
         String imageUriString = prefs.getString(bcgImgUriKey, null);
         boolean isGradient = prefs.getBoolean(isPresetKey, true);
         int bcgId = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
+
+        sqBcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        sqColorPicked = prefs.getInt(sqColorPickedKey, 0);
+        isColorPicked = prefs.getBoolean(isColorFromPicker, false);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -191,22 +200,20 @@ public class Easy extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        sqBcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
-        int sqColorPicked = prefs.getInt(sqColorPickedKey, 0);
-        Resources res = getResources();
-        Drawable background;
         if (sqBcgID != 0){
-            background = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
+            backgroundSq = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
         }else{
-            background = ResourcesCompat.getDrawable(res, R.drawable.sq_bcg_blue_lc, getTheme());
+            backgroundSq = ResourcesCompat.getDrawable(res, R.drawable.sq_bcg_blue_lc, getTheme());
         }
 
         for (Button square : squares) {
-            square.setBackground(background);
-            if (sqColorPicked != 0){
+            square.setBackground(backgroundSq);
+            if (isColorPicked){
                 square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
             }
         }
+
+
         boolean sqNumbered = prefs.getBoolean(sqNum, false);
         if (sqNumbered){
             int sqIndex = 1;
@@ -551,14 +558,21 @@ public class Easy extends AppCompatActivity {
                         int delay2ms = prefs.getInt(delay2, 0);
                         int delayBetween = prefs.getInt(delay3, 0);
 
-                        Runnable runnable = () -> square.setBackgroundResource(sqBcgID);
+                        Runnable runnable = () -> {
+                            square.setBackground(backgroundSq);
+                            if (isColorPicked){
+                                square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
+                            }
+                        };
                         handler.postDelayed(runnable, delay2ms);
 
                         Runnable runnable2 = () -> {
                             square.setBackgroundResource(R.drawable.sq_bcg_green);
+                            square.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.green, getTheme())));
                             userIndexAux[0]++;
                         };
                         handler.postDelayed(runnable2, delay1ms);
+
                         if (userIndexAux[0] == correctSeq.size() - 1) {
                             handler.postDelayed(() -> {
                                 title.setText("Repeat the pattern");
