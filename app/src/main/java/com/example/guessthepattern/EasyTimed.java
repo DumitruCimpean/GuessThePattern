@@ -2,6 +2,7 @@ package com.example.guessthepattern;
 
 import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
+import static com.example.guessthepattern.MainActivity.defaultSqColor;
 import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.coinsPoolKey;
@@ -79,7 +80,6 @@ public class EasyTimed extends AppCompatActivity {
     private ImageButton revealBtn;
     private ConstraintLayout revealBox;
     private TextView timerText;
-    private int sqBcgID;
     private CountDownTimer countDown;
     private long milliLeft;
     private long timerTotalTimeMs;
@@ -145,8 +145,7 @@ public class EasyTimed extends AppCompatActivity {
         boolean isGradient = prefs.getBoolean(isPresetKey, true);
         int bcgId = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
 
-        sqBcgID = prefs.getInt(sqBcgKey, R.drawable.sq_bcg_blue_lc);
-        sqColorPicked = prefs.getInt(sqColorPickedKey, 0);
+        sqColorPicked = prefs.getInt(sqColorPickedKey, defaultSqColor);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);

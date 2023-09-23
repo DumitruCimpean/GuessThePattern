@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private MyGlobals gob;
     private MediaPlayer coinSfx;
     MediaPlayer themeSong = ThemeSongSingleton.getThemeSong();
+    public static int defaultSqColor;
 
     private Handler resetHandler;
 
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putFloat(delay2ratio, 1.06f);
         editor.putFloat(delay3ratio, 1.05f);
         editor.apply();
+        defaultSqColor = getResources().getColor(R.color.medium_blue, getTheme());
 
         int musicVol = prefs.getInt(musicVolKey, 100);
 

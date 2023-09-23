@@ -2,6 +2,7 @@ package com.example.guessthepattern;
 
 import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
+import static com.example.guessthepattern.MainActivity.defaultSqColor;
 import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.coinsPoolKey;
@@ -22,6 +23,7 @@ import static com.example.guessthepattern.MainActivity.revealsKey;
 import static com.example.guessthepattern.MainActivity.revivesKey;
 import static com.example.guessthepattern.MainActivity.scoreKey;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
+import static com.example.guessthepattern.MainActivity.sqColorPickedKey;
 import static com.example.guessthepattern.MainActivity.sqNum;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +35,7 @@ import android.app.AlertDialog;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -89,7 +92,6 @@ public class Hard extends AppCompatActivity {
     private int userIndex;
     private ArrayList<Button> userSeq;
     private ArrayList<Button> correctSeq;
-    private int sqBcgID;
     private int currentLevel;
     private int currentScore;
     private int overallHighscore;
@@ -102,6 +104,8 @@ public class Hard extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private MyGlobals gob;
     private Handler handler;
+    private Resources res;
+    private int sqColorPicked;
 
     private static final String highscoreKey = "highscoreKeyHard";
 
@@ -120,6 +124,7 @@ public class Hard extends AppCompatActivity {
         prefs = getSharedPreferences(prefsName, MODE_PRIVATE);
         editor = prefs.edit();
         handler = new Handler();
+        res = getResources();
 
         title = findViewById(R.id.title);
         level = findViewById(R.id.level);
@@ -135,6 +140,8 @@ public class Hard extends AppCompatActivity {
         ImageButton back = findViewById(R.id.backButton);
         Button start = findViewById(R.id.startBtn);
         ConstraintLayout itemBar = findViewById(R.id.itemBar);
+
+        sqColorPicked = prefs.getInt(sqColorPickedKey, defaultSqColor);
 
         ImageView backgroundLayout = findViewById(R.id.backgroundLayout);
         String imageUriString = prefs.getString(bcgImgUriKey, null);
@@ -223,12 +230,10 @@ public class Hard extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        sqBcgID = prefs.getInt(sqBcgKey, R.drawable.sq_bcg_blue_lc);
-        Resources res = getResources();
-        Drawable background = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
         for (Button square : squares) {
-            square.setBackground(background);
+            square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
         }
+
         boolean sqNumbered = prefs.getBoolean(sqNum, false);
         if (sqNumbered){
             int sqIndex = 1;
@@ -644,14 +649,18 @@ public class Hard extends AppCompatActivity {
                         int delay2ms = prefs.getInt(delay2, 0);
                         int delayBetween = prefs.getInt(delay3, 0);
 
-                        Runnable runnable = () -> square.setBackgroundResource(sqBcgID);
+                        Runnable runnable = () -> {
+                            square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
+
+                        };
                         handler.postDelayed(runnable, delay2ms);
 
                         Runnable runnable2 = () -> {
-                            square.setBackgroundResource(R.drawable.sq_bcg_green);
+                            square.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.green, getTheme())));
                             userIndexAux[0]++;
                         };
                         handler.postDelayed(runnable2, delay1ms);
+
                         if (userIndexAux[0] == correctSeq.size() - 1) {
                             handler.postDelayed(() -> {
                                 title.setText("Repeat the pattern");

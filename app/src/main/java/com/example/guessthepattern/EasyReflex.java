@@ -2,6 +2,7 @@ package com.example.guessthepattern;
 
 import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
+import static com.example.guessthepattern.MainActivity.defaultSqColor;
 import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.isColorFromPicker;
@@ -60,7 +61,6 @@ public class EasyReflex extends AppCompatActivity {
     private ImageView coinPlus;
     private ImageButton reset;
     private ArrayList<Button> correctSq;
-    private int sqBcgID;
     private long overallHighscore;
     private Stopwatch stopwatch;
     private SharedPreferences prefs;
@@ -105,8 +105,7 @@ public class EasyReflex extends AppCompatActivity {
         boolean isGradient = prefs.getBoolean(isPresetKey, true);
         int bcgId = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
 
-        sqBcgID = prefs.getInt(sqBcgKey, R.drawable.sq_bcg_blue_lc);
-        sqColorPicked = prefs.getInt(sqColorPickedKey, 0);
+        sqColorPicked = prefs.getInt(sqColorPickedKey, defaultSqColor);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
