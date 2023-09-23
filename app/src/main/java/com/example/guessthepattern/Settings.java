@@ -5,7 +5,13 @@ import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.isPresetKey;
 import static com.example.guessthepattern.MainActivity.isColorFromPicker;
+import static com.example.guessthepattern.MainActivity.musicVolKey;
+import static com.example.guessthepattern.MainActivity.prefsName;
+import static com.example.guessthepattern.MainActivity.sfxVolKey;
+import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.sqColorPickedKey;
+import static com.example.guessthepattern.MainActivity.sqColorPickedKey2;
+import static com.example.guessthepattern.MainActivity.sqNum;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,12 +48,6 @@ import java.io.IOException;
 
 public class Settings extends AppCompatActivity implements ColorPickerDialogFragment.ColorPickerListener {
     private static boolean shouldPlay;
-    private static final String bcgKey = "bcgKey";
-    private static final String prefsName = "MyPrefs";
-    private static final String sqNum = "sqNum";
-    private static final String musicVolKey = "musicVolKey";
-    private static final String sfxVolKey = "sfxVolKey";
-
     private static final String IMAGE_URI_KEY = "imageUri";
 
 
@@ -141,7 +141,6 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         colorPickerButton = findViewById(R.id.colorPickerButton);
         selectedColorTextView = findViewById(R.id.selectedColorText);
 
-
         selectBackgroundButton = findViewById(R.id.selectBackgroundButton);
         bcgSelectionScrollView = findViewById(R.id.bcgSelectionScrollView);
         sqScrollView = findViewById(R.id.sqColorScrollView);
@@ -155,13 +154,13 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         sq7bcg = findViewById(R.id.sq7);
         squares = new BuyButton[]{sq1bcg, sq2bcg, sq3bcg, sq4bcg, sq5bcg, sq6bcg, sq7bcg};
 
-        sq1Id = R.drawable.sq_bcg_blue_lc;
-        sq2Id = R.drawable.sq_bcg_white_dc;
-        sq3Id = R.drawable.sq_bcg_yellow_dc;
-        sq4Id = R.drawable.sq_bcg_purple_lc;
-        sq5Id = R.drawable.sq_bcg_peach;
-        sq6Id = R.drawable.sq_bcg_brown;
-        sq7Id = R.drawable.sq_bcg_turquoise;
+        sq1Id = ResourcesCompat.getColor(resources, R.color.medium_blue, getTheme());
+        sq2Id = ResourcesCompat.getColor(resources, R.color.white, getTheme());
+        sq3Id = ResourcesCompat.getColor(resources, R.color.yellow, getTheme());
+        sq4Id = ResourcesCompat.getColor(resources, R.color.darkest_blue, getTheme());
+        sq5Id = ResourcesCompat.getColor(resources, R.color.peach, getTheme());
+        sq6Id = ResourcesCompat.getColor(resources, R.color.brown_red, getTheme());
+        sq7Id = ResourcesCompat.getColor(resources, R.color.turquoise, getTheme());
 
         bcg1 = findViewById(R.id.bcg1);
         bcg2 = findViewById(R.id.bcg2);
@@ -183,10 +182,10 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcg1.setBought(true);
         selectBackgroundButton.setBoughtPremium(prefs.getBoolean("button_" + selectBackgroundButton.getId() + "_isBought", false), R.drawable.image_gallery);
 
-        int sqColorPicked2 = prefs.getInt(sqColorPickedKey, 0);
+        int sqColorPicked = prefs.getInt(sqColorPickedKey2, 0);
         colorPickerButton.setBoughtPremium(prefs.getBoolean("button_" + colorPickerButton.getId() + "_isBought", false), R.drawable.color_picker);
         if (colorPickerButton.isBoughtPremium()){
-            colorPickerButton.setImageTintList(ColorStateList.valueOf(sqColorPicked2));
+            colorPickerButton.setImageTintList(ColorStateList.valueOf(sqColorPicked));
         }
 
         bcg1id = R.drawable.bcg_grey_100;
@@ -217,7 +216,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
 
         // -------------------------------- Restoring settings ------------------------------------ //
 
-        int selectedSqBcg = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        int selectedSqBcg = prefs.getInt(sqBcgKey, sq1Id);
 
         if (selectedSqBcg == 0){
             for (BuyButton square : squares){
@@ -458,7 +457,8 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
             }
         }else {
             checkAndScrollToSquare(sqColor);
-            editor.putInt(bcgKey, sqColorID);
+            editor.putInt(sqColorPickedKey, sqColorID);
+            editor.putInt(sqBcgKey, sqColorID);
             editor.putBoolean(isColorFromPicker, false);
             editor.apply();
         }
@@ -699,12 +699,13 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         colorPickerButton.setImageTintList(ColorStateList.valueOf(color));
         editor.putBoolean(isColorFromPicker, true);
         editor.putInt(sqColorPickedKey, color);
+        editor.putInt(sqColorPickedKey2, color);
+        editor.apply();
         for (BuyButton square:squares){
             if (square.isBought()){
                 square.setImageDrawable(null);
             }
         }
-        editor.apply();
     }
 
 }

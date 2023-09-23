@@ -2,7 +2,7 @@ package com.example.guessthepattern;
 
 import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
-import static com.example.guessthepattern.MainActivity.bcgKey;
+import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.coinsPoolKey;
 import static com.example.guessthepattern.MainActivity.defaultDelay1;
@@ -223,7 +223,7 @@ public class Hard extends AppCompatActivity {
         correctSound.setVolume(sfxVol, sfxVol);
         gameOverSound.setVolume(sfxVol, sfxVol);
 
-        sqBcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        sqBcgID = prefs.getInt(sqBcgKey, R.drawable.sq_bcg_blue_lc);
         Resources res = getResources();
         Drawable background = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
         for (Button square : squares) {

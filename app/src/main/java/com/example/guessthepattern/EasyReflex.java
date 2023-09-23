@@ -2,7 +2,7 @@ package com.example.guessthepattern;
 
 import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
-import static com.example.guessthepattern.MainActivity.bcgKey;
+import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
 import static com.example.guessthepattern.MainActivity.isColorFromPicker;
 import static com.example.guessthepattern.MainActivity.isPresetKey;
@@ -67,9 +67,7 @@ public class EasyReflex extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private MyGlobals gob;
     private Handler handler;
-    private Drawable backgroundSq;
     private Resources res;
-    private boolean isColorPicked;
     private int sqColorPicked;
     private static final String highscoreKey = "highscoreKeyEasyReflex";
 
@@ -107,9 +105,8 @@ public class EasyReflex extends AppCompatActivity {
         boolean isGradient = prefs.getBoolean(isPresetKey, true);
         int bcgId = prefs.getInt(bcgImgPresetKey, R.drawable.bcg_grey_100);
 
-        sqBcgID = prefs.getInt(bcgKey, R.drawable.sq_bcg_blue_lc);
+        sqBcgID = prefs.getInt(sqBcgKey, R.drawable.sq_bcg_blue_lc);
         sqColorPicked = prefs.getInt(sqColorPickedKey, 0);
-        isColorPicked = prefs.getBoolean(isColorFromPicker, false);
 
         sq1 = findViewById(R.id.sq1);
         sq2 = findViewById(R.id.sq2);
@@ -140,17 +137,9 @@ public class EasyReflex extends AppCompatActivity {
 
         // -----------------------Applying selected settings -------------------------------------- //
 
-        if (sqBcgID != 0){
-            backgroundSq = ResourcesCompat.getDrawable(res, sqBcgID, getTheme());
-        }else{
-            backgroundSq = ResourcesCompat.getDrawable(res, R.drawable.sq_bcg_blue_lc, getTheme());
-        }
 
         for (Button square : squares) {
-            square.setBackground(backgroundSq);
-            if (isColorPicked){
-                square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
-            }
+            square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
         }
 
         boolean sqNumbered = prefs.getBoolean(sqNum, false);
@@ -250,10 +239,7 @@ public class EasyReflex extends AppCompatActivity {
         newScore.setVisibility(View.INVISIBLE);
 
         for (Button square:squares){
-            square.setBackground(backgroundSq);
-            if (isColorPicked){
-                square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
-            }
+            square.setBackgroundTintList(ColorStateList.valueOf(sqColorPicked));
         }
         int randomDelay = ThreadLocalRandom.current().nextInt(1000, 3000);
 
@@ -265,7 +251,6 @@ public class EasyReflex extends AppCompatActivity {
 
             gob.makeSqClickable(squares);
             title.setText("Go!");
-            correctSq.get(0).setBackgroundResource(R.drawable.sq_bcg_green);
             correctSq.get(0).setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.green, getTheme())));
             stopwatch.start();
 
@@ -288,7 +273,6 @@ public class EasyReflex extends AppCompatActivity {
         if (gameOverSound != null){
             gameOverSound.start();
         }
-        sqAdded.setBackgroundResource(R.drawable.sq_bcg_red_lc);
         sqAdded.setBackgroundTintList(ColorStateList.valueOf(res.getColor(R.color.red, getTheme())));
         gob.makeSqUnclickable(squares);
 
@@ -324,7 +308,6 @@ public class EasyReflex extends AppCompatActivity {
         editor.putInt(coinsKey, totalCoins);
         editor.apply();
 
-        correctSq.get(0).setBackground(backgroundSq);
         gob.makeSqUnclickable(squares);
        handler.postDelayed(()->{
            gob.changeSqAlpha(squares, 0.5f);

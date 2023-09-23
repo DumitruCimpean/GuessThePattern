@@ -21,6 +21,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+
     public static final String prefsName = "MyPrefs"; // Name for the preferences file
     private MediaPlayer clickSound;
     public static boolean shouldPlay;
@@ -34,14 +35,15 @@ public class MainActivity extends AppCompatActivity {
     public static final String revivesKey = "revivesKey";
     public static final String scoreKey = "scoreKey";
     public static final String paceKey = "paceKey";
-    public static final String bcgKey = "bcgKey";
+    public static final String sqBcgKey = "bcgKey";
     public static final String sqNum = "sqNum";
     public static final String timerMsKey = "timerMsKey";
     public static final String musicVolKey = "musicVolKey";
     public static final String sfxVolKey = "sfxVolKey";
 
-    public static final String isColorFromPicker = "sqColorPickedKey";
-    public static final String sqColorPickedKey = "sqColorPickedKey2";
+    public static final String isColorFromPicker = "isColorFromPickerKey";
+    public static final String sqColorPickedKey = "sqColorPickedKey";
+    public static final String sqColorPickedKey2 = "sqColorPickedKey2";
     public static final String hueKey = "hueKey";
     public static final String saturationKey = "saturationKey";
     public static final String valueKey = "valueKey";

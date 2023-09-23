@@ -1,19 +1,16 @@
 package com.example.guessthepattern;
-import static com.example.guessthepattern.MainActivity.bcgKey;
+import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.hexInputKey;
 import static com.example.guessthepattern.MainActivity.hueKey;
 import static com.example.guessthepattern.MainActivity.prefsName;
-import static com.example.guessthepattern.MainActivity.revealsKey;
 import static com.example.guessthepattern.MainActivity.saturationKey;
 import static com.example.guessthepattern.MainActivity.valueKey;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -24,32 +21,16 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -269,7 +250,7 @@ public class ColorPickerDialogFragment extends DialogFragment {
             editor.putFloat(hueKey, hue);
             editor.putFloat(saturationKey, saturation);
             editor.putFloat(valueKey, value);
-            editor.putInt(bcgKey, 0);
+            editor.putInt(sqBcgKey, 0);
             editor.apply();
 
             if (listener != null) {
