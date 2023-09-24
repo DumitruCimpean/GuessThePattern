@@ -119,6 +119,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private static final int REQUEST_CODE_PERMISSION = 456;
     private int bcgPriceGradient;
     private int bcgPriceImage;
+    private int pricePremium;
     private int sqColorPrice;
     private Uri selectedImageUri;
     private int premiumDrawable;
@@ -139,6 +140,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcgPriceGradient = 20;
         bcgPriceImage = 30;
         sqColorPrice = 10;
+        pricePremium = 100;
 
         ImageButton back = findViewById(R.id.backButton);
         ImageButton numberedBtn = findViewById(R.id.numberedCheckbox);
@@ -169,6 +171,8 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         sq5Id = ResourcesCompat.getColor(resources, R.color.peach, getTheme());
         sq6Id = ResourcesCompat.getColor(resources, R.color.brown_red, getTheme());
         sq7Id = ResourcesCompat.getColor(resources, R.color.turquoise, getTheme());
+
+        // TODO: fix background images low resolution
 
         bcg1 = findViewById(R.id.bcg1);
         bcg2 = findViewById(R.id.bcg2);
@@ -369,11 +373,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
                 }
 
             }else{
-                if (totalCoins >= bcgPriceImage){
+                if (totalCoins >= pricePremium){
                     premiumDrawable = R.drawable.image_gallery;
-                    showBuyConfirmationDialog(selectBackgroundButton, bcgPriceImage, true);
+                    showBuyConfirmationDialog(selectBackgroundButton, pricePremium, true);
                 }else{
-                    showNotEnoughCoins(bcgPriceImage);
+                    showNotEnoughCoins(pricePremium);
                 }
             }
 
@@ -384,11 +388,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
             if (colorPickerButton.isBoughtPremium()) {
                 showColorPickerDialog();
             }else {
-                if (totalCoins >= bcgPriceImage){
+                if (totalCoins >= pricePremium){
                     premiumDrawable = R.drawable.color_picker;
-                    showBuyConfirmationDialog(colorPickerButton, bcgPriceImage, true);
+                    showBuyConfirmationDialog(colorPickerButton, pricePremium, true);
                 }else{
-                    showNotEnoughCoins(bcgPriceImage);
+                    showNotEnoughCoins(pricePremium);
                 }
             }
         });
