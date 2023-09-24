@@ -3,10 +3,13 @@ package com.example.guessthepattern;
 import static com.example.guessthepattern.MainActivity.bcgImgPresetKey;
 import static com.example.guessthepattern.MainActivity.bcgImgUriKey;
 import static com.example.guessthepattern.MainActivity.coinsKey;
+import static com.example.guessthepattern.MainActivity.isPremiumUserKey;
 import static com.example.guessthepattern.MainActivity.isPresetKey;
 import static com.example.guessthepattern.MainActivity.isColorFromPicker;
 import static com.example.guessthepattern.MainActivity.musicVolKey;
 import static com.example.guessthepattern.MainActivity.prefsName;
+import static com.example.guessthepattern.MainActivity.revealsKey;
+import static com.example.guessthepattern.MainActivity.revivesKey;
 import static com.example.guessthepattern.MainActivity.sfxVolKey;
 import static com.example.guessthepattern.MainActivity.sqBcgKey;
 import static com.example.guessthepattern.MainActivity.sqColorPickedKey;
@@ -123,6 +126,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private int sqColorPrice;
     private Uri selectedImageUri;
     private int premiumDrawable;
+    private boolean isPremiumUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +145,8 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcgPriceImage = 30;
         sqColorPrice = 10;
         pricePremium = 100;
+
+        isPremiumUser = prefs.getBoolean(isPresetKey, false);
 
         ImageButton back = findViewById(R.id.backButton);
         ImageButton numberedBtn = findViewById(R.id.numberedCheckbox);
@@ -201,7 +207,7 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
 
         int sqColorPicked = prefs.getInt(sqColorPickedKey2, 0);
         colorPickerButton.setBoughtPremium(prefs.getBoolean("button_" + colorPickerButton.getId() + "_isBought", false), R.drawable.color_picker);
-        if (colorPickerButton.isBoughtPremium()){
+        if (sqColorPicked != 0){
             colorPickerButton.setImageTintList(ColorStateList.valueOf(sqColorPicked));
         }
 
@@ -373,9 +379,10 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
                 }
 
             }else{
-                if (totalCoins >= pricePremium){
+                if (!isPremiumUser){
                     premiumDrawable = R.drawable.image_gallery;
-                    showBuyConfirmationDialog(selectBackgroundButton, pricePremium, true);
+                    // showBuyConfirmationDialog(selectBackgroundButton, pricePremium, true);
+                    showBuyPremiumConfirmation();
                 }else{
                     showNotEnoughCoins(pricePremium);
                 }
@@ -388,9 +395,10 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
             if (colorPickerButton.isBoughtPremium()) {
                 showColorPickerDialog();
             }else {
-                if (totalCoins >= pricePremium){
+                if (!isPremiumUser){
                     premiumDrawable = R.drawable.color_picker;
-                    showBuyConfirmationDialog(colorPickerButton, pricePremium, true);
+                    // showBuyConfirmationDialog(colorPickerButton, pricePremium, true);
+                    showBuyPremiumConfirmation();
                 }else{
                     showNotEnoughCoins(pricePremium);
                 }
@@ -751,10 +759,46 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         dialog.show();
     }
 
+    private void showBuyPremiumConfirmation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.premium_dialog, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        Button positiveButton = dialogView.findViewById(R.id.positive_button);
+        positiveButton.setOnClickListener(v->{
+            gob.clickEffectResize(positiveButton, getApplicationContext());
+            setPremiumUser();
+            handler.postDelayed(dialog::dismiss, 200);
+        });
+
+        Button negativeButton = dialogView.findViewById(R.id.negative_button);
+        negativeButton.setOnClickListener(v->{
+            gob.clickEffectResize(negativeButton, getApplicationContext());
+            handler.postDelayed(dialog::dismiss, 200);
+        });
+        dialog.show();
+    }
+
     private void showColorPickerDialog() {
         ColorPickerDialogFragment colorPickerDialog = new ColorPickerDialogFragment();
         colorPickerDialog.setColorPickerListener(this);
         colorPickerDialog.show(getSupportFragmentManager(), "color_picker_dialog");
+    }
+
+    private void setPremiumUser(){
+        colorPickerButton.setBoughtPremium(true, R.drawable.color_picker);
+        selectBackgroundButton.setBoughtPremium(true, R.drawable.image_gallery);
+        int revives = prefs.getInt(revivesKey, 0);
+        int reveals = prefs.getInt(revealsKey, 0);
+        revives += 10;
+        reveals += 10;
+        editor.putInt(revivesKey, revives);
+        editor.putInt(revealsKey, reveals);
+        editor.putBoolean(isPremiumUserKey, true);
+        editor.apply();
     }
 
 
