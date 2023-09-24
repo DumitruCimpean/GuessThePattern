@@ -33,81 +33,162 @@
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
         android:gravity="center"
-        android:text="Choose grid size:"
         android:maxLines="1"
+        android:text="Choose grid size:"
         android:textColor="@color/white"
         android:textFontWeight="500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.10"
-        app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.8" />
 
-    <android.widget.Button
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/diffEasy"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle_light"
-        android:contentDescription="@string/app_name"
-        android:fontFamily="@font/jost_variablewght"
-        android:text="2 x 2"
-        android:textColor="@color/white"
-        android:textFontWeight="700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/difficultyTitle"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintWidth_percent="0.55" />
+        app:layout_constraintWidth_percent="0.6">
 
-    <android.widget.Button
+        <TextView
+            android:id="@+id/diffEasyText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/jost_variablewght"
+            android:gravity="center"
+            android:text="2 x 2"
+            android:textColor="@color/white"
+            android:textFontWeight="700"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.94" />
+
+        <ImageView
+            android:id="@+id/diffEasyIcon"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/diffEasyText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            android:src="@drawable/grid2x2"
+            app:layout_constraintVertical_bias="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/diffMedium"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:autoSizeTextType="uniform"
+        android:layout_marginTop="10dp"
         android:background="@drawable/rectangle_medium"
-        android:contentDescription="@string/app_name"
-        android:fontFamily="@font/jost_variablewght"
-        android:text="3 x 3"
-        android:textColor="@color/white"
-        android:textFontWeight="700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/diffEasy"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintWidth_percent="0.55" />
+        app:layout_constraintWidth_percent="0.6">
 
-    <android.widget.Button
+        <TextView
+            android:id="@+id/diffMediumText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/jost_variablewght"
+            android:gravity="center"
+            android:text="3 x 3"
+            android:textColor="@color/white"
+            android:textFontWeight="700"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.94" />
+
+        <ImageView
+            android:id="@+id/diffMediumIcon"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/diffMediumText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            android:src="@drawable/grid3x3"
+            app:layout_constraintVertical_bias="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/diffHard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:autoSizeTextType="uniform"
+        android:layout_marginTop="10dp"
         android:background="@drawable/rectangle_dark"
-        android:contentDescription="@string/app_name"
-        android:fontFamily="@font/jost_variablewght"
-        android:text="4 x 4"
-        android:textColor="@color/white"
-        android:textFontWeight="700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/diffMedium"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintWidth_percent="0.55" />
+        app:layout_constraintWidth_percent="0.6">
+
+        <TextView
+            android:id="@+id/diffHardText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/jost_variablewght"
+            android:gravity="center"
+            android:text="4 x 4"
+            android:textColor="@color/white"
+            android:textFontWeight="700"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.94" />
+
+        <ImageView
+            android:id="@+id/diffHardIcon"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/diffHardText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            android:src="@drawable/grid4x4"
+            app:layout_constraintVertical_bias="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

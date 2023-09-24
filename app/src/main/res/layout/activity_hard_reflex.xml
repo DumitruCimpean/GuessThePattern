@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/backgroundLayoutHardReflex"
+    android:background="@color/dark_grey_100"
+    tools:context=".HardReflex">
+
+    <ImageView
+        android:id="@+id/backgroundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/backBtnDesc"
+        android:scaleType="fitCenter"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.054"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintWidth_percent="0.12" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:text="@string/press_start"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:fontFamily="@font/jost_variablewght"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.098"
+        app:layout_constraintWidth_percent="0.8"
+        android:shadowColor="@color/semi_dark_grey_100"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1.5"/>
+
+
+    <TextView
+        android:id="@+id/level"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:text="@string/level_1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.0"
+        android:shadowColor="@color/semi_dark_grey_100"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1.5"/>
+
+
+    <ImageView
+        android:id="@+id/coinPlus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/coinIconDesc"
+        android:src="@drawable/coin"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.038"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/level"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.014"
+        app:layout_constraintWidth_percent="0.07" />
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:textAlignment="center"
+        android:textColor="@color/light_blue"
+        android:textFontWeight="700"
+        app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/level"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_percent="0.3"
+        android:shadowColor="@color/semi_dark_grey_100"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1.5"/>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/squaresLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/highscore"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerText"
+        app:layout_constraintVertical_bias="0.708">
+
+
+        <Button
+            android:id="@+id/sq1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq5"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq6"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq3"
+            app:layout_constraintStart_toEndOf="@+id/sq1"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq7"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq4"
+            app:layout_constraintStart_toEndOf="@+id/sq2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq8"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sq3"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq9"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sq1"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq10"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq7"
+            app:layout_constraintStart_toEndOf="@+id/sq5"
+            app:layout_constraintTop_toBottomOf="@+id/sq2"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq11"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq8"
+            app:layout_constraintStart_toEndOf="@+id/sq6"
+            app:layout_constraintTop_toBottomOf="@+id/sq3"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq12"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sq7"
+            app:layout_constraintTop_toBottomOf="@+id/sq4"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq9"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq13"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sq5"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq10"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq14"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq11"
+            app:layout_constraintStart_toEndOf="@+id/sq9"
+            app:layout_constraintTop_toBottomOf="@+id/sq6"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq11"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq15"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq12"
+            app:layout_constraintStart_toEndOf="@+id/sq10"
+            app:layout_constraintTop_toBottomOf="@+id/sq7"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq12"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toTopOf="@+id/sq16"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sq11"
+            app:layout_constraintTop_toBottomOf="@+id/sq8"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+
+        <Button
+            android:id="@+id/sq13"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sq9"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq14"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq15"
+            app:layout_constraintStart_toEndOf="@+id/sq13"
+            app:layout_constraintTop_toBottomOf="@+id/sq10"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq15"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/sq16"
+            app:layout_constraintStart_toEndOf="@+id/sq14"
+            app:layout_constraintTop_toBottomOf="@+id/sq11"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <Button
+            android:id="@+id/sq16"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/sq_bcg_blue_lc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sq15"
+            app:layout_constraintTop_toBottomOf="@+id/sq12"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+        <ImageButton
+            android:id="@+id/redoButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/nextlvl_bcg"
+            android:elevation="4dp"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/tryagain_arrow"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintWidth_percent="0.4"
+            android:contentDescription="@string/coinIconDesc"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/highscore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/scores_bcg_solid"
+        android:fontFamily="@font/jost_variablewght"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        app:layout_constraintBottom_toTopOf="@+id/startBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.867"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <TextView
+        android:id="@+id/newHScore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/jost_variablewght"
+        android:text="@string/new_highscore"
+        android:textAlignment="center"
+        android:textColor="@color/green"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/startBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/highscore"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <android.widget.Button
+        android:id="@+id/startBtn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/rectangle_green"
+        android:fontFamily="@font/jost_variablewght"
+        android:padding="10dp"
+        android:text="@string/start"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.978"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <RelativeLayout
+        android:id="@+id/itemBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/rectangle_grey"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

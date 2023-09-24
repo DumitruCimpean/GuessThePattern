@@ -4,9 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/backgroundLayoutMediumTimed"
     android:background="@color/dark_grey_100"
     tools:context=".MediumTimed">
 
+    <ImageView
+        android:id="@+id/backgroundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageButton
         android:id="@+id/backButton"
@@ -32,23 +43,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        android:fontFamily="@font/jost_variablewght"
         android:text="@string/press_start"
         android:textAlignment="center"
         android:textColor="@color/white"
+        android:fontFamily="@font/jost_variablewght"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.083"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintVertical_bias="0.098"
+        app:layout_constraintWidth_percent="0.8"
+        android:shadowColor="@color/semi_dark_grey_100"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1.5"/>
+
 
     <TextView
         android:id="@+id/level"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:autoSizeMinTextSize="25sp"
+        android:autoSizeMinTextSize="20sp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_variablewght"
         android:text="@string/level_1"
@@ -61,7 +77,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintWidth_percent="0.8" />
+        android:shadowColor="@color/semi_dark_grey_100"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1.5"/>
 
     <ImageView
         android:id="@+id/coinPlus"
@@ -78,6 +97,7 @@
         app:layout_constraintVertical_bias="0.014"
         app:layout_constraintWidth_percent="0.07"
         android:contentDescription="@string/coinIconDesc"/>
+
     <TextView
         android:id="@+id/timerText"
         android:layout_width="0dp"
@@ -87,16 +107,19 @@
         android:fontFamily="@font/jost_variablewght"
         android:text="10.00"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textFontWeight="700"
-        android:textColor="@color/light_blue"
         app:layout_constraintBottom_toTopOf="@+id/squaresLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/level"
         app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintWidth_percent="0.3" />
+        app:layout_constraintWidth_percent="0.3"
+        android:shadowColor="@color/semi_dark_grey_100"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1.5"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,7 +131,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/level"
+        app:layout_constraintTop_toBottomOf="@+id/timerText"
         app:layout_constraintVertical_bias="0.647">
 
 
@@ -118,7 +141,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toTopOf="@id/sq4"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq2"
@@ -132,7 +155,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toTopOf="@id/sq5"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq3"
@@ -146,7 +169,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toTopOf="@id/sq6"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +184,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toTopOf="@id/sq7"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq5"
@@ -175,7 +198,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toTopOf="@id/sq8"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq6"
@@ -189,7 +212,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toTopOf="@id/sq9"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -204,7 +227,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq8"
@@ -218,7 +241,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/sq9"
@@ -232,7 +255,7 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/sq_bcg_blue"
+            android:background="@drawable/sq_bcg_blue_lc"
             android:contentDescription="@string/sqDesc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
@@ -287,7 +310,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        android:background="@drawable/scores_bcg"
+        android:background="@drawable/scores_bcg_solid"
         android:fontFamily="@font/jost_variablewght"
         android:padding="5dp"
         android:textAlignment="center"
@@ -308,7 +331,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        android:background="@drawable/scores_bcg"
+        android:background="@drawable/scores_bcg_solid"
         android:fontFamily="@font/jost_variablewght"
         android:padding="5dp"
         android:layout_marginTop="10dp"
@@ -349,7 +372,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="5dp"
         android:autoSizeTextType="uniform"
-        android:background="@drawable/start_rectangle"
+        android:background="@drawable/rectangle_green"
         android:fontFamily="@font/jost_variablewght"
         android:padding="10dp"
         android:text="@string/start"
@@ -363,7 +386,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.978"
         app:layout_constraintWidth_percent="0.3" />
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -374,16 +398,22 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:background="@drawable/rectangle_grey">
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/revealerBox"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
-            android:background="@drawable/scores_bcg">
+            android:background="@drawable/itembar_btn_bcg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
 
             <ImageButton
@@ -391,30 +421,30 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/revealerBtnDesc"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/revealer"
-                app:layout_constraintBottom_toTopOf="@+id/revelearsCount"
+                app:layout_constraintBottom_toTopOf="@+id/revealersCount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.7"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent="0.9"
-                android:contentDescription="@string/revealerBtnDesc"/>
+                app:layout_constraintWidth_percent="0.9" />
 
             <TextView
-                android:id="@+id/revelearsCount"
-                android:layout_width="100dp"
+                android:id="@+id/revealersCount"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:fontFamily="@font/jost_variablewght"
-                app:layout_constraintHeight_percent="0.3"
                 android:autoSizeTextType="uniform"
+                android:fontFamily="@font/jost_variablewght"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.3"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -422,7 +452,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

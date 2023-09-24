@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="Theme.GuessThePattern" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/dark_grey_100</item>
-        <item name="android:windowAnimationStyle">@null</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/dark_grey_100</item>
         <item name="android:windowLightStatusBar">false</item>

@@ -10,13 +10,16 @@
     <color name="darkest_blue">#5800ff</color>
     <color name="transparent">#00ffffff</color>
 
-    <color name="semi_dark_grey_100">#50202124</color>
+    <color name="semi_dark_grey_100">#cc202124</color>
     <color name="darker_white">#aaaaaa</color>
 
     <color name="red">#ff3333</color>
     <color name="yellow">#fcff34</color>
     <color name="green">#228B22</color>
     <color name="blue">#2c00fb</color>
+    <color name="peach">#EF9595</color>
+    <color name="brown_red">#952323</color>
+    <color name="turquoise">#00DFA2</color>
 
     <color name="dark_purple">#2A0134</color>
 </resources>

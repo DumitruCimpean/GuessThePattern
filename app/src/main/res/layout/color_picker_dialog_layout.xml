@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_grey_200"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <View
+        android:id="@+id/colorPreview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/peach" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="HUE"
+        android:textSize="20sp"
+        android:fontFamily="@font/jost_variablewght"/>
+
+    <SeekBar
+        android:id="@+id/hueSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:progress="160"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:max="360" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Saturation"
+        android:textSize="20sp"
+        android:fontFamily="@font/jost_variablewght"/>
+
+    <SeekBar
+        android:id="@+id/saturationSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:max="100" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Brightness"
+        android:textSize="20sp"
+        android:fontFamily="@font/jost_variablewght"/>
+
+    <SeekBar
+        android:id="@+id/valueSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:max="100" />
+
+    <TextView
+        android:id="@+id/hexTextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Or input your own HEX:"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:fontFamily="@font/jost_variablewght"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/hexLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/hexEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textColorHint="@color/darker_white"
+            android:textColorHighlight="@color/light_blue"
+            android:layout_gravity="center"
+            android:maxLength="7" />
+
+        <ImageButton
+            android:id="@+id/hexSaveButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/floppy_disk"
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:padding="5dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/okButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/sq_bcg_blue_lc"
+        android:textColor="@color/white"
+        android:fontFamily="@font/jost_variablewght"
+        android:autoSizeTextType="uniform"
+        android:text="OK" />
+</LinearLayout>

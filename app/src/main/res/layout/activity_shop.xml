@@ -28,7 +28,7 @@
         android:id="@+id/coinBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/scores_bcg"
+        android:background="@drawable/scores_bcg_solid"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
@@ -159,7 +159,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:layout_toEndOf="@id/reviveTitle"
-            android:background="@drawable/scores_bcg">
+            android:background="@drawable/scores_bcg_solid">
 
             <ImageView
                 android:id="@+id/coinIconRevive"
@@ -201,7 +201,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/start_rectangle"
+            android:background="@drawable/rectangle_green"
             android:fontFamily="@font/jost_variablewght"
             android:text="BUY"
             android:textColor="@color/white"
@@ -283,7 +283,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:layout_toEndOf="@id/revealTitle"
-            android:background="@drawable/scores_bcg">
+            android:background="@drawable/scores_bcg_solid">
 
             <ImageView
                 android:id="@+id/coinIconReveal"
@@ -325,7 +325,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/start_rectangle"
+            android:background="@drawable/rectangle_green"
             android:fontFamily="@font/jost_variablewght"
             android:text="BUY"
             android:textColor="@color/white"
