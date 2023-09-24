@@ -71,6 +71,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private BuyButton bcg5;
     private BuyButton bcg6;
     private BuyButton bcg7;
+    private BuyButton bcg8;
+    private BuyButton bcg9;
+    private BuyButton bcg10;
+    private BuyButton bcg11;
+    private BuyButton bcg12;
     private TextView coinAmountText;
     private int totalCoins;
 
@@ -78,7 +83,6 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private HorizontalScrollView bcgSelectionScrollView;
 
     private BuyButton colorPickerButton;
-    private TextView selectedColorTextView;
     private int sq1Id;
     private int sq2Id;
     private int sq3Id;
@@ -94,6 +98,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
     private int bcg5id;
     private int bcg6id;
     private int bcg7id;
+    private int bcg8id;
+    private int bcg9id;
+    private int bcg10id;
+    private int bcg11id;
+    private int bcg12id;
 
     private BuyButton selectBackgroundButton;
     private BuyButton[] squares;
@@ -139,7 +148,6 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         SeekBar sfxSeek = findViewById(R.id.sfxSeekBar);
 
         colorPickerButton = findViewById(R.id.colorPickerButton);
-        selectedColorTextView = findViewById(R.id.selectedColorText);
 
         selectBackgroundButton = findViewById(R.id.selectBackgroundButton);
         bcgSelectionScrollView = findViewById(R.id.bcgSelectionScrollView);
@@ -169,7 +177,12 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcg5 = findViewById(R.id.bcg5);
         bcg6 = findViewById(R.id.bcg6);
         bcg7 = findViewById(R.id.bcg7);
-        bcgs = new BuyButton[]{bcg1, bcg2, bcg3, bcg4, bcg5, bcg6, bcg7};
+        bcg8 = findViewById(R.id.bcg8);
+        bcg9 = findViewById(R.id.bcg9);
+        bcg10 = findViewById(R.id.bcg10);
+        bcg11 = findViewById(R.id.bcg11);
+        bcg12 = findViewById(R.id.bcg12);
+        bcgs = new BuyButton[]{bcg1, bcg2, bcg3, bcg4, bcg5, bcg6, bcg7, bcg8, bcg9, bcg10, bcg11, bcg12};
 
         for (BuyButton square:squares){
             square.setBought(prefs.getBoolean("button_" + square.getId() + "_isBought", false));
@@ -195,6 +208,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcg5id = R.drawable.bcg_peach_blue;
         bcg6id = R.drawable.bcg_magenta_orange;
         bcg7id = R.drawable.bcg_turquoise_magenta;
+        bcg8id = R.drawable.deer_mountain_sunset;
+        bcg9id = R.drawable.foggy_mountain;
+        bcg10id = R.drawable.red_nature_bcg;
+        bcg11id = R.drawable.japanese_temple;
+        bcg12id = R.drawable.japanese_minimalist_flag_art;
 
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
         buySound = MediaPlayer.create(this, R.raw.spent_coins);
@@ -294,6 +312,26 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
             checkAndScrollToBackground(bcg7);
         }
 
+        if (selectedBcg == bcg8id){
+            checkAndScrollToBackground(bcg8);
+        }
+
+        if (selectedBcg == bcg9id){
+            checkAndScrollToBackground(bcg9);
+        }
+
+        if (selectedBcg == bcg10id){
+            checkAndScrollToBackground(bcg10);
+        }
+
+        if (selectedBcg == bcg11id){
+            checkAndScrollToBackground(bcg11);
+        }
+
+        if (selectedBcg == bcg12id){
+            checkAndScrollToBackground(bcg12);
+        }
+
 
 
         numberedBool = prefs.getBoolean(sqNum, false);
@@ -366,13 +404,18 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         sq6bcg.setOnClickListener(v -> sqCheckRoutine(sq6bcg, sq6Id));
         sq7bcg.setOnClickListener(v -> sqCheckRoutine(sq7bcg, sq7Id));
 
-        bcg1.setOnClickListener( v -> bcgCheckRoutine(bcg1, bcg1id));
-        bcg2.setOnClickListener( v -> bcgCheckRoutine(bcg2, bcg2id));
-        bcg3.setOnClickListener( v -> bcgCheckRoutine(bcg3, bcg3id));
-        bcg4.setOnClickListener( v -> bcgCheckRoutine(bcg4, bcg4id));
-        bcg5.setOnClickListener( v -> bcgCheckRoutine(bcg5, bcg5id));
-        bcg6.setOnClickListener( v -> bcgCheckRoutine(bcg6, bcg6id));
-        bcg7.setOnClickListener( v -> bcgCheckRoutine(bcg7, bcg7id));
+        bcg1.setOnClickListener( v -> bcgCheckRoutineGradient(bcg1, bcg1id));
+        bcg2.setOnClickListener( v -> bcgCheckRoutineGradient(bcg2, bcg2id));
+        bcg3.setOnClickListener( v -> bcgCheckRoutineGradient(bcg3, bcg3id));
+        bcg4.setOnClickListener( v -> bcgCheckRoutineGradient(bcg4, bcg4id));
+        bcg5.setOnClickListener( v -> bcgCheckRoutineGradient(bcg5, bcg5id));
+        bcg6.setOnClickListener( v -> bcgCheckRoutineGradient(bcg6, bcg6id));
+        bcg7.setOnClickListener( v -> bcgCheckRoutineGradient(bcg7, bcg7id));
+        bcg8.setOnClickListener( v -> bcgCheckRoutineImage(bcg8, bcg8id));
+        bcg9.setOnClickListener( v -> bcgCheckRoutineImage(bcg9, bcg9id));
+        bcg10.setOnClickListener( v -> bcgCheckRoutineImage(bcg10, bcg10id));
+        bcg11.setOnClickListener( v -> bcgCheckRoutineImage(bcg11, bcg11id));
+        bcg12.setOnClickListener( v -> bcgCheckRoutineImage(bcg12, bcg12id));
 
 
         // Numbered squares check ------------------------------------------------------------------
@@ -464,13 +507,29 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         }
     }
 
-    public void bcgCheckRoutine(BuyButton bcgColor, int bcgColorID){
+    public void bcgCheckRoutineGradient(BuyButton bcgColor, int bcgColorID){
         gob.clickEffectResize(bcgColor, this);
         if (!bcgColor.isBought()){
             if (totalCoins >= bcgPriceGradient){
                 showBuyConfirmationDialog(bcgColor, bcgPriceGradient, false);
             }else{
                 showNotEnoughCoins(bcgPriceGradient);
+            }
+        }else {
+            checkAndScrollToBackground(bcgColor);
+            editor.putInt(bcgImgPresetKey, bcgColorID);
+            editor.putBoolean(isPresetKey, true);
+            editor.apply();
+        }
+    }
+
+    public void bcgCheckRoutineImage(BuyButton bcgColor, int bcgColorID){
+        gob.clickEffectResize(bcgColor, this);
+        if (!bcgColor.isBought()){
+            if (totalCoins >= bcgPriceImage){
+                showBuyConfirmationDialog(bcgColor, bcgPriceImage, false);
+            }else{
+                showNotEnoughCoins(bcgPriceImage);
             }
         }else {
             checkAndScrollToBackground(bcgColor);
