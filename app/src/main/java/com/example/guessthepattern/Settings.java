@@ -218,11 +218,11 @@ public class Settings extends AppCompatActivity implements ColorPickerDialogFrag
         bcg5id = R.drawable.bcg_peach_blue;
         bcg6id = R.drawable.bcg_magenta_orange;
         bcg7id = R.drawable.bcg_turquoise_magenta;
-        bcg8id = R.drawable.deer_mountain_sunset;
-        bcg9id = R.drawable.foggy_mountain;
+        bcg8id = R.drawable.green_galaxy;
+        bcg9id = R.drawable.blue_landscape_mountain;
         bcg10id = R.drawable.red_nature_bcg;
-        bcg11id = R.drawable.japanese_temple;
-        bcg12id = R.drawable.japanese_minimalist_flag_art;
+        bcg11id = R.drawable.swan_lake;
+        bcg12id = R.drawable.purple_planet;
 
         levelEnter = MediaPlayer.create(this, R.raw.level_clicked);
         buySound = MediaPlayer.create(this, R.raw.spent_coins);
