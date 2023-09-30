@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/peach" />
+        android:background="@color/peach"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,16 +24,16 @@
         android:textSize="20sp"
         android:fontFamily="@font/jost_variablewght"/>
 
-    <SeekBar
+    <com.example.guessthepattern.RgbSeekbar
         android:id="@+id/hueSeekBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginBottom="10dp"
         android:progress="160"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:max="360" />
 
     <TextView
@@ -44,16 +44,28 @@
         android:textSize="20sp"
         android:fontFamily="@font/jost_variablewght"/>
 
-    <SeekBar
-        android:id="@+id/saturationSeekBar"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:max="100" />
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/saturationSeekBarBcg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/medium_blue"/>
+
+        <com.example.guessthepattern.RgbSeekbar
+            android:id="@+id/saturationSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:max="100" />
+    </FrameLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,16 +75,29 @@
         android:textSize="20sp"
         android:fontFamily="@font/jost_variablewght"/>
 
-    <SeekBar
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp">
+
+    <ImageView
+        android:id="@+id/valueSeekBarBcg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/medium_blue"/>
+
+    <com.example.guessthepattern.RgbSeekbar
         android:id="@+id/valueSeekBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:max="100" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/hexTextTitle"

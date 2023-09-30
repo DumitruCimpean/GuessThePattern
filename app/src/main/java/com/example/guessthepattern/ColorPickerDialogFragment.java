@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,9 +46,11 @@ public class ColorPickerDialogFragment extends DialogFragment {
     private BuyButton sq6bcg;
     private BuyButton sq7bcg;
     private BuyButton[] squares;
-    private SeekBar hueSeekBar;
-    private SeekBar saturationSeekBar;
-    private SeekBar valueSeekBar;
+    private RgbSeekbar hueSeekBar;
+    private RgbSeekbar saturationSeekBar;
+    private RgbSeekbar valueSeekBar;
+    private ImageView saturationSeekBarBcg;
+    private ImageView valueSeekBarBcg;
     private View colorPreview;
     private Button okButton;
     private ImageButton hexSaveBtn;
@@ -57,9 +61,6 @@ public class ColorPickerDialogFragment extends DialogFragment {
     private float saturation;
     private float value;
     private int selectedColor;
-    private float hueSaved;
-    private float saturationSaved;
-    private float valueSaved;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private MyGlobals gob;
@@ -92,9 +93,14 @@ public class ColorPickerDialogFragment extends DialogFragment {
         hexInputBox = view.findViewById(R.id.hexEditText);
         hexInputBoxTitle = view.findViewById(R.id.hexTextTitle);
         hexSaveBtn = view.findViewById(R.id.hexSaveButton);
+
         hueSeekBar = view.findViewById(R.id.hueSeekBar);
         saturationSeekBar = view.findViewById(R.id.saturationSeekBar);
         valueSeekBar = view.findViewById(R.id.valueSeekBar);
+
+        saturationSeekBarBcg = view.findViewById(R.id.saturationSeekBarBcg);
+        valueSeekBarBcg = view.findViewById(R.id.valueSeekBarBcg);
+
         colorPreview = view.findViewById(R.id.colorPreview);
         okButton = view.findViewById(R.id.okButton);
         sq1bcg = settingsView.findViewById(R.id.sq1);
@@ -106,6 +112,9 @@ public class ColorPickerDialogFragment extends DialogFragment {
         sq7bcg = settingsView.findViewById(R.id.sq7);
         squares = new BuyButton[]{sq1bcg, sq2bcg, sq3bcg, sq4bcg, sq5bcg, sq6bcg, sq7bcg};
 
+        hueSeekBar.setSeekbarType("hue");
+        saturationSeekBar.setSeekbarType("saturation");
+        valueSeekBar.setSeekbarType("value");
 
         hexInputBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -151,12 +160,18 @@ public class ColorPickerDialogFragment extends DialogFragment {
         hexColor = Integer.toHexString(selectedColor).toUpperCase();
         hexInputBox.setHint("#" + hexColor.substring(2));
 
+        saturationSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, 1.0f, value));
+        valueSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, saturation, 1.0f));
+
         hueSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hue = (float) progress;
                 selectedColor = getColorFromHSV(hue, saturation, value);
                 updateColorPreview(selectedColor);
+
+                saturationSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, 1.0f, value));
+                valueSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, saturation, 1.0f));
 
                 hexColor = Integer.toHexString(selectedColor).toUpperCase();
                 hexInputBox.setHint("#" + hexColor.substring(2));
@@ -179,6 +194,9 @@ public class ColorPickerDialogFragment extends DialogFragment {
                 selectedColor = getColorFromHSV(hue, saturation, value);
                 updateColorPreview(selectedColor);
 
+                saturationSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, 1.0f, value));
+                valueSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, saturation, 1.0f));
+
                 hexColor = Integer.toHexString(selectedColor).toUpperCase();
                 hexInputBox.setHint("#" + hexColor.substring(2));
             }
@@ -199,6 +217,9 @@ public class ColorPickerDialogFragment extends DialogFragment {
                 value = (float) progress / 100.0f;
                 selectedColor = getColorFromHSV(hue, saturation, value);
                 updateColorPreview(selectedColor);
+
+                saturationSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, 1.0f, value));
+                valueSeekBarBcg.setBackgroundColor(getColorFromHSV(hue, saturation, 1.0f));
 
                 hexColor = Integer.toHexString(selectedColor).toUpperCase();
                 hexInputBox.setHint("#" + hexColor.substring(2));
