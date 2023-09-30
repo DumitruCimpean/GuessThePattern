@@ -103,6 +103,7 @@
         android:id="@+id/hexTextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:text="Or input your own HEX:"
         android:textColor="@color/white"
         android:textSize="20sp"
