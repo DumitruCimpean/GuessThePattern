@@ -48,7 +48,7 @@ It grants you another chance at continuing after you missclick a square and hit 
 
 
 <h1> Personalization </h1>
-Throught the screenshots you may have noticed different backgrounds and colors for the squares, the Settings menu allows you to personalize these, as well as having the squares numbered or not and adjusting the volume of the music and the sound effects in the game. There are predefined colors and background that can be purchased with coins, but the premium version of the game allows you to customize them entirely. You can either use the slides or input a hex code for the color of the squares and browse your files for a custom background image.
+Throught the screenshots you may have noticed different backgrounds and colors for the squares, the Settings menu allows you to personalize these, as well as having the squares numbered or not and adjusting the volume of the music and the sound effects in the game. There are predefined colors and backgrounds that can be purchased with coins, but the premium version of the game allows you to customize them entirely. You can either use the slides or input a hex code for the color of the squares and browse your files for a custom background image.
 
 | Main settings | Color sliders | Numbered squares |
 |:-------------:|:-------------:|:-----------------|
