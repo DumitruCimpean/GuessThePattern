@@ -56,4 +56,5 @@ Throught the screenshots you may have noticed different backgrounds and colors f
 
 
 It is a fun game to test and improve your memory, while also trying to beat your own highscore!
+
 Note: the premium version of the game will be made purchasable on release, right now it is all free
